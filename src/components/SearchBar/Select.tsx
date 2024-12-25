@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { FaChevronDown } from "react-icons/fa";
 
-interface Props {
+interface SelectProps {
   selectedOption: string;
   setSelectedOption: (value: string) => void;
 }
 
-const CustomDropdown = ({ selectedOption, setSelectedOption }: Props) => {
+const Select = ({ selectedOption, setSelectedOption }: SelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const options = [
@@ -46,4 +46,4 @@ const CustomDropdown = ({ selectedOption, setSelectedOption }: Props) => {
   );
 };
 
-export default CustomDropdown;
+export default Select;
