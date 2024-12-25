@@ -7,8 +7,8 @@ const LoginForm = () => {
       <form className="w-[320px] h-[340px] flex flex-col items-center">
         <span className="font-bold text-2xl mb-6">로그인</span>
 
-        <Input type="email" name="email" placeholder="이메일을 입력해주세요." required={true} />
-        <Input type="password" name="password" placeholder="비밀번호를 입력해주세요." required={true} />
+        <Input type="email" name="email" placeholder="이메일을 입력해주세요." required />
+        <Input type="password" name="password" placeholder="비밀번호를 입력해주세요." required />
 
         <button
           type="submit"
