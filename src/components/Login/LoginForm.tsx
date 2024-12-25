@@ -1,4 +1,3 @@
-import React from 'react';
 import kakaoIcon from '../../assets/svg/kakaoIcon.svg';
 
 const LoginForm = () => {
