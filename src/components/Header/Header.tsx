@@ -17,7 +17,7 @@ const Header = () => {
             Log in
           </button>
         </Link>
-        <button className="w-16 h-8 bg-gray-600  shadow-md rounded-[6px] font-inter text-white hover:bg-primary">
+        <button className="w-16 h-8 bg-gray-600 shadow-md rounded-[6px] font-inter text-white hover:bg-primary">
           Join
         </button>
       </div>
