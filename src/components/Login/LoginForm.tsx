@@ -13,12 +13,12 @@ const LoginForm = () => {
         <button
           type="submit"
           // TODO: onSubmit={handleLoginSubmit}
-          className="w-full h-12 mb-4 items-center bg-primary rounded-[6px] font-bold text-white">
+          className="w-full h-12 mb-4 items-center bg-primary rounded-md font-bold text-white">
           로그인
         </button>
         <button
           type="button"
-          className="relative w-full h-12 mb-4 items-center bg-[#fee501] rounded-[6px] font-bold text-black">
+          className="relative w-full h-12 mb-4 items-center bg-[#fee501] rounded-md font-bold text-black">
           <img src={kakaoIcon} alt="카카오로 시작하기" className="absolute top-[14px] left-4 w-5" />
           카카오로 시작하기
         </button>

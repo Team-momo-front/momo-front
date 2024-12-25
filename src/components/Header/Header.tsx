@@ -13,11 +13,9 @@ const Header = () => {
       {/* buttons */}
       <div className="flex justify-end gap-4 mr-4">
         <Link to="/login">
-          <button className="w-16 h-8 shadow-md rounded-[6px] font-inter hover:bg-primary hover:text-white">
-            Log in
-          </button>
+          <button className="w-16 h-8 shadow-md rounded-md font-inter hover:bg-primary hover:text-white">Log in</button>
         </Link>
-        <button className="w-16 h-8 bg-gray-600 shadow-md rounded-[6px] font-inter text-white hover:bg-primary">
+        <button className="w-16 h-8 bg-gray-600 shadow-md rounded-md font-inter text-white hover:bg-primary">
           Join
         </button>
       </div>
