@@ -22,7 +22,6 @@ const CustomDropdown = ({ selectedOption, setSelectedOption }: Props) => {
 
   return (
     <div className="w-[82px]">
-      {/* Dropdown Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full pl-5 py-1.5 outline-none flex items-center justify-between"
