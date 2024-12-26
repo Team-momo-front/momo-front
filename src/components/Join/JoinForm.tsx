@@ -49,7 +49,8 @@ const JoinForm = () => {
     // TODO: API 요청, joinSubmit logic
   };
 
-  const isDisabled = Object.values(errors).some((error) => error !== null);
+  const isFormValid = form.email && form.password && form.passwordConfirm && form.nickname && form.phoneNumber;
+  const isDisabled = !isFormValid || Object.values(errors).some((error) => error !== null);
 
   return (
     <div className="w-full h-screen flex justify-center items-center">
