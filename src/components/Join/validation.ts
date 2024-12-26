@@ -1,5 +1,6 @@
 export const validateEmail = (email: string): string | null => {
   const validEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
   if (!email) {
     return '이메일을 입력해주세요.';
   } else if (!validEmail.test(email)) {
@@ -30,6 +31,7 @@ export const validatePasswordConfirm = (password: string, passwordConfirm: strin
 
 export const validateNickname = (nickname: string): string | null => {
   const validNickname = /^[a-zA-Z가-힣0-9]{2,10}$/;
+
   if (!nickname) {
     return '닉네임을 입력해주세요.';
   } else if (!validNickname.test(nickname)) {
@@ -40,6 +42,7 @@ export const validateNickname = (nickname: string): string | null => {
 
 export const validatePhoneNumber = (phoneNumber: string): string | null => {
   const validPhoneNumber = /\d{3}-\d{4}-\d{4}/;
+
   if (!phoneNumber) {
     return '휴대폰 번호를 입력해주세요.';
   } else if (!validPhoneNumber.test(phoneNumber)) {
