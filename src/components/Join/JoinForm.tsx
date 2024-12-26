@@ -34,6 +34,14 @@ const JoinForm = () => {
     phoneNumberError: null,
   });
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   const handleJoinSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -58,50 +66,55 @@ const JoinForm = () => {
         <form className="w-[320px]" onSubmit={handleJoinSubmit}>
           <JoinField
             id="email"
+            name="email"
             label="이메일"
             type="email"
             value={form.email}
-            onChange={(e) => setForm({ ...form, email: e.target.value })}
+            onChange={handleChange}
             error={errors.emailError}
             placeholder="이메일을 입력해주세요."
             required
           />
           <JoinField
             id="password"
+            name="password"
             label="비밀번호"
             type="password"
             value={form.password}
-            onChange={(e) => setForm({ ...form, password: e.target.value })}
+            onChange={handleChange}
             error={errors.passwordError}
             placeholder="비밀번호를 입력해주세요."
             required
           />
           <JoinField
             id="passwordConfirm"
+            name="passwordConfirm"
             label="비밀번호 확인"
             type="password"
             value={form.passwordConfirm}
-            onChange={(e) => setForm({ ...form, passwordConfirm: e.target.value })}
+            onChange={handleChange}
             error={errors.passwordConfirmError}
             placeholder="비밀번호를 다시 한 번 입력해주세요."
             required
           />
           <JoinField
             id="nickname"
+            name="nickname"
             label="닉네임"
             type="text"
             value={form.nickname}
-            onChange={(e) => setForm({ ...form, nickname: e.target.value })}
+            onChange={handleChange}
             error={errors.nicknameError}
             placeholder="닉네임을 입력해주세요."
             required
           />
           <JoinField
             id="phoneNumber"
+            name="phoneNumber"
             label="휴대폰 번호"
             type="tel"
             value={form.phoneNumber}
-            onChange={(e) => setForm({ ...form, phoneNumber: e.target.value })}
+            onChange={handleChange}
             error={errors.phoneNumberError}
             placeholder="010-1234-5678"
             required

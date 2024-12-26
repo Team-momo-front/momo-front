@@ -2,6 +2,7 @@ import Input from '../Input';
 
 interface JoinFieldProps {
   id: string;
+  name: string;
   label: string;
   type: string;
   value: string;
@@ -13,6 +14,7 @@ interface JoinFieldProps {
 
 const JoinField: React.FC<JoinFieldProps> = ({
   id,
+  name,
   label,
   type,
   value,
@@ -29,7 +31,7 @@ const JoinField: React.FC<JoinFieldProps> = ({
       <Input
         id={id}
         type={type}
-        name={id}
+        name={name}
         value={value}
         onChange={onChange}
         placeholder={placeholder}
