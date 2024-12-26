@@ -21,6 +21,8 @@ const JoinForm = () => {
   const [passwordConfirmError, setPasswordConfirmError] = useState<string | null>(null);
   const [nicknameError, setNicknameError] = useState<string | null>(null);
   const [phoneNumberError, setPhoneNumberError] = useState<string | null>(null);
+  // TODO: 이메일 인증 실패, 중복값 검사(이메일, 닉네임, 전화 번호), 서버 통신 오류 에러 처리
+  // const [joinError, setJoinError] = useState<string | null>(null);
 
   const handleJoinSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,6 +44,18 @@ const JoinForm = () => {
     setPasswordConfirmError(passwordConfirmValidationError);
     setNicknameError(nicknameValidationError);
     setPhoneNumberError(phoneNumberValidationError);
+
+    // if (
+    //   emailValidationError ||
+    //   passwordValidationError ||
+    //   passwordConfirmValidationError ||
+    //   nicknameValidationError ||
+    //   phoneNumberValidationError
+    // ) {
+    //   return;
+    // }
+
+    console.log('submit');
 
     // TODO: API 요청, joinSubmit logic
   };
@@ -145,16 +159,26 @@ const JoinForm = () => {
             className={`mb-2 ${phoneNumberError && 'border-error border-2'}`}
           />
           <p className="w-[538px] mb-2 font-bold text-[12px] text-error">{phoneNumberError}</p>
+          {/* {joinError && <p className="w-[538px] mb-2 font-bold text-[12px] text-error">{joinError}</p>} */}
 
-          {!emailError && !passwordError && !passwordConfirmError && !nicknameError && !phoneNumberError && (
-            <div className="w-full flex justify-center items-center">
-              <button
-                type="submit"
-                className="w-[140px] h-[30px] mt-[30px] items-center bg-primary rounded-md font-bold text-white text-[13.5px]">
-                다음 단계로 넘어가기
-              </button>
-            </div>
-          )}
+          {email &&
+            password &&
+            passwordConfirm &&
+            nickname &&
+            phoneNumber &&
+            !emailError &&
+            !passwordError &&
+            !passwordConfirmError &&
+            !nicknameError &&
+            !phoneNumberError && (
+              <div className="w-full flex justify-center items-center">
+                <button
+                  type="submit"
+                  className="w-[140px] h-[30px] mt-[30px] items-center bg-primary rounded-md font-bold text-white text-[13.5px]">
+                  다음 단계로 넘어가기
+                </button>
+              </div>
+            )}
         </form>
 
         <button
