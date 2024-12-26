@@ -28,6 +28,8 @@ const JoinForm = () => {
     // TODO: API 요청, joinSubmit logic
   };
 
+  const isDisabled = !!emailError || !!passwordError || !!passwordConfirmError || !!nicknameError || !!phoneNumberError;
+
   return (
     <div className="w-full h-screen flex justify-center items-center">
       <div className="max-w-[538px] flex gap-x-6">
@@ -83,15 +85,16 @@ const JoinForm = () => {
             required
           />
 
-          {!emailError && !passwordError && !passwordConfirmError && !nicknameError && !phoneNumberError && (
-            <div className="w-full flex justify-center items-center">
-              <button
-                type="submit"
-                className="w-[140px] h-[30px] mt-[30px] items-center bg-primary rounded-md font-bold text-white text-[13.5px]">
-                다음 단계로 넘어가기
-              </button>
-            </div>
-          )}
+          <div className="w-full flex justify-center items-center">
+            <button
+              type="submit"
+              disabled={isDisabled}
+              className={`w-[140px] h-[30px] mt-[30px] items-center rounded-md font-bold text-[13.5px] ${
+                isDisabled ? 'bg-gray-400 text-gray-600' : 'bg-primary text-white'
+              }`}>
+              다음 단계로 넘어가기
+            </button>
+          </div>
         </form>
 
         <button
