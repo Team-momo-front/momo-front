@@ -1,5 +1,5 @@
 import { FaSearch } from "react-icons/fa";
-import CustomDropdown from "./Select";
+import Select from "./Select";
 
 interface SearchBarProps {
   searchFilter: string;
@@ -14,7 +14,7 @@ const SearchBar = ({ searchFilter, setSearchFilter, searchQuery, setSearchQuery,
     <div className="flex justify-center items-center">
       <div className="relative flex items-center text-sm flex-grow max-w-[500px]">
         <div className="absolute">
-          <CustomDropdown selectedOption={searchFilter} setSelectedOption={setSearchFilter} />
+          <Select selectedOption={searchFilter} setSelectedOption={setSearchFilter} />
         </div>
         <input
           type="text"
