@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import Input from '../Input';
+
+import JoinField from './JoinField.tsx';
 
 const JoinForm = () => {
   const [email, setEmail] = useState('');
@@ -31,80 +32,56 @@ const JoinForm = () => {
     <div className="w-full h-screen flex justify-center items-center">
       <div className="max-w-[538px] flex gap-x-6">
         <form className="w-[320px]" onSubmit={handleJoinSubmit}>
-          <label htmlFor="email" className="font-bold text-lg mb-1">
-            이메일
-          </label>
-          <Input
+          <JoinField
             id="email"
+            label="이메일"
             type="email"
-            name="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            error={emailError}
             placeholder="이메일을 입력해주세요."
             required
-            className={`mb-2 ${emailError && 'border-error border-2'}`}
           />
-          <p className="mb-2 font-bold text-[12px] text-error">{emailError}</p>
-
-          <label htmlFor="password" className="font-bold text-lg mt-[30px] mb-1">
-            비밀번호
-          </label>
-          <Input
+          <JoinField
             id="password"
+            label="비밀번호"
             type="password"
-            name="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            error={passwordError}
             placeholder="비밀번호를 입력해주세요."
             required
-            className={`mb-2 ${passwordError && 'border-error border-2'}`}
           />
-          <p className="mb-2 font-bold text-[12px] text-error">{passwordError}</p>
-
-          <label htmlFor="passwordConfirm" className="font-bold text-lg mt-[30px] mb-1">
-            비밀번호 확인
-          </label>
-          <Input
+          <JoinField
             id="passwordConfirm"
+            label="비밀번호 확인"
             type="password"
-            name="passwordConfirm"
             value={passwordConfirm}
             onChange={(e) => setPasswordConfirm(e.target.value)}
+            error={passwordConfirmError}
             placeholder="비밀번호를 다시 한 번 입력해주세요."
             required
-            className={`mb-2 ${passwordConfirmError && 'border-error border-2'}`}
           />
-          <p className="mb-2 font-bold text-[12px] text-error">{passwordConfirmError}</p>
-
-          <label htmlFor="nickname" className="font-bold text-lg mt-[30px] mb-1">
-            닉네임
-          </label>
-          <Input
+          <JoinField
             id="nickname"
+            label="닉네임"
             type="text"
-            name="nickname"
             value={nickname}
             onChange={(e) => setNickname(e.target.value)}
+            error={nicknameError}
             placeholder="닉네임을 입력해주세요."
             required
-            className={`mb-2 ${nicknameError && 'border-error border-2'}`}
           />
-          <p className="mb-2 font-bold text-[12px] text-error">{nicknameError}</p>
-
-          <label htmlFor="phone-number" className="font-bold text-lg mt-[30px] mb-1">
-            휴대폰 번호
-          </label>
-          <Input
-            id="phone-number"
+          <JoinField
+            id="phoneNumber"
+            label="휴대폰 번호"
             type="tel"
-            name="tel"
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
+            error={phoneNumberError}
             placeholder="010-1234-5678"
             required
-            className={`mb-2 ${phoneNumberError && 'border-error border-2'}`}
           />
-          <p className="mb-2 font-bold text-[12px] text-error">{phoneNumberError}</p>
 
           {!emailError && !passwordError && !passwordConfirmError && !nicknameError && !phoneNumberError && (
             <div className="w-full flex justify-center items-center">
