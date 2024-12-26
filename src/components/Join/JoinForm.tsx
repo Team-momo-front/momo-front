@@ -1,5 +1,13 @@
 import { useState } from 'react';
 import Input from '../Input';
+import {
+  validateEmail,
+  validatePassword,
+  validatePasswordConfirm,
+  validateNickname,
+  validatePhoneNumber,
+  handleValidation,
+} from './validation';
 
 const JoinForm = () => {
   const [email, setEmail] = useState('');
@@ -23,7 +31,18 @@ const JoinForm = () => {
     setNicknameError(null);
     setPhoneNumberError(null);
 
-    // TODO: validation code here
+    const emailValidationError = validateEmail(email);
+    const passwordValidationError = validatePassword(password);
+    const passwordConfirmValidationError = validatePasswordConfirm(password, passwordConfirm);
+    const nicknameValidationError = validateNickname(nickname);
+    const phoneNumberValidationError = validatePhoneNumber(phoneNumber);
+
+    setEmailError(emailValidationError);
+    setPasswordError(passwordValidationError);
+    setPasswordConfirmError(passwordConfirmValidationError);
+    setNicknameError(nicknameValidationError);
+    setPhoneNumberError(phoneNumberValidationError);
+
     // TODO: API 요청, joinSubmit logic
   };
 
@@ -39,12 +58,17 @@ const JoinForm = () => {
             type="email"
             name="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              handleValidation(e.target.value, validateEmail, setEmailError);
+            }}
+            // REVIEW: 유효성 검사에 대한 에러를 보여주는 이벤트를 onChange와 onBlur 중 어떤 걸로 처리할 지 고민
+            // onBlur={(e) => handleValidation(e.target.value, validateEmail, setEmailError)}
             placeholder="이메일을 입력해주세요."
             required
             className={`mb-2 ${emailError && 'border-error border-2'}`}
           />
-          <p className="mb-2 font-bold text-[12px] text-error">{emailError}</p>
+          <p className="w-[538px] mb-2 font-bold text-[12px] text-error">{emailError}</p>
 
           <label htmlFor="password" className="font-bold text-lg mt-[30px] mb-1">
             비밀번호
@@ -54,12 +78,15 @@ const JoinForm = () => {
             type="password"
             name="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              handleValidation(e.target.value, validatePassword, setPasswordError);
+            }}
             placeholder="비밀번호를 입력해주세요."
             required
             className={`mb-2 ${passwordError && 'border-error border-2'}`}
           />
-          <p className="mb-2 font-bold text-[12px] text-error">{passwordError}</p>
+          <p className="w-[538px] mb-2 font-bold text-[12px] text-error">{passwordError}</p>
 
           <label htmlFor="passwordConfirm" className="font-bold text-lg mt-[30px] mb-1">
             비밀번호 확인
@@ -69,12 +96,19 @@ const JoinForm = () => {
             type="password"
             name="passwordConfirm"
             value={passwordConfirm}
-            onChange={(e) => setPasswordConfirm(e.target.value)}
+            onChange={(e) => {
+              setPasswordConfirm(e.target.value);
+              handleValidation(
+                e.target.value,
+                (value) => validatePasswordConfirm(password, value),
+                setPasswordConfirmError
+              );
+            }}
             placeholder="비밀번호를 다시 한 번 입력해주세요."
             required
             className={`mb-2 ${passwordConfirmError && 'border-error border-2'}`}
           />
-          <p className="mb-2 font-bold text-[12px] text-error">{passwordConfirmError}</p>
+          <p className="w-[538px] mb-2 font-bold text-[12px] text-error">{passwordConfirmError}</p>
 
           <label htmlFor="nickname" className="font-bold text-lg mt-[30px] mb-1">
             닉네임
@@ -84,12 +118,15 @@ const JoinForm = () => {
             type="text"
             name="nickname"
             value={nickname}
-            onChange={(e) => setNickname(e.target.value)}
+            onChange={(e) => {
+              setNickname(e.target.value);
+              handleValidation(e.target.value, validateNickname, setNicknameError);
+            }}
             placeholder="닉네임을 입력해주세요."
             required
             className={`mb-2 ${nicknameError && 'border-error border-2'}`}
           />
-          <p className="mb-2 font-bold text-[12px] text-error">{nicknameError}</p>
+          <p className="w-[538px] mb-2 font-bold text-[12px] text-error">{nicknameError}</p>
 
           <label htmlFor="phone-number" className="font-bold text-lg mt-[30px] mb-1">
             휴대폰 번호
@@ -99,12 +136,15 @@ const JoinForm = () => {
             type="tel"
             name="tel"
             value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
+            onChange={(e) => {
+              setPhoneNumber(e.target.value);
+              handleValidation(e.target.value, validatePhoneNumber, setPhoneNumberError);
+            }}
             placeholder="010-1234-5678"
             required
             className={`mb-2 ${phoneNumberError && 'border-error border-2'}`}
           />
-          <p className="mb-2 font-bold text-[12px] text-error">{phoneNumberError}</p>
+          <p className="w-[538px] mb-2 font-bold text-[12px] text-error">{phoneNumberError}</p>
 
           {!emailError && !passwordError && !passwordConfirmError && !nicknameError && !phoneNumberError && (
             <div className="w-full flex justify-center items-center">
