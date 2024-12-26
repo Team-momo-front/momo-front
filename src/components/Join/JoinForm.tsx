@@ -1,34 +1,55 @@
 import { useState } from 'react';
-
 import JoinField from './JoinField.tsx';
 
-const JoinForm = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordConfirm, setPasswordConfirm] = useState('');
-  const [nickname, setNickname] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
+type Form = {
+  email: string;
+  password: string;
+  passwordConfirm: string;
+  nickname: string;
+  phoneNumber: string;
+};
 
-  const [emailError, setEmailError] = useState<string | null>(null);
-  const [passwordError, setPasswordError] = useState<string | null>(null);
-  const [passwordConfirmError, setPasswordConfirmError] = useState<string | null>(null);
-  const [nicknameError, setNicknameError] = useState<string | null>(null);
-  const [phoneNumberError, setPhoneNumberError] = useState<string | null>(null);
+type ErrorMessages = {
+  emailError: string | null;
+  passwordError: string | null;
+  passwordConfirmError: string | null;
+  nicknameError: string | null;
+  phoneNumberError: string | null;
+};
+
+const JoinForm = () => {
+  const [form, setForm] = useState<Form>({
+    email: '',
+    password: '',
+    passwordConfirm: '',
+    nickname: '',
+    phoneNumber: '',
+  });
+
+  const [errors, setErrors] = useState<ErrorMessages>({
+    emailError: null,
+    passwordError: null,
+    passwordConfirmError: null,
+    nicknameError: null,
+    phoneNumberError: null,
+  });
 
   const handleJoinSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    setEmailError(null);
-    setPasswordError(null);
-    setPasswordConfirmError(null);
-    setNicknameError(null);
-    setPhoneNumberError(null);
+    setErrors({
+      emailError: null,
+      passwordError: null,
+      passwordConfirmError: null,
+      nicknameError: null,
+      phoneNumberError: null,
+    });
 
     // TODO: validation code here
     // TODO: API 요청, joinSubmit logic
   };
 
-  const isDisabled = !!emailError || !!passwordError || !!passwordConfirmError || !!nicknameError || !!phoneNumberError;
+  const isDisabled = Object.values(errors).some((error) => error !== null);
 
   return (
     <div className="w-full h-screen flex justify-center items-center">
@@ -38,9 +59,9 @@ const JoinForm = () => {
             id="email"
             label="이메일"
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            error={emailError}
+            value={form.email}
+            onChange={(e) => setForm({ ...form, email: e.target.value })}
+            error={errors.emailError}
             placeholder="이메일을 입력해주세요."
             required
           />
@@ -48,9 +69,9 @@ const JoinForm = () => {
             id="password"
             label="비밀번호"
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            error={passwordError}
+            value={form.password}
+            onChange={(e) => setForm({ ...form, password: e.target.value })}
+            error={errors.passwordError}
             placeholder="비밀번호를 입력해주세요."
             required
           />
@@ -58,9 +79,9 @@ const JoinForm = () => {
             id="passwordConfirm"
             label="비밀번호 확인"
             type="password"
-            value={passwordConfirm}
-            onChange={(e) => setPasswordConfirm(e.target.value)}
-            error={passwordConfirmError}
+            value={form.passwordConfirm}
+            onChange={(e) => setForm({ ...form, passwordConfirm: e.target.value })}
+            error={errors.passwordConfirmError}
             placeholder="비밀번호를 다시 한 번 입력해주세요."
             required
           />
@@ -68,9 +89,9 @@ const JoinForm = () => {
             id="nickname"
             label="닉네임"
             type="text"
-            value={nickname}
-            onChange={(e) => setNickname(e.target.value)}
-            error={nicknameError}
+            value={form.nickname}
+            onChange={(e) => setForm({ ...form, nickname: e.target.value })}
+            error={errors.nicknameError}
             placeholder="닉네임을 입력해주세요."
             required
           />
@@ -78,9 +99,9 @@ const JoinForm = () => {
             id="phoneNumber"
             label="휴대폰 번호"
             type="tel"
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
-            error={phoneNumberError}
+            value={form.phoneNumber}
+            onChange={(e) => setForm({ ...form, phoneNumber: e.target.value })}
+            error={errors.phoneNumberError}
             placeholder="010-1234-5678"
             required
           />
