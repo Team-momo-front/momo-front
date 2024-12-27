@@ -6,7 +6,7 @@ interface InputProps {
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   onBlur?: React.ChangeEventHandler<HTMLInputElement>;
   placeholder: string;
-  required: boolean;
+  required?: boolean;
   className?: string;
 }
 
