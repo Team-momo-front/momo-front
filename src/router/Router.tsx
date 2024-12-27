@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import LoginPage from '../pages/LoginPage';
+import JoinPage from '../pages/JoinPage';
 
 const Router = () => {
   return (
@@ -9,6 +10,9 @@ const Router = () => {
 
       {/* 로그인 페이지 */}
       <Route path="/login" element={<LoginPage />} />
+
+      {/* 회원가입 페이지 */}
+      <Route path="/join" element={<JoinPage />} />
     </Routes>
   );
 };
