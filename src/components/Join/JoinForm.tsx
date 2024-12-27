@@ -89,13 +89,14 @@ const JoinForm = () => {
             value={form.email}
             onChange={(e) => {
               handleChange(e);
+              // REVIEW: 유효성 검사에 대한 에러를 보여주는 이벤트를 onChange와 onBlur 중 어떤 걸로 처리할 지 고민
               handleValidation(e.target.name, e.target.value, validateEmail, setErrors);
             }}
             error={errors.emailError}
             placeholder="이메일을 입력해주세요."
             required
           />
-
+          {/* TODO: 이메일 인증 코드 & 상태 보여주는 창 추가 */}
           <JoinField
             id="password"
             name="password"
@@ -110,7 +111,6 @@ const JoinForm = () => {
             placeholder="비밀번호를 입력해주세요."
             required
           />
-
           <JoinField
             id="passwordConfirm"
             name="passwordConfirm"
@@ -158,6 +158,7 @@ const JoinForm = () => {
             placeholder="010-1234-5678"
             required
           />
+          {/* {joinError && <p className="w-[538px] mb-2 font-bold text-[12px] text-error">{joinError}</p>} */}
 
           <div className="w-full flex justify-center items-center">
             <button
