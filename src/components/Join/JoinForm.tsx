@@ -1,5 +1,14 @@
 import { useState } from 'react';
 import JoinField from './JoinField.tsx';
+import {
+  validateEmail,
+  validatePassword,
+  validatePasswordConfirm,
+  validateNickname,
+  validatePhoneNumber,
+  handleValidation,
+} from './validation';
+import { JoinErrorMessages } from '../types/types.ts';
 
 type Form = {
   email: string;
@@ -7,14 +16,6 @@ type Form = {
   passwordConfirm: string;
   nickname: string;
   phoneNumber: string;
-};
-
-type ErrorMessages = {
-  emailError: string | null;
-  passwordError: string | null;
-  passwordConfirmError: string | null;
-  nicknameError: string | null;
-  phoneNumberError: string | null;
 };
 
 const JoinForm = () => {
@@ -26,13 +27,16 @@ const JoinForm = () => {
     phoneNumber: '',
   });
 
-  const [errors, setErrors] = useState<ErrorMessages>({
+  const [errors, setErrors] = useState<JoinErrorMessages>({
     emailError: null,
     passwordError: null,
     passwordConfirmError: null,
     nicknameError: null,
     phoneNumberError: null,
   });
+
+  // TODO: 이메일 인증 실패, 중복값 검사(이메일, 닉네임, 전화 번호), 서버 통신 오류 에러 처리
+  // const [joinError, setJoinError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -42,9 +46,7 @@ const JoinForm = () => {
     }));
   };
 
-  const handleJoinSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const clearErrors = () => {
     setErrors({
       emailError: null,
       passwordError: null,
@@ -52,8 +54,23 @@ const JoinForm = () => {
       nicknameError: null,
       phoneNumberError: null,
     });
+  };
 
-    // TODO: validation code here
+  const setValidationErrors = () => {
+    setErrors({
+      emailError: validateEmail(form.email),
+      passwordError: validatePassword(form.password),
+      passwordConfirmError: validatePasswordConfirm(form.password, form.passwordConfirm),
+      nicknameError: validateNickname(form.nickname),
+      phoneNumberError: validatePhoneNumber(form.phoneNumber),
+    });
+  };
+
+  const handleJoinSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    clearErrors();
+    setValidationErrors();
+
     // TODO: API 요청, joinSubmit logic
   };
 
@@ -70,18 +87,26 @@ const JoinForm = () => {
             label="이메일"
             type="email"
             value={form.email}
-            onChange={handleChange}
+            onChange={(e) => {
+              handleChange(e);
+              // REVIEW: 유효성 검사에 대한 에러를 보여주는 이벤트를 onChange와 onBlur 중 어떤 걸로 처리할 지 고민
+              handleValidation(e.target.name, e.target.value, validateEmail, setErrors);
+            }}
             error={errors.emailError}
             placeholder="이메일을 입력해주세요."
             required
           />
+          {/* TODO: 이메일 인증 코드 & 상태 보여주는 창 추가 */}
           <JoinField
             id="password"
             name="password"
             label="비밀번호"
             type="password"
             value={form.password}
-            onChange={handleChange}
+            onChange={(e) => {
+              handleChange(e);
+              handleValidation(e.target.name, e.target.value, validatePassword, setErrors);
+            }}
             error={errors.passwordError}
             placeholder="비밀번호를 입력해주세요."
             required
@@ -92,7 +117,15 @@ const JoinForm = () => {
             label="비밀번호 확인"
             type="password"
             value={form.passwordConfirm}
-            onChange={handleChange}
+            onChange={(e) => {
+              handleChange(e);
+              handleValidation(
+                e.target.name,
+                e.target.value,
+                (value) => validatePasswordConfirm(form.password, value),
+                setErrors
+              );
+            }}
             error={errors.passwordConfirmError}
             placeholder="비밀번호를 다시 한 번 입력해주세요."
             required
@@ -103,7 +136,10 @@ const JoinForm = () => {
             label="닉네임"
             type="text"
             value={form.nickname}
-            onChange={handleChange}
+            onChange={(e) => {
+              handleChange(e);
+              handleValidation(e.target.name, e.target.value, validateNickname, setErrors);
+            }}
             error={errors.nicknameError}
             placeholder="닉네임을 입력해주세요."
             required
@@ -114,11 +150,15 @@ const JoinForm = () => {
             label="휴대폰 번호"
             type="tel"
             value={form.phoneNumber}
-            onChange={handleChange}
+            onChange={(e) => {
+              handleChange(e);
+              handleValidation(e.target.name, e.target.value, validatePhoneNumber, setErrors);
+            }}
             error={errors.phoneNumberError}
             placeholder="010-1234-5678"
             required
           />
+          {/* {joinError && <p className="w-[538px] mb-2 font-bold text-[12px] text-error">{joinError}</p>} */}
 
           <div className="w-full flex justify-center items-center">
             <button
