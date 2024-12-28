@@ -1,7 +1,7 @@
 import { JoinErrorMessages } from '../types/types.ts';
 
 export const validateEmail = (email: string): string | null => {
-  const validEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  const validEmail = /^(?=.{1,254}$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   if (!validEmail.test(email)) {
     return '이메일 형식이 올바르지 않습니다.';
@@ -10,7 +10,7 @@ export const validateEmail = (email: string): string | null => {
 };
 
 export const validatePassword = (password: string): string | null => {
-  const validPassword = /^[A-Za-z0-9!@#$%^&*]{8,16}$/;
+  const validPassword = /^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8,16}$/;
 
   if (!validPassword.test(password)) {
     return '비밀번호는 영문, 숫자, 특수문자를 조합하여 8~16자 내외로 입력해주세요.';
