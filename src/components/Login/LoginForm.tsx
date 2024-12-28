@@ -41,7 +41,7 @@ const LoginForm = () => {
 
         <div className="w-full flex justify-end">
           {/* TODO: Link to 비밀번호 재설정 page */}
-          <span className="font-bold text-[16px] cursor-pointer">
+          <span className="font-bold text-sm cursor-pointer">
             비밀번호를 잊으셨나요?
           </span>
         </div>
