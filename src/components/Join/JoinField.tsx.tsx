@@ -7,6 +7,7 @@ interface JoinFieldProps {
   type: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   error: string | null;
   placeholder: string;
   required?: boolean;
@@ -19,6 +20,7 @@ const JoinField: React.FC<JoinFieldProps> = ({
   type,
   value,
   onChange,
+  onBlur,
   error,
   placeholder,
   required = true,
@@ -34,6 +36,7 @@ const JoinField: React.FC<JoinFieldProps> = ({
         name={name}
         value={value}
         onChange={onChange}
+        onBlur={onBlur}
         placeholder={placeholder}
         required={required}
         className={`mb-2 ${error && 'border-error border-2'}`}
