@@ -1,4 +1,4 @@
-import { JoinErrorMessages } from '../types/types.ts';
+import { JoinErrorMessages } from '../types/JoinErrorMessages.ts';
 
 export const validateEmail = (email: string): string | null => {
   const validEmail = /^(?=.{1,254}$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
