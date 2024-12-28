@@ -15,9 +15,11 @@ const Header = () => {
         <Link to="/login">
           <button className="w-16 h-8 shadow-md rounded-md font-inter hover:bg-primary hover:text-white">Log in</button>
         </Link>
-        <button className="w-16 h-8 bg-gray-600 shadow-md rounded-md font-inter text-white hover:bg-primary">
-          Join
-        </button>
+        <Link to="/join">
+          <button className="w-16 h-8 bg-gray-600 shadow-md rounded-md font-inter text-white hover:bg-primary">
+            Join
+          </button>
+        </Link>
       </div>
     </div>
   );
