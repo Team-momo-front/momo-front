@@ -7,7 +7,7 @@ interface SelectProps {
 }
 
 const Select = ({ selectedOption, setSelectedOption }: SelectProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const options = [
     { value: "location", label: "장소" },
