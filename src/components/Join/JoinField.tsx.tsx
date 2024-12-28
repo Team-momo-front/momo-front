@@ -11,6 +11,8 @@ interface JoinFieldProps {
   error: string | null;
   placeholder: string;
   required?: boolean;
+  disabled?: boolean;
+  emailConfirmCodeStatus?: 'success' | 'error' | null;
 }
 
 const JoinField: React.FC<JoinFieldProps> = ({
@@ -24,7 +26,16 @@ const JoinField: React.FC<JoinFieldProps> = ({
   error,
   placeholder,
   required = true,
+  disabled,
+  emailConfirmCodeStatus,
 }) => {
+  const message =
+    emailConfirmCodeStatus === 'success'
+      ? '이메일 인증 완료!'
+      : emailConfirmCodeStatus === 'error'
+      ? '인증 코드가 일치하지 않습니다.'
+      : error;
+
   return (
     <>
       <label htmlFor={id} className="block font-bold text-sm mb-2">
@@ -40,13 +51,22 @@ const JoinField: React.FC<JoinFieldProps> = ({
         placeholder={placeholder}
         required={required}
         className={`${
-          error
+          error || emailConfirmCodeStatus === 'error'
             ? 'ring-error ring-1 border-error focus:ring-error focus:ring-1 focus:border-error mb-0'
             : 'border-1'
-        }`}
+        } ${emailConfirmCodeStatus === 'success' ? 'mb-0' : ''}`}
+        disabled={disabled}
       />
-      {error && (
-        <p className="mt-1 mb-2 font-bold text-[12px] text-error">{error}</p>
+      {message && (
+        <p
+          className={`mt-1 mb-2 font-bold text-[12px] ${
+            emailConfirmCodeStatus === 'success'
+              ? 'text-blue-500'
+              : 'text-error'
+          }`}
+        >
+          {message}
+        </p>
       )}
     </>
   );

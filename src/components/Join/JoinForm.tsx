@@ -13,6 +13,7 @@ import { formatPhoneNumber } from '../../utils/formatPhoneNumber.ts';
 
 type Form = {
   email: string;
+  emailConfirmCode: string;
   password: string;
   passwordConfirm: string;
   nickname: string;
@@ -22,6 +23,7 @@ type Form = {
 const JoinForm = () => {
   const [form, setForm] = useState<Form>({
     email: '',
+    emailConfirmCode: '',
     password: '',
     passwordConfirm: '',
     nickname: '',
@@ -30,6 +32,7 @@ const JoinForm = () => {
 
   const [errors, setErrors] = useState<JoinErrorMessages>({
     emailError: null,
+    emailConfirmCodeError: null,
     passwordError: null,
     passwordConfirmError: null,
     nicknameError: null,
@@ -38,6 +41,10 @@ const JoinForm = () => {
 
   // TODO: 이메일 인증 실패, 중복값 검사(이메일, 닉네임, 전화 번호), 서버 통신 오류 에러 처리
   // const [joinError, setJoinError] = useState<string | null>(null);
+  const [isInputDisabled, setIsInputDisabled] = useState(true);
+  const [emailConfirmCodeStatus, setEmailConfirmCodeStatus] = useState<
+    'success' | 'error' | null
+  >(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -51,6 +58,7 @@ const JoinForm = () => {
   const clearErrors = () => {
     setErrors({
       emailError: null,
+      emailConfirmCodeError: null,
       passwordError: null,
       passwordConfirmError: null,
       nicknameError: null,
@@ -61,6 +69,9 @@ const JoinForm = () => {
   const setValidationErrors = () => {
     setErrors({
       emailError: validateEmail(form.email),
+      // TODO: 인증 코드 유효성 검사 서버와 통신하여
+      // validateEmailConfirmCode 구현 필요
+      emailConfirmCodeError: null,
       passwordError: validatePassword(form.password),
       passwordConfirmError: validatePasswordConfirm(
         form.password,
@@ -69,6 +80,34 @@ const JoinForm = () => {
       nicknameError: validateNickname(form.nickname),
       phoneNumberError: validatePhoneNumber(form.phoneNumber),
     });
+  };
+
+  const handleEmailValidation = async () => {
+    console.log('인증 코드 요청');
+    // TODO: API 통신
+    // test: 버튼 클릭 이벤트 하드 코딩
+    const successResponse = { success: true };
+
+    try {
+      const data = successResponse;
+      // TODO: "인증 코드 발송이 완료되었습니다." 화면에 출력 필요
+      if (data.success) {
+        setIsInputDisabled(false);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleEmailConfirmCodeValidation = () => {
+    // test
+    const validCode = '1234';
+
+    if (form.emailConfirmCode === validCode) {
+      setEmailConfirmCodeStatus('success');
+    } else {
+      setEmailConfirmCodeStatus('error');
+    }
   };
 
   const handleJoinSubmit = (e: React.FormEvent) => {
@@ -114,6 +153,22 @@ const JoinForm = () => {
             required
           />
           {/* TODO: 이메일 인증 코드 & 상태 보여주는 창 추가 */}
+          <JoinField
+            id="emailConfirmCode"
+            name="emailConfirmCode"
+            label="인증 코드"
+            type="text"
+            value={form.emailConfirmCode}
+            onChange={e => {
+              handleChange(e);
+            }}
+            onBlur={handleEmailConfirmCodeValidation}
+            error={errors.emailConfirmCodeError}
+            placeholder="인증 코드를 입력해주세요."
+            required
+            disabled={isInputDisabled}
+            emailConfirmCodeStatus={emailConfirmCodeStatus}
+          />
           <JoinField
             id="password"
             name="password"
@@ -204,7 +259,6 @@ const JoinForm = () => {
             <button
               type="submit"
               disabled={isDisabled}
-              // className={`w-[140px] h-[30px] mt-[30px] items-center rounded-md font-bold text-[13.5px] ${
               className={`btn btn-sm mt-5 font-bold text-sm ${
                 isDisabled ? 'btn-disabled' : 'btn-primary'
               }`}
@@ -216,7 +270,8 @@ const JoinForm = () => {
 
         <button
           type="button"
-          // TODO: onClick={handleEmailValidation}
+          // TODO:
+          onClick={handleEmailValidation}
           className="mt-9 btn btn-sm btn-primary font-bold text-sm"
         >
           이메일 인증

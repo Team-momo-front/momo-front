@@ -8,6 +8,7 @@ interface InputProps {
   placeholder: string;
   required?: boolean;
   className?: string;
+  disabled?: boolean;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -20,6 +21,7 @@ const Input: React.FC<InputProps> = ({
   placeholder,
   required = true,
   className = '',
+  disabled,
 }) => {
   return (
     <input
@@ -31,6 +33,7 @@ const Input: React.FC<InputProps> = ({
       onBlur={onBlur}
       placeholder={placeholder}
       required={required}
+      disabled={disabled}
       className={`input input-bordered bg-white w-full max-w-xs mb-4 p-4 font-bold text-sm placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary ${className}`}
     />
   );
