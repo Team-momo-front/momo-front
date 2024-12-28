@@ -32,10 +32,7 @@
   font-weight: 800;
   font-style: normal;
 }
+
 body {
   @apply font-nanumGothic;
-}
-
-.btn:hover {
-  background-color: #ade145 !important;
 }
