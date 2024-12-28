@@ -31,7 +31,7 @@ const Input: React.FC<InputProps> = ({
       onBlur={onBlur}
       placeholder={placeholder}
       required={required}
-      className={`input input-bordered bg-white w-full max-w-xs mb-4 p-4 font-bold text-sm placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-primary ${className}`}
+      className={`input input-bordered bg-white w-full max-w-xs mb-4 p-4 font-bold text-sm placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary ${className}`}
     />
   );
 };

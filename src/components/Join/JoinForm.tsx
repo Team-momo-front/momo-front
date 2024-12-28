@@ -204,10 +204,9 @@ const JoinForm = () => {
             <button
               type="submit"
               disabled={isDisabled}
-              className={`w-[140px] h-[30px] mt-[30px] items-center rounded-md font-bold text-[13.5px] ${
-                isDisabled
-                  ? 'bg-gray-400 text-gray-600'
-                  : 'bg-primary text-white'
+              // className={`w-[140px] h-[30px] mt-[30px] items-center rounded-md font-bold text-[13.5px] ${
+              className={`btn btn-sm mt-5 font-bold text-sm ${
+                isDisabled ? 'btn-disabled' : 'btn-primary'
               }`}
             >
               다음 단계로 넘어가기
@@ -218,7 +217,7 @@ const JoinForm = () => {
         <button
           type="button"
           // TODO: onClick={handleEmailValidation}
-          className="mt-10 w-[90px] h-[30px] items-center bg-primary rounded-md font-bold text-white text-[13.5px]"
+          className="mt-9 btn btn-sm btn-primary font-bold text-sm"
         >
           이메일 인증
         </button>

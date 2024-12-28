@@ -16,11 +16,9 @@ const Header = () => {
           <button className="btn btn-sm font-inter font-medium btn-header">
             Login
           </button>
-          {/* <button className="w-16 h-8 shadow-md rounded-md font-inter hover:bg-primary hover:text-white">Log in</button> */}
         </Link>
         <Link to="/join">
           <button className="btn btn-sm font-inter font-medium btn-header">
-            {/* <button className="w-16 h-8 bg-gray-600 shadow-md rounded-md font-inter text-white hover:bg-primary"> */}
             Join
           </button>
         </Link>

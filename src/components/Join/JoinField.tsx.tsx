@@ -27,7 +27,7 @@ const JoinField: React.FC<JoinFieldProps> = ({
 }) => {
   return (
     <>
-      <label htmlFor={id} className="font-bold text-lg mb-1">
+      <label htmlFor={id} className="block font-bold text-sm mb-2">
         {label}
       </label>
       <Input
@@ -39,9 +39,15 @@ const JoinField: React.FC<JoinFieldProps> = ({
         onBlur={onBlur}
         placeholder={placeholder}
         required={required}
-        className={`mb-2 ${error && 'border-error border-2'}`}
+        className={`${
+          error
+            ? 'ring-error ring-1 border-error focus:ring-error focus:ring-1 focus:border-error mb-0'
+            : 'border-1'
+        }`}
       />
-      {error && <p className="mb-2 font-bold text-[12px] text-error">{error}</p>}
+      {error && (
+        <p className="mt-1 mb-2 font-bold text-[12px] text-error">{error}</p>
+      )}
     </>
   );
 };
