@@ -35,3 +35,7 @@
 body {
   @apply font-nanumGothic;
 }
+
+.btn:hover {
+  background-color: #ade145 !important;
+}
