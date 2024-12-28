@@ -8,7 +8,7 @@ import {
   validatePhoneNumber,
   handleValidation,
 } from './validation';
-import { JoinErrorMessages } from '../types/JoinErrorMessages.ts';
+import { JoinErrorMessages } from '../../types/JoinErrorMessages.ts';
 import { formatPhoneNumber } from '../../utils/formatPhoneNumber.ts';
 
 type Form = {
@@ -42,7 +42,7 @@ const JoinForm = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
-    setForm((prev) => ({
+    setForm(prev => ({
       ...prev,
       [name]: name === 'phoneNumber' ? formatPhoneNumber(value) : value,
     }));
@@ -62,7 +62,10 @@ const JoinForm = () => {
     setErrors({
       emailError: validateEmail(form.email),
       passwordError: validatePassword(form.password),
-      passwordConfirmError: validatePasswordConfirm(form.password, form.passwordConfirm),
+      passwordConfirmError: validatePasswordConfirm(
+        form.password,
+        form.passwordConfirm
+      ),
       nicknameError: validateNickname(form.nickname),
       phoneNumberError: validatePhoneNumber(form.phoneNumber),
     });
@@ -76,8 +79,14 @@ const JoinForm = () => {
     // TODO: API 요청, joinSubmit logic
   };
 
-  const isFormValid = form.email && form.password && form.passwordConfirm && form.nickname && form.phoneNumber;
-  const isDisabled = !isFormValid || Object.values(errors).some((error) => error !== null);
+  const isFormValid =
+    form.email &&
+    form.password &&
+    form.passwordConfirm &&
+    form.nickname &&
+    form.phoneNumber;
+  const isDisabled =
+    !isFormValid || Object.values(errors).some(error => error !== null);
 
   return (
     <div className="w-full h-screen flex justify-center items-center">
@@ -89,11 +98,16 @@ const JoinForm = () => {
             label="이메일"
             type="email"
             value={form.email}
-            onChange={(e) => {
+            onChange={e => {
               handleChange(e);
             }}
-            onBlur={(e) => {
-              handleValidation(e.target.name, e.target.value, validateEmail, setErrors);
+            onBlur={e => {
+              handleValidation(
+                e.target.name,
+                e.target.value,
+                validateEmail,
+                setErrors
+              );
             }}
             error={errors.emailError}
             placeholder="이메일을 입력해주세요."
@@ -106,11 +120,16 @@ const JoinForm = () => {
             label="비밀번호"
             type="password"
             value={form.password}
-            onChange={(e) => {
+            onChange={e => {
               handleChange(e);
             }}
-            onBlur={(e) => {
-              handleValidation(e.target.name, e.target.value, validatePassword, setErrors);
+            onBlur={e => {
+              handleValidation(
+                e.target.name,
+                e.target.value,
+                validatePassword,
+                setErrors
+              );
             }}
             error={errors.passwordError}
             placeholder="비밀번호를 입력해주세요."
@@ -122,14 +141,14 @@ const JoinForm = () => {
             label="비밀번호 확인"
             type="password"
             value={form.passwordConfirm}
-            onChange={(e) => {
+            onChange={e => {
               handleChange(e);
             }}
-            onBlur={(e) => {
+            onBlur={e => {
               handleValidation(
                 e.target.name,
                 e.target.value,
-                (value) => validatePasswordConfirm(form.password, value),
+                value => validatePasswordConfirm(form.password, value),
                 setErrors
               );
             }}
@@ -143,11 +162,16 @@ const JoinForm = () => {
             label="닉네임"
             type="text"
             value={form.nickname}
-            onChange={(e) => {
+            onChange={e => {
               handleChange(e);
             }}
-            onBlur={(e) => {
-              handleValidation(e.target.name, e.target.value, validateNickname, setErrors);
+            onBlur={e => {
+              handleValidation(
+                e.target.name,
+                e.target.value,
+                validateNickname,
+                setErrors
+              );
             }}
             error={errors.nicknameError}
             placeholder="닉네임을 입력해주세요."
@@ -159,11 +183,16 @@ const JoinForm = () => {
             label="휴대폰 번호"
             type="tel"
             value={form.phoneNumber}
-            onChange={(e) => {
+            onChange={e => {
               handleChange(e);
             }}
-            onBlur={(e) => {
-              handleValidation(e.target.name, e.target.value, validatePhoneNumber, setErrors);
+            onBlur={e => {
+              handleValidation(
+                e.target.name,
+                e.target.value,
+                validatePhoneNumber,
+                setErrors
+              );
             }}
             error={errors.phoneNumberError}
             placeholder="휴대폰 번호를 입력해주세요."
@@ -176,8 +205,11 @@ const JoinForm = () => {
               type="submit"
               disabled={isDisabled}
               className={`w-[140px] h-[30px] mt-[30px] items-center rounded-md font-bold text-[13.5px] ${
-                isDisabled ? 'bg-gray-400 text-gray-600' : 'bg-primary text-white'
-              }`}>
+                isDisabled
+                  ? 'bg-gray-400 text-gray-600'
+                  : 'bg-primary text-white'
+              }`}
+            >
               다음 단계로 넘어가기
             </button>
           </div>
@@ -186,7 +218,8 @@ const JoinForm = () => {
         <button
           type="button"
           // TODO: onClick={handleEmailValidation}
-          className="mt-10 w-[90px] h-[30px] items-center bg-primary rounded-md font-bold text-white text-[13.5px]">
+          className="mt-10 w-[90px] h-[30px] items-center bg-primary rounded-md font-bold text-white text-[13.5px]"
+        >
           이메일 인증
         </button>
       </div>
