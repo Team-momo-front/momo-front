@@ -23,13 +23,13 @@ const LoginForm = () => {
         <button
           type="submit"
           // TODO: onSubmit={handleLoginSubmit}
-          className="btn btn-block mb-4 font-bold text-lg btn-primary"
+          className="btn btn-block mb-4 font-bold text-[16px] btn-primary"
         >
           로그인
         </button>
         <button
           type="button"
-          className="relative btn btn-block mb-4 rounded-md font-bold text-lg btn-social"
+          className="relative btn btn-block mb-4 rounded-md font-bold text-[16px] btn-social"
         >
           <img
             src={kakaoIcon}
