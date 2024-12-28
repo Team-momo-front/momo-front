@@ -89,7 +89,8 @@ const JoinForm = () => {
             value={form.email}
             onChange={(e) => {
               handleChange(e);
-              // REVIEW: 유효성 검사에 대한 에러를 보여주는 이벤트를 onChange와 onBlur 중 어떤 걸로 처리할 지 고민
+            }}
+            onBlur={(e) => {
               handleValidation(e.target.name, e.target.value, validateEmail, setErrors);
             }}
             error={errors.emailError}
@@ -105,6 +106,8 @@ const JoinForm = () => {
             value={form.password}
             onChange={(e) => {
               handleChange(e);
+            }}
+            onBlur={(e) => {
               handleValidation(e.target.name, e.target.value, validatePassword, setErrors);
             }}
             error={errors.passwordError}
@@ -119,6 +122,8 @@ const JoinForm = () => {
             value={form.passwordConfirm}
             onChange={(e) => {
               handleChange(e);
+            }}
+            onBlur={(e) => {
               handleValidation(
                 e.target.name,
                 e.target.value,
@@ -140,6 +145,9 @@ const JoinForm = () => {
               handleChange(e);
               handleValidation(e.target.name, e.target.value, validateNickname, setErrors);
             }}
+            onBlur={(e) => {
+              handleValidation(e.target.name, e.target.value, validateNickname, setErrors);
+            }}
             error={errors.nicknameError}
             placeholder="닉네임을 입력해주세요."
             required
@@ -152,6 +160,8 @@ const JoinForm = () => {
             value={form.phoneNumber}
             onChange={(e) => {
               handleChange(e);
+            }}
+            onBlur={(e) => {
               handleValidation(e.target.name, e.target.value, validatePhoneNumber, setErrors);
             }}
             error={errors.phoneNumberError}
