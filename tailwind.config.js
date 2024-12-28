@@ -23,5 +23,22 @@ export default {
       },
     },
   },
-  plugins: [],
+  daisyui: {
+    themes: [
+      {
+        momotheme: {
+          primary: '#ADE145',
+          secondary: '#ADE145',
+          accent: '#ADE145',
+          neutral: '#9E9E9E',
+          'base-100': '#ffffff',
+          info: '#0000ff',
+          success: '#ADE145',
+          warning: '#ADE145',
+          error: '#EC160A',
+        },
+      },
+    ],
+  },
+  plugins: [require('daisyui')],
 };
