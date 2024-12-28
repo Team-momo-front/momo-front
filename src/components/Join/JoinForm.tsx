@@ -9,6 +9,7 @@ import {
   handleValidation,
 } from './validation';
 import { JoinErrorMessages } from '../types/types.ts';
+import { formatPhoneNumber } from '../../utils/formatPhoneNumber.ts';
 
 type Form = {
   email: string;
@@ -40,9 +41,10 @@ const JoinForm = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+
     setForm((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: name === 'phoneNumber' ? formatPhoneNumber(value) : value,
     }));
   };
 
@@ -143,7 +145,6 @@ const JoinForm = () => {
             value={form.nickname}
             onChange={(e) => {
               handleChange(e);
-              handleValidation(e.target.name, e.target.value, validateNickname, setErrors);
             }}
             onBlur={(e) => {
               handleValidation(e.target.name, e.target.value, validateNickname, setErrors);
@@ -165,7 +166,7 @@ const JoinForm = () => {
               handleValidation(e.target.name, e.target.value, validatePhoneNumber, setErrors);
             }}
             error={errors.phoneNumberError}
-            placeholder="010-1234-5678"
+            placeholder="휴대폰 번호를 입력해주세요."
             required
           />
           {/* {joinError && <p className="w-[538px] mb-2 font-bold text-[12px] text-error">{joinError}</p>} */}
