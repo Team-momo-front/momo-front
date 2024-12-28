@@ -3,7 +3,8 @@ export interface Post {
   meetingDate: string;
   location: string;
   participationCount: number;
-  category: string;
+  approvedCount: number;
+  categories: string[];
   content: string;
   thumbnail?: string;
 }
