@@ -1,6 +1,5 @@
 import Header from '../components/Header/Header';
 import Categories from '../components/Categories';
-import { RiImageAddFill } from 'react-icons/ri';
 import FormField from '../components/FormField';
 import { useToggleCategory } from '../hooks/useToggleCategory';
 import useCreatePostForm from '../hooks/useCreatePostForm';
@@ -51,7 +50,7 @@ const CreatePostPage = () => {
                 }
                 name="participationCount"
                 onChange={handleInputChange}
-                min={0}
+                min={2}
                 max={99}
               />
               <FormField
@@ -88,13 +87,9 @@ const CreatePostPage = () => {
             <div className="flex flex-col justify-between">
               <label htmlFor="file-upload" className="cursor-pointer">
                 <img
-                  src={thumbnailURL || 'image/placeholder_thumbnail.webp'}
+                  src={thumbnailURL || 'image/upload_image.webp'}
                   alt="Thumbnail"
-                  className="w-[280px] h-[180px] object-cover rounded-3xl"
-                />
-                <RiImageAddFill
-                  size={40}
-                  className="text-black hover:text-gray-500 ml-auto -mt-5"
+                  className="w-[280px] h-[178.48px] object-cover rounded-3xl"
                 />
                 <input
                   id="file-upload"
