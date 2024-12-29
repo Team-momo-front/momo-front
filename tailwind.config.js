@@ -20,6 +20,7 @@ export default {
           900: '#505050',
         },
         error: '#EC160A',
+        success: '#3b82f6',
       },
     },
   },
@@ -33,7 +34,7 @@ export default {
           neutral: '#9E9E9E',
           'base-100': '#ffffff',
           info: '#0000ff',
-          success: '#ADE145',
+          success: '#3b82f6',
           warning: '#ADE145',
           error: '#EC160A',
           '.btn-header': {

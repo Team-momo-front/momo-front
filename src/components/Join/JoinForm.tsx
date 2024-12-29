@@ -155,7 +155,6 @@ const JoinForm = () => {
             placeholder="이메일을 입력해주세요."
             required
           />
-          {/* TODO: 이메일 인증 코드 & 상태 보여주는 창 추가 */}
           <JoinField
             id="emailConfirmCode"
             name="emailConfirmCode"

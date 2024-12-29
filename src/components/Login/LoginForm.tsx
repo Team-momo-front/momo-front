@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import kakaoIcon from '../../assets/svg/kakaoIcon.svg';
 import Input from '../Input';
 
@@ -40,10 +41,11 @@ const LoginForm = () => {
         </button>
 
         <div className="w-full flex justify-end">
-          {/* TODO: Link to 비밀번호 재설정 page */}
-          <span className="font-bold text-sm cursor-pointer">
-            비밀번호를 잊으셨나요?
-          </span>
+          <Link to="/reset-password">
+            <span className="font-bold text-sm cursor-pointer">
+              비밀번호를 잊으셨나요?
+            </span>
+          </Link>
         </div>
       </form>
     </div>
