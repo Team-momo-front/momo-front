@@ -4,8 +4,8 @@ import Input from '../Input';
 const LoginForm = () => {
   return (
     <div className="w-full h-screen flex justify-center items-center">
-      <form className="w-[320px] h-[340px] flex flex-col items-center">
-        <span className="font-bold text-2xl mb-6">로그인</span>
+      <form className="w-[320px] h-[340px] flex flex-col items-center gap-4">
+        <span className="font-bold text-2xl">로그인</span>
 
         <Input
           type="email"
@@ -23,13 +23,13 @@ const LoginForm = () => {
         <button
           type="submit"
           // TODO: onSubmit={handleLoginSubmit}
-          className="btn btn-block mb-4 font-bold text-[16px] btn-primary"
+          className="btn btn-block font-bold text-[16px] btn-primary"
         >
           로그인
         </button>
         <button
           type="button"
-          className="relative btn btn-block mb-4 rounded-md font-bold text-[16px] btn-social"
+          className="relative btn btn-block font-bold text-[16px] btn-social"
         >
           <img
             src={kakaoIcon}

@@ -130,7 +130,10 @@ const JoinForm = () => {
   return (
     <div className="w-full h-screen flex justify-center items-center">
       <div className="max-w-[538px] flex gap-x-6">
-        <form className="w-[320px]" onSubmit={handleJoinSubmit}>
+        <form
+          className="w-[320px] flex flex-col gap-4"
+          onSubmit={handleJoinSubmit}
+        >
           <JoinField
             id="email"
             name="email"
@@ -259,7 +262,7 @@ const JoinForm = () => {
             <button
               type="submit"
               disabled={isDisabled}
-              className={`btn btn-sm mt-5 font-bold text-sm ${
+              className={`btn mt-5 font-bold text-sm ${
                 isDisabled ? 'btn-disabled' : 'btn-primary'
               }`}
             >
@@ -272,7 +275,7 @@ const JoinForm = () => {
           type="button"
           // TODO:
           onClick={handleEmailValidation}
-          className="mt-9 btn btn-sm btn-primary font-bold text-sm"
+          className="mt-7 btn btn-primary font-bold text-sm"
         >
           이메일 인증
         </button>

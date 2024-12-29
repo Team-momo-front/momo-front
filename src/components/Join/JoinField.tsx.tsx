@@ -37,7 +37,7 @@ const JoinField: React.FC<JoinFieldProps> = ({
       : error;
 
   return (
-    <>
+    <div>
       <label htmlFor={id} className="block font-bold text-sm mb-2">
         {label}
       </label>
@@ -52,14 +52,14 @@ const JoinField: React.FC<JoinFieldProps> = ({
         required={required}
         className={`${
           error || emailConfirmCodeStatus === 'error'
-            ? 'ring-error ring-1 border-error focus:ring-error focus:ring-1 focus:border-error mb-0'
+            ? 'ring-error ring-1 border-error focus:ring-error focus:ring-1 focus:border-error'
             : 'border-1'
-        } ${emailConfirmCodeStatus === 'success' ? 'mb-0' : ''}`}
+        } `}
         disabled={disabled}
       />
       {message && (
         <p
-          className={`mt-1 mb-2 font-bold text-[12px] ${
+          className={`mt-1 font-bold text-[12px] ${
             emailConfirmCodeStatus === 'success'
               ? 'text-blue-500'
               : 'text-error'
@@ -68,7 +68,7 @@ const JoinField: React.FC<JoinFieldProps> = ({
           {message}
         </p>
       )}
-    </>
+    </div>
   );
 };
 
