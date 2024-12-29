@@ -12,12 +12,12 @@ const ResetPassword = () => {
     console.log('제출완료', email);
     setError(null);
 
-    // setSuccess(
-    //   '입력하신 이메일로 비밀번호 재설정 링크가 발송되었습니다. 메일을 확인해주세요.'
-    // );
+    setSuccess(
+      '입력하신 이메일로 비밀번호 재설정 링크가 발송되었습니다. 메일을 확인해주세요.'
+    );
 
     // error test
-    setError('입력하신 이메일로 가입된 계정이 없습니다.');
+    // setError('입력하신 이메일로 가입된 계정이 없습니다.');
   };
 
   return (
