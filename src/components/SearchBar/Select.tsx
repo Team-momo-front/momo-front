@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { FaChevronDown } from "react-icons/fa";
+import { useState } from 'react';
+import { FaChevronDown } from 'react-icons/fa';
 
 interface SelectProps {
   selectedOption: string;
@@ -10,9 +10,9 @@ const Select = ({ selectedOption, setSelectedOption }: SelectProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const options = [
-    { value: "location", label: "장소" },
-    { value: "title", label: "제목" },
-    { value: "content", label: "내용" },
+    { value: 'location', label: '장소' },
+    { value: 'title', label: '제목' },
+    { value: 'content', label: '내용' },
   ];
 
   const handleOptionClick = (value: string) => {
@@ -26,12 +26,12 @@ const Select = ({ selectedOption, setSelectedOption }: SelectProps) => {
         onClick={() => setIsOpen(!isOpen)}
         className="w-full pl-5 py-1.5 outline-none flex items-center justify-between"
       >
-        {options.find((option) => option.value === selectedOption)?.label}
+        {options.find(option => option.value === selectedOption)?.label}
         <FaChevronDown className="w-[18px] h-[18px] text-gray-400" />
       </button>
       {isOpen && (
-        <ul className="absolute w-full bg-white rounded-b-md z-10 shadow-[0_4px_4px_1px_rgba(0,0,0,0.25)] mt-1">
-          {options.map((option) => (
+        <ul className="absolute w-full bg-white rounded-md z-10 border border-gray-400 mt-2">
+          {options.map(option => (
             <li
               key={option.value}
               onClick={() => handleOptionClick(option.value)}

@@ -1,8 +1,9 @@
-import { Route, Routes } from 'react-router-dom';
-import CreatePostPage from '../pages/CreatePostPage';
-import JoinPage from '../pages/JoinPage';
-import ListPage from '../pages/ListPage';
+import { Routes, Route } from 'react-router-dom';
 import LoginPage from '../pages/LoginPage';
+import ListPage from '../pages/ListPage';
+import JoinPage from '../pages/JoinPage';
+import ResetPasswordPage from '../pages/ResetPasswordPage';
+import CreatePostPage from '../pages/CreatePostPage';
 
 const Router = () => {
   return (
@@ -10,9 +11,8 @@ const Router = () => {
       <Route path="/" element={<ListPage />} />
       <Route path="/create" element={<CreatePostPage />} />
       <Route path="/login" element={<LoginPage />} />
-
-      {/* 회원가입 페이지 */}
       <Route path="/join" element={<JoinPage />} />
+      <Route path="/reset-password" element={<ResetPasswordPage />} />
     </Routes>
   );
 };

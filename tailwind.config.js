@@ -26,7 +26,7 @@ export default {
   daisyui: {
     themes: [
       {
-        momotheme: {
+        theme: {
           primary: '#ADE145',
           secondary: '#ADE145',
           accent: '#ADE145',
@@ -36,6 +36,30 @@ export default {
           success: '#ADE145',
           warning: '#ADE145',
           error: '#EC160A',
+          '.btn-header': {
+            'background-color': '#e8e8e8',
+            'border-color': '#e8e8e8',
+          },
+          '.btn-header:hover': {
+            'background-color': '#ADE145',
+            'border-color': '#ADE145',
+          },
+          '.btn-primary': {
+            'background-color': '#ADE145',
+            'border-color': '#ADE145',
+          },
+          '.btn-primary:hover': {
+            'background-color': '#ADE145',
+            'border-color': '#ADE145',
+          },
+          '.btn-social': {
+            'background-color': '#fee501',
+            'border-color': '#fee501',
+          },
+          '.btn-social:hover': {
+            'background-color': '#fee501',
+            'border-color': '#fee501',
+          },
         },
       },
     ],
