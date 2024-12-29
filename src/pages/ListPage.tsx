@@ -62,9 +62,11 @@ const ListPage = () => {
             밥친구 구하기
           </button>
         </div>
-        <div className="flex flex-wrap justify-center gap-10 mt-[26px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-start mt-[26px]">
           {filteredPosts.map((post, index) => (
-            <PostCard key={index} post={post} />
+            <div key={index} className="w-full">
+              <PostCard post={post} />
+            </div>
           ))}
         </div>
       </div>
