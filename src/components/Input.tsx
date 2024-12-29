@@ -34,7 +34,7 @@ const Input: React.FC<InputProps> = ({
       placeholder={placeholder}
       required={required}
       disabled={disabled}
-      className={`input input-bordered bg-white w-full max-w-xs p-4 font-bold text-sm placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary ${className}`}
+      className={`input input-bordered bg-white w-full p-4 font-bold text-sm placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary ${className}`}
     />
   );
 };
