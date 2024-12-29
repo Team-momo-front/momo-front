@@ -1,51 +1,61 @@
 import { FaCalendar, FaMapMarkerAlt } from 'react-icons/fa';
 import { FaPerson } from 'react-icons/fa6';
-import { formatDate } from '../utils/formatDate';
+import { useNavigate } from 'react-router-dom';
 import { Post } from '../types/Post';
+import { formatDate } from '../utils/formatDate';
 
 const PostCard = ({ post }: { post: Post }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/post/${post.id}`);
+  };
+
   const hasThumbnail = post.thumbnail !== undefined;
+
   return (
     <div
-      className="px-[10px] py-[15px] border w-[300px] h-[370px] shadow-[0_4px_4px_1px_rgba(0,0,0,0.25)] transform transition-all duration-300 ease-in-out 
-      hover:translate-y-[4px] hover:shadow-[0_0_4px_0_rgba(0,0,0,0.25)] cursor-pointer space-y-2"
+      className="w-full aspect-[300/370] px-4 py-6 border shadow-md 
+      transform transition-all duration-300 ease-in-out 
+      hover:translate-y-[4px] hover:shadow-lg cursor-pointer space-y-2 bg-white"
+      onClick={handleClick}
     >
       {hasThumbnail && (
         <img
           src="image/placeholder_thumbnail.webp"
           alt={post.title}
-          className="w-[280px] h-[180px]"
+          className="w-full h-1/2 rounded-lg object-cover"
         />
       )}
-      <div className="px-[10px] space-y-1">
-        <h2 className="text-xl font-extrabold truncate">{post.title}</h2>
-        <div className="flex flex-row justify-between">
-          <p className="text-sm flex flex-row items-center gap-x-1">
-            <FaCalendar className="w-[18px] h-[18px]" />
+      <div className="px-2 space-y-1">
+        <h2 className="text-lg font-extrabold truncate">{post.title}</h2>
+        <div className="flex justify-between items-center">
+          <p className="text-sm flex items-center gap-x-1">
+            <FaCalendar className="w-4 h-4" />
             {formatDate(post.meetingDate)}
           </p>
-          <p className="text-base font-extrabold flex flex-row items-center">
-            <FaPerson className="h-4 h-4" />
+          <p className="text-base font-extrabold flex items-center">
+            <FaPerson className="w-4 h-4" />
             {`${post.approvedCount}/${post.participationCount}`}
           </p>
         </div>
-        <p className="text-sm flex flex-row items-center gap-x-1">
-          <FaMapMarkerAlt className="w-[13.5px] h-[18px]" />
+        <p className="text-sm flex items-center gap-x-1">
+          <FaMapMarkerAlt className="w-3.5 h-4" />
           {post.location}
         </p>
         <div className="flex flex-wrap gap-x-1">
           {post.categories.map((category, index) => (
             <span
               key={index}
-              className="text-xs font-bold bg-primary w-fit rounded-[10px] px-1 py-[2px]"
+              className="text-xs font-bold bg-primary w-fit rounded-full px-1.5 py-[2px]"
             >
               {category}
             </span>
           ))}
         </div>
         <p
-          className={`text-xs ${
-            hasThumbnail ? 'line-clamp-2' : 'line-clamp-10'
+          className={`text-sm ${
+            hasThumbnail ? 'line-clamp-2' : 'line-clamp-4'
           }`}
         >
           {post.content}

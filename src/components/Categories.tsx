@@ -1,19 +1,22 @@
-const CategoryList = ["한식", "양식", "중식", "일식", "디저트", "기타"];
+const CategoryList = ['한식', '양식', '중식', '일식', '디저트', '기타'];
 
 const Categories = ({
   selectedCategories,
   toggleCategory,
+  size = 'sm',
 }: {
   selectedCategories: string[];
   toggleCategory: (category: string) => void;
+  size?: string;
 }) => {
   return (
-    <div className="flex flex-row gap-x-3">
-      {CategoryList.map((category) => (
+    <div className="flex flex-row gap-x-2">
+      {CategoryList.map(category => (
         <button
           key={category}
-          className={`text-[15px] font-bold rounded-[10px] px-2 py-[2px] ${
-            selectedCategories.includes(category) ? "bg-primary text-white" : "hover:bg-primary hover:text-white"
+          type="button"
+          className={`rounded-full btn btn-${size} ${
+            selectedCategories.includes(category) && 'btn-primary'
           }`}
           onClick={() => toggleCategory(category)}
         >
