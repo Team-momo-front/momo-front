@@ -21,7 +21,7 @@ const FormField = ({
 }) => (
   <label className="form-control">
     <div className="label">
-      <span className="label-text">{label}</span>
+      <span className="label-text font-bold">{label}</span>
     </div>
     <input
       type={type}

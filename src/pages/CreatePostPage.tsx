@@ -62,7 +62,7 @@ const CreatePostPage = () => {
               />
               <div className="form-control">
                 <div className="label">
-                  <span className="label-text">카테고리</span>
+                  <span className="label-text font-bold">카테고리</span>
                 </div>
                 <Categories
                   selectedCategories={categories}
@@ -72,7 +72,7 @@ const CreatePostPage = () => {
               </div>
               <label className="form-control">
                 <div className="label">
-                  <span className="label-text">내용</span>
+                  <span className="label-text font-bold">내용</span>
                 </div>
                 <textarea
                   className="textarea textarea-bordered max-w-sm text-sm"
