@@ -50,7 +50,7 @@ const ResetPassword = () => {
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              className="stroke-success h-6 w-6 shrink-0"
+              className="stroke-gray-400 h-6 w-6 shrink-0"
             >
               <path
                 strokeLinecap="round"
@@ -59,14 +59,10 @@ const ResetPassword = () => {
                 d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
               ></path>
             </svg>
-            <p className="w-full font-bold text-sm text-success text-center">
-              {success}{' '}
-            </p>
+            <p className="w-full font-bold text-sm text-center">{success}</p>
             <div>
               <Link to="/login" className="w-full">
-                <button className="btn btn-sm btn-success text-white">
-                  확인
-                </button>
+                <button className="btn btn-sm btn-primary">확인</button>
               </Link>
             </div>
           </div>
