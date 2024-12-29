@@ -11,12 +11,14 @@ const Header = () => {
       </div>
 
       {/* buttons */}
-      <div className="flex justify-end gap-4 mr-4">
+      <div className="flex justify-end gap-3 mr-4">
         <Link to="/login">
-          <button className="w-16 h-8 shadow-md rounded-md font-inter hover:bg-primary hover:text-white">Log in</button>
+          <button className="btn btn-sm font-inter font-medium btn-header">
+            Login
+          </button>
         </Link>
         <Link to="/join">
-          <button className="w-16 h-8 bg-gray-600 shadow-md rounded-md font-inter text-white hover:bg-primary">
+          <button className="btn btn-sm font-inter font-medium btn-header">
             Join
           </button>
         </Link>
