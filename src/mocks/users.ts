@@ -20,7 +20,6 @@ export const users: User[] = [
     gender: 'male',
     birth: '2004-02-04',
     mbti: 'ISTJ',
-    introduction: '안녕하세요.',
   },
   {
     id: 3,

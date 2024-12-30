@@ -14,17 +14,10 @@ const UserInfo: React.FC<UserInfoProps> = ({
   setUpdatedUserData,
   isModified,
 }) => {
-  const userData = users[0];
+  const userData = users[1];
 
-  const {
-    email,
-    nickname,
-    phoneNumber,
-    gender,
-    birth,
-    mbti = '',
-    introduction = '',
-  } = userData;
+  const { email, nickname, phoneNumber, gender, birth, mbti, introduction } =
+    userData;
 
   const handleChange = (field: keyof User, value: string) => {
     setUpdatedUserData(prev => ({ ...prev, [field]: value }));

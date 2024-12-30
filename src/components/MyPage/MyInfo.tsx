@@ -5,7 +5,7 @@ import UserInfo from './UserInfo';
 
 const MyInfo = () => {
   // TODO: 서버에서 userData 받아오기
-  const [userData, setUserData] = useState<User>(users[2]);
+  const [userData, setUserData] = useState<User>(users[1]);
   const [isModified, setIsModified] = useState(false);
 
   const handleSubmit = () => {
