@@ -52,6 +52,11 @@ export default {
             'background-color': '#ADE145',
             'border-color': '#ADE145',
           },
+          '.btn-second:focus': {
+            'background-color': '#ADE145',
+            'border-color': '#ADE145',
+            'outline-color': '#ADE145',
+          },
           '.btn-social': {
             'background-color': '#fee501',
             'border-color': '#fee501',
@@ -59,6 +64,9 @@ export default {
           '.btn-social:hover': {
             'background-color': '#fee501',
             'border-color': '#fee501',
+          },
+          '.btn-social:focus': {
+            'outline-color': '#fee501',
           },
         },
       },
