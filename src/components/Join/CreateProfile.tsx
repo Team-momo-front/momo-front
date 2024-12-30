@@ -1,6 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import JoinField from './JoinField.tsx';
 import { useMBTIValidation } from '../../hooks/useMBTIValidation.ts';
+import { GiPartyPopper } from 'react-icons/gi';
+import ProfileImageUpload from '../ProfileImageUpload.tsx';
 
 type profileForm = {
   gender: string;
@@ -19,8 +22,9 @@ const CreateProfile = () => {
     mbti: '',
   });
 
+  const [profileImage, setProfileImage] = useState<File | null>(null);
   const [genderError, setGenderError] = useState<string | null>(null);
-
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const { mbtiError, validateMBTI } = useMBTIValidation();
 
   const handleChange = (
@@ -33,39 +37,6 @@ const CreateProfile = () => {
       [name]: name === 'mbti' ? value.toUpperCase() : value,
     }));
   };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files ? e.target.files[0] : null;
-    if (file) {
-      setProfileForm(prev => ({ ...prev, profileImage: file }));
-    }
-  };
-
-  const handleProfileSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (!profileForm.gender) {
-      setGenderError('성별을 선택하세요.');
-    }
-
-    console.log('제출', profileForm);
-  };
-
-  const [profileURL, setProfileURL] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (profileForm.profileImage) {
-      const objectURL = URL.createObjectURL(profileForm.profileImage);
-      setProfileURL(objectURL);
-      return () => {
-        if (objectURL) {
-          URL.revokeObjectURL(objectURL);
-        }
-      };
-    } else {
-      setProfileURL(null);
-    }
-  }, [profileForm.profileImage]);
 
   const [selectedGender, setSelectedGender] = useState<
     'male' | 'female' | null
@@ -83,7 +54,19 @@ const CreateProfile = () => {
     !!genderError ||
     !profileForm.gender ||
     !profileForm.birthday ||
-    (!!profileForm.mbti && mbtiError);
+    (!!profileForm.mbti && !!mbtiError);
+
+  const handleProfileSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!profileForm.gender) {
+      setGenderError('성별을 선택하세요.');
+    }
+
+    setIsModalOpen(true);
+
+    console.log('제출', profileForm);
+  };
 
   return (
     <div className="w-full h-screen flex justify-center items-center">
@@ -95,26 +78,16 @@ const CreateProfile = () => {
           htmlFor="file-upload"
           className="w-full flex justify-center cursor-pointer"
         >
-          <img
-            src={profileURL || 'image/upload_profile_image.webp'}
-            alt="Profile Image"
-            className={
-              profileURL
-                ? 'w-[150px] h-[150px] bg-white p-[5px] border-gray-600 border-[1px] object-cover rounded-full'
-                : 'w-[150px] h-[150px] object-cover rounded-full'
-            }
-          />
-          <input
-            id="file-upload"
-            type="file"
-            className="hidden"
-            accept="image/*"
-            onChange={handleFileChange}
+          <ProfileImageUpload
+            profileImage={profileImage}
+            setProfileImage={setProfileImage}
+            defaultImage="image/upload_profile_image.webp"
           />
         </label>
+
         <div>
           <label className="block mb-2">
-            <span className="font-bold text-sm">성별</span>
+            <span className="font-bold text-sm">성별*</span>
           </label>
           <div className="flex justify-between">
             <button
@@ -146,7 +119,7 @@ const CreateProfile = () => {
         <JoinField
           id="birthday"
           name="birthday"
-          label="생년 월일"
+          label="생년 월일*"
           type="date"
           value={profileForm.birthday}
           onChange={handleChange}
@@ -156,6 +129,7 @@ const CreateProfile = () => {
           min="1900-01-01"
           placeholder="생년월일을 입력하세요."
         />
+
         <JoinField
           id="mbti"
           name="mbti"
@@ -169,6 +143,7 @@ const CreateProfile = () => {
           required={false}
           length={4}
         />
+
         <div>
           <label htmlFor="introduction" className="block mb-2">
             <span className="font-bold text-sm">자기소개</span>
@@ -191,7 +166,26 @@ const CreateProfile = () => {
         >
           회원가입 완료하기
         </button>
+        <p className="font-bold text-sm text-gray-500">
+          *표시된 항목은 필수 입력 항목입니다.
+        </p>
       </form>
+
+      {isModalOpen && (
+        <dialog id="my_modal_5" className="modal modal-open sm:modal-middle ">
+          <div className="modal-box flex flex-col items-center gap-4">
+            <GiPartyPopper className="py-3 w-[100px] h-[100px] fill-primary" />
+            <p className="py-3 font-bold">
+              축하합니다! 회원가입이 완료되었습니다!
+            </p>
+            <Link to="/login">
+              <button type="button" className="btn btn-primary">
+                로그인 하러 가기
+              </button>
+            </Link>
+          </div>
+        </dialog>
+      )}
     </div>
   );
 };
