@@ -54,10 +54,9 @@ const CreateProfile = () => {
 
   const handleProfileSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     setIsModalOpen(true);
 
-    console.log('제출', profileForm);
+    // TODO: API 요청
   };
 
   return (
