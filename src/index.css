@@ -36,3 +36,77 @@
 body {
   @apply font-nanumGothic;
 }
+
+a:focus {
+  outline: none;
+}
+
+.input-custom-disabled {
+  flex-shrink: 1;
+  appearance: none;
+  height: 3rem;
+  padding-left: 1rem;
+  padding-right: 1.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  line-height: 2;
+  line-height: 1.5rem;
+  border-radius: var(--rounded-btn, 0.5rem);
+  border-width: 1px;
+  border-color: var(--fallback-bc, oklch(var(--bc) / 0.2));
+  --tw-bg-opacity: 1;
+  background-color: #ffffff;
+}
+
+.input-custom-disabled:has(> input[disabled]),
+.input-custom-disabled-disabled,
+.input-custom-disabled:disabled,
+.input-custom-disabled[disabled] {
+  cursor: default;
+  --tw-border-opacity: 1;
+  border-color: var(--fallback-bc, oklch(var(--bc) / 0.2));
+  --tw-bg-opacity: 1;
+  background-color: ##ffffff;
+  color: #000000;
+}
+.input-custom-disabled:has(> input[disabled])::placeholder,
+.input-custom-disabled-disabled::placeholder,
+.input-custom-disabled:disabled::placeholder,
+.input-custom-disabled[disabled]::placeholder {
+  color: #000000;
+  font-size: 0.875rem;
+}
+
+.textarea-custom-disabled {
+  min-height: 3rem /* 48px */;
+  flex-shrink: 1;
+  padding-left: 1rem /* 16px */;
+  padding-right: 1rem /* 16px */;
+  padding-top: 1rem /* 8px */;
+  padding-bottom: 1rem /* 8px */;
+  font-size: 0.875rem /* 14px */;
+  line-height: 1.25rem /* 20px */;
+  border-radius: var(--rounded-btn, 0.5rem /* 8px */);
+  border-width: 1px;
+  border-color: transparent;
+  --tw-bg-opacity: 1;
+  background-color: var(--fallback-b1, oklch(var(--b1) / var(--tw-bg-opacity)));
+}
+
+.textarea-custom-disabled-disabled,
+.textarea-custom-disabled:disabled,
+.textarea-custom-disabled[disabled] {
+  cursor: default;
+  --tw-border-opacity: 1;
+  border-color: var(--fallback-b2, oklch(var(--b2) / var(--tw-border-opacity)));
+  --tw-bg-opacity: 1;
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.textarea-custom-disabled-disabled::placeholder,
+.textarea-custom-disabled:disabled::placeholder,
+.textarea-custom-disabled[disabled]::placeholder {
+  color: #000000;
+  font-size: 0.875rem;
+}

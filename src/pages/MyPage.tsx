@@ -7,9 +7,7 @@ const MyPage = () => {
     <>
       <Header />
       <Nav />
-      <div className="w-fit">
-        <Outlet />
-      </div>
+      <Outlet />
     </>
   );
 };
