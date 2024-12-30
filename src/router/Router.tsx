@@ -5,6 +5,8 @@ import JoinPage from '../pages/JoinPage';
 import ResetPasswordPage from '../pages/ResetPasswordPage';
 import CreatePostPage from '../pages/CreatePostPage';
 import CreateProfilePage from '../pages/CreateProfilePage';
+import MyPage from '../pages/Mypage';
+import MyInfo from '../components/MyPage/MyInfo';
 
 const Router = () => {
   return (
@@ -15,6 +17,9 @@ const Router = () => {
       <Route path="/join" element={<JoinPage />} />
       <Route path="/reset-password" element={<ResetPasswordPage />} />
       <Route path="/create-profile" element={<CreateProfilePage />} />
+      <Route path="/mypage" element={<MyPage />}>
+        <Route path="/mypage/my-info" element={<MyInfo />} />
+      </Route>
     </Routes>
   );
 };
