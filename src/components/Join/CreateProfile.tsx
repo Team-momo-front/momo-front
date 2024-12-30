@@ -8,7 +8,6 @@ import ProfileImageUpload from '../ProfileImageUpload.tsx';
 type profileForm = {
   gender: string;
   birthday: string;
-  profileImage: File | null;
   introduction: string;
   mbti: string;
 };
@@ -17,7 +16,6 @@ const CreateProfile = () => {
   const [profileForm, setProfileForm] = useState<profileForm>({
     gender: '',
     birthday: '',
-    profileImage: null,
     introduction: '',
     mbti: '',
   });
