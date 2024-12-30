@@ -6,7 +6,7 @@ import ProfileImageUpload from '../ProfileImageUpload';
 
 const MyInfo = () => {
   // TODO: 서버에서 userData 받아오기
-  const [userData, setUserData] = useState<User>(users[1]);
+  const [userData, setUserData] = useState<User>(users[0]);
   const [isModified, setIsModified] = useState(false);
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [profileImageURL, setProfileImageURL] = useState<string | null>(

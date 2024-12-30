@@ -14,7 +14,8 @@ const UserInfo: React.FC<UserInfoProps> = ({
   setUpdatedUserData,
   isModified,
 }) => {
-  const userData = users[1];
+  // TODO: 서버에서 데이터 받아오고 전역상태관리 필요
+  const userData = users[0];
 
   const { email, nickname, phoneNumber, gender, birth, mbti, introduction } =
     userData;
