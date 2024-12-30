@@ -4,25 +4,36 @@ type ProfileImageUploadProps = {
   profileImage: File | null;
   setProfileImage: React.Dispatch<React.SetStateAction<File | null>>;
   defaultImage: string;
+  profileURL?: string | null;
+  onProfileImageChange?: (newImageURL: string | null) => void;
 };
 const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
   profileImage,
   setProfileImage,
   defaultImage,
+  profileURL,
+  onProfileImageChange,
 }) => {
-  const [profileURL, setProfileURL] = useState<string | null>(null);
+  const [updatedProfileURL, setUpdatedProfileURL] = useState<string | null>(
+    profileURL ?? null
+  );
 
   useEffect(() => {
     if (profileImage) {
       const objectURL = URL.createObjectURL(profileImage);
-      setProfileURL(objectURL);
+      setUpdatedProfileURL(objectURL);
+
+      if (onProfileImageChange) {
+        onProfileImageChange(objectURL);
+      }
+
       return () => {
         if (objectURL) {
           URL.revokeObjectURL(objectURL);
         }
       };
     } else {
-      setProfileURL(null);
+      setUpdatedProfileURL(null);
     }
   }, [profileImage]);
 
@@ -39,10 +50,10 @@ const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
       className="w-full flex justify-center cursor-pointer"
     >
       <img
-        src={profileURL || defaultImage}
+        src={updatedProfileURL || defaultImage}
         alt="Profile"
         className={`w-[150px] h-[150px] object-cover rounded-full ${
-          profileURL && 'bg-white p-[5px] border-gray-600 border-[1px]'
+          updatedProfileURL && 'bg-white p-[5px] border-gray-600 border-[1px]'
         }`}
       />
       <input
