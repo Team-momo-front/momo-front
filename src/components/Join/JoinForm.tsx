@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import JoinField from './JoinField.tsx';
 import {
   validateEmail,
@@ -258,15 +259,17 @@ const JoinForm = () => {
           {/* {joinError && <p className="w-[538px] mb-2 font-bold text-[12px] text-error">{joinError}</p>} */}
 
           <div className="w-full flex justify-center items-center">
-            <button
-              type="submit"
-              disabled={isDisabled}
-              className={`btn mt-5 font-bold text-sm ${
-                isDisabled ? 'btn-disabled' : 'btn-primary'
-              }`}
-            >
-              다음 단계로 넘어가기
-            </button>
+            <Link to="/create-profile">
+              <button
+                type="submit"
+                disabled={isDisabled}
+                className={`btn mt-5 font-bold text-sm ${
+                  isDisabled ? 'btn-disabled' : 'btn-primary'
+                }`}
+              >
+                다음 단계로 넘어가기
+              </button>
+            </Link>
           </div>
         </form>
 

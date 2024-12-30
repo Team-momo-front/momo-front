@@ -4,6 +4,7 @@ import ListPage from '../pages/ListPage';
 import JoinPage from '../pages/JoinPage';
 import ResetPasswordPage from '../pages/ResetPasswordPage';
 import CreatePostPage from '../pages/CreatePostPage';
+import CreateProfilePage from '../pages/CreateProfilePage';
 
 const Router = () => {
   return (
@@ -13,6 +14,7 @@ const Router = () => {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/join" element={<JoinPage />} />
       <Route path="/reset-password" element={<ResetPasswordPage />} />
+      <Route path="/create-profile" element={<CreateProfilePage />} />
     </Routes>
   );
 };

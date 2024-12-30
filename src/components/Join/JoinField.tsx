@@ -13,6 +13,9 @@ interface JoinFieldProps {
   required?: boolean;
   disabled?: boolean;
   emailConfirmCodeStatus?: 'success' | 'error' | null;
+  max?: string;
+  min?: string;
+  length?: number;
 }
 
 const JoinField: React.FC<JoinFieldProps> = ({
@@ -28,6 +31,9 @@ const JoinField: React.FC<JoinFieldProps> = ({
   required = true,
   disabled,
   emailConfirmCodeStatus,
+  max,
+  min,
+  length,
 }) => {
   const message =
     emailConfirmCodeStatus === 'success'
@@ -56,6 +62,9 @@ const JoinField: React.FC<JoinFieldProps> = ({
             : 'border-1'
         } `}
         disabled={disabled}
+        max={max}
+        min={min}
+        length={length}
       />
       {message && (
         <p

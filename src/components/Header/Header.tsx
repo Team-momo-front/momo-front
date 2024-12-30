@@ -16,12 +16,12 @@ const Header = () => {
       {/* buttons */}
       <div className="flex justify-end gap-3 mr-4">
         <Link to="/login">
-          <button className="btn btn-sm font-inter font-medium btn-header">
+          <button className="btn btn-sm font-inter font-medium btn-second">
             Login
           </button>
         </Link>
         <Link to="/join">
-          <button className="btn btn-sm font-inter font-medium btn-header">
+          <button className="btn btn-sm font-inter font-medium btn-second">
             Join
           </button>
         </Link>
