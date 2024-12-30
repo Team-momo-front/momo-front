@@ -20,11 +20,6 @@ const CreateProfile = () => {
     mbti: '',
   });
 
-  const [profileImage, setProfileImage] = useState<File | null>(null);
-  const [genderError, setGenderError] = useState<string | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const { mbtiError, validateMBTI } = useMBTIValidation();
-
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -48,18 +43,17 @@ const CreateProfile = () => {
   const today = new Date();
   const maxDay = today.toISOString().slice(0, 10);
 
+  const [profileImage, setProfileImage] = useState<File | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const { mbtiError, validateMBTI } = useMBTIValidation();
+
   const isDisabled =
-    !!genderError ||
     !profileForm.gender ||
     !profileForm.birthday ||
     (!!profileForm.mbti && !!mbtiError);
 
   const handleProfileSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    if (!profileForm.gender) {
-      setGenderError('성별을 선택하세요.');
-    }
 
     setIsModalOpen(true);
 
@@ -107,11 +101,6 @@ const CreateProfile = () => {
               여성
             </button>
           </div>
-          {genderError && (
-            <p className="mt-1 font-bold text-[12px] text-error">
-              {genderError}
-            </p>
-          )}
         </div>
 
         <JoinField
