@@ -14,7 +14,7 @@ const UserInfo: React.FC<UserInfoProps> = ({
   setUpdatedUserData,
   isModified,
 }) => {
-  // TODO: 서버에서 데이터 받아오고 전역상태관리 필요
+  // TODO: 서버에서 데이터 받아 전역상태관리 필요
   const userData = users[0];
 
   const { email, nickname, phoneNumber, gender, birth, mbti, introduction } =
@@ -109,11 +109,13 @@ const UserInfo: React.FC<UserInfoProps> = ({
                     ? 'textarea textarea-bordered w-full h-24 py-4 placeholder-gray-500 font-bold text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary resize-none'
                     : 'textarea-custom-disabled textarea-bordered h-24 py-4 resize-none font-bold placeholder:font-bold'
                 }
-                value={updatedUserData.introduction || ''}
                 onChange={e => handleChange('introduction', e.target.value)}
-                placeholder={introduction}
                 disabled={!isModified}
-              />
+              >
+                {updatedUserData
+                  ? updatedUserData.introduction || ''
+                  : introduction}
+              </textarea>
             </label>
           </div>
         </div>

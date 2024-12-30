@@ -33,7 +33,7 @@ const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
         }
       };
     } else {
-      setUpdatedProfileURL(null);
+      setUpdatedProfileURL(profileURL ?? null);
     }
   }, [profileImage]);
 
