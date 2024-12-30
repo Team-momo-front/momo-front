@@ -13,13 +13,19 @@ const Nav = () => {
           </li>
           {/* TODO: 각각 라우터 생성하고 경로 설정 */}
           <li className="font-bold text-lg text-gray-500 hover:text-primary focus:text-primary">
-            <Link to="/">내 모임 관리</Link>
+            <Link to="/" className="focus:text-primary">
+              내 모임 관리
+            </Link>
           </li>
           <li className="font-bold text-lg text-gray-500 hover:text-primary focus:text-primary">
-            <Link to="/">비밀번호 변경</Link>
+            <Link to="/" className="focus:text-primary">
+              비밀번호 변경
+            </Link>
           </li>
           <li className="font-bold text-lg text-gray-500 hover:text-primary focus:text-primary">
-            <Link to="/">회원 탈퇴</Link>
+            <Link to="/" className="focus:text-primary">
+              회원 탈퇴
+            </Link>
           </li>
         </ul>
       </div>
