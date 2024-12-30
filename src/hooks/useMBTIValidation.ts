@@ -20,9 +20,7 @@ enum MBTI {
 }
 
 const isValidMBTI = (mbti: string): boolean => {
-  return Object.keys(MBTI)
-    .map(key => MBTI[key as keyof typeof MBTI])
-    .includes(mbti as MBTI);
+  return Object.values(MBTI).includes(mbti as MBTI);
 };
 
 const containsKorean = (value: string): boolean => {
