@@ -4,13 +4,13 @@ import { User } from '../../types/User';
 import { useMBTIValidation } from '../../hooks/useMBTIValidation';
 import { validateNickname, validatePhoneNumber } from '../Join/validation';
 import InfoFormField from './InfoFormField';
+import { useSetRecoilState } from 'recoil';
+import { isValidUserFormState } from '../../states/recoilState';
 
 interface UserInfoProps {
   updatedUserData: User;
   setUpdatedUserData: React.Dispatch<React.SetStateAction<User>>;
   isModified: boolean;
-  isDisabled: boolean;
-  setIsDisabled: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 type InfoData = {
@@ -35,6 +35,8 @@ const UserInfo: React.FC<UserInfoProps> = ({
     introduction: introduction,
   });
 
+  const setIsValidUserForm = useSetRecoilState(isValidUserFormState);
+
   const handleChange = (field: keyof User, value: string) => {
     setInfoData(prev => ({
       ...prev,
@@ -49,6 +51,14 @@ const UserInfo: React.FC<UserInfoProps> = ({
   const { mbtiError, validateMBTI } = useMBTIValidation();
   const [nicknameError, setNicknameError] = useState<string | null>(null);
   const [phoneNumberError, setPhoneNumberError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (nicknameError || phoneNumberError || (mbti !== '' && mbtiError)) {
+      setIsValidUserForm(true);
+    } else {
+      setIsValidUserForm(false);
+    }
+  }, [nicknameError, mbtiError, phoneNumberError]);
 
   return (
     <>

@@ -1,8 +1,10 @@
 import { useState, useCallback } from 'react';
+import { useRecoilValue } from 'recoil';
 import { users } from '../../mocks/users';
 import { User } from '../../types/User';
 import UserInfo from './UserInfo';
 import ProfileImageUpload from '../ProfileImageUpload';
+import { isValidUserFormState } from '../../states/recoilState';
 
 const MyInfo = () => {
   // TODO: 서버에서 userData 받아오기
@@ -12,6 +14,8 @@ const MyInfo = () => {
   const [profileImageURL, setProfileImageURL] = useState<string | null>(
     userData.profileImage ?? null
   );
+
+  const isValidUserForm = useRecoilValue(isValidUserFormState);
 
   const handleSubmit = () => {
     // TODO: 서버로 userData 전송
@@ -67,7 +71,8 @@ const MyInfo = () => {
             <button
               type="submit"
               onClick={handleSubmit}
-              className="btn btn-primary"
+              className="btn btn-primary disabled:border-none"
+              disabled={!!isValidUserForm}
             >
               저장
             </button>
