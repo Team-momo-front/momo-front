@@ -31,6 +31,7 @@ const MyInfo = () => {
   useEffect(() => {
     setInitialUserData(users[0]);
     setUpdatedUserData(users[0]);
+    setProfileImageURL(users[0].profileImage ?? null);
   }, []);
 
   const handleSubmit = () => {
