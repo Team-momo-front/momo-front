@@ -16,12 +16,6 @@ interface UserInfoProps {
   isCanceled: boolean;
 }
 
-// type InfoData = {
-//   nickname: string;
-//   phoneNumber: string;
-//   mbti?: string;
-//   introduction?: string;
-// };
 const UserInfo: React.FC<UserInfoProps> = ({ isModified, isCanceled }) => {
   const [initialUserData] = useRecoilState(initialUserDataState);
   const [updatedUserData, setUpdatedUserData] =
