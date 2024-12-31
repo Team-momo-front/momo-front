@@ -1,11 +1,37 @@
 import { atom } from 'recoil';
+import { User } from '../types/User';
 
 export const isValidUserFormState = atom<boolean>({
   key: 'isValidUserFormState',
   default: false,
 });
 
-export const profileImageURLState = atom<string | null>({
-  key: 'profileImageURL',
-  default: '../../public/image/default_profile_image.webp',
+export const initialUserDataState = atom<User>({
+  key: 'initialUserDataState',
+  default: {
+    id: 0,
+    email: '',
+    gender: '',
+    birth: '',
+    nickname: '',
+    phoneNumber: '',
+    mbti: '',
+    introduction: '',
+    profileImage: '',
+  },
+});
+
+export const updatedUserDataState = atom<User>({
+  key: 'updatedUserDataState',
+  default: {
+    id: 0,
+    email: '',
+    gender: '',
+    birth: '',
+    nickname: '',
+    phoneNumber: '',
+    mbti: '',
+    introduction: '',
+    profileImage: '',
+  },
 });

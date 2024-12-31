@@ -7,7 +7,7 @@ import ProfileImageUpload from '../ProfileImageUpload.tsx';
 
 type profileForm = {
   gender: string;
-  birthday: string;
+  birth: string;
   introduction: string;
   mbti: string;
 };
@@ -15,7 +15,7 @@ type profileForm = {
 const CreateProfile = () => {
   const [profileForm, setProfileForm] = useState<profileForm>({
     gender: '',
-    birthday: '',
+    birth: '',
     introduction: '',
     mbti: '',
   });
@@ -49,7 +49,7 @@ const CreateProfile = () => {
 
   const isDisabled =
     !profileForm.gender ||
-    !profileForm.birthday ||
+    !profileForm.birth ||
     (!!profileForm.mbti && !!mbtiError);
 
   const handleProfileSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -103,10 +103,10 @@ const CreateProfile = () => {
         </div>
 
         <JoinField
-          name="birthday"
+          name="birth"
           label="생년 월일*"
           type="date"
-          value={profileForm.birthday}
+          value={profileForm.birth}
           onChange={handleChange}
           required
           error={null}

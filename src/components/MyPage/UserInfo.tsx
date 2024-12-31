@@ -4,56 +4,55 @@ import { User } from '../../types/User';
 import { useMBTIValidation } from '../../hooks/useMBTIValidation';
 import { validateNickname, validatePhoneNumber } from '../Join/validation';
 import InfoFormField from './InfoFormField';
-import { useSetRecoilState } from 'recoil';
-import { isValidUserFormState } from '../../states/recoilState';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import {
+  isValidUserFormState,
+  initialUserDataState,
+  updatedUserDataState,
+} from '../../states/recoilState';
 
 interface UserInfoProps {
-  updatedUserData: User;
-  setUpdatedUserData: React.Dispatch<React.SetStateAction<User>>;
   isModified: boolean;
+  isCanceled: boolean;
 }
 
-type InfoData = {
-  nickname: string;
-  phoneNumber: string;
-  mbti?: string;
-  introduction?: string;
-};
-const UserInfo: React.FC<UserInfoProps> = ({
-  updatedUserData,
-  setUpdatedUserData,
-  isModified,
-}) => {
-  // TODO: 서버에서 데이터 받아 전역상태관리 필요
-  const { email, nickname, phoneNumber, gender, birth, mbti, introduction } =
-    updatedUserData;
-
-  const [infoData, setInfoData] = useState<InfoData>({
-    nickname: nickname,
-    phoneNumber: phoneNumber,
-    mbti: mbti,
-    introduction: introduction,
-  });
+// type InfoData = {
+//   nickname: string;
+//   phoneNumber: string;
+//   mbti?: string;
+//   introduction?: string;
+// };
+const UserInfo: React.FC<UserInfoProps> = ({ isModified, isCanceled }) => {
+  const [initialUserData] = useRecoilState(initialUserDataState);
+  const [updatedUserData, setUpdatedUserData] =
+    useRecoilState(updatedUserDataState);
 
   const setIsValidUserForm = useSetRecoilState(isValidUserFormState);
 
   const handleChange = (field: keyof User, value: string) => {
-    setInfoData(prev => ({
+    setUpdatedUserData(prev => ({
       ...prev,
       [field]: value,
     }));
   };
 
-  useEffect(() => {
-    setUpdatedUserData({ ...updatedUserData, ...infoData });
-  }, [infoData]);
-
-  const { mbtiError, validateMBTI } = useMBTIValidation();
+  const { mbtiError, setMbtiError, validateMBTI } = useMBTIValidation();
   const [nicknameError, setNicknameError] = useState<string | null>(null);
   const [phoneNumberError, setPhoneNumberError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (nicknameError || phoneNumberError || (mbti !== '' && mbtiError)) {
+    setNicknameError(null);
+    setPhoneNumberError(null);
+    setMbtiError(null);
+    setUpdatedUserData(initialUserData);
+  }, [isCanceled]);
+
+  useEffect(() => {
+    if (
+      nicknameError ||
+      phoneNumberError ||
+      (updatedUserData.mbti !== '' && mbtiError)
+    ) {
       setIsValidUserForm(true);
     } else {
       setIsValidUserForm(false);
@@ -70,7 +69,7 @@ const UserInfo: React.FC<UserInfoProps> = ({
             type="text"
             disabled={!isModified}
             required
-            value={infoData.nickname || ''}
+            value={updatedUserData.nickname}
             onChange={e => handleChange('nickname', e.target.value)}
             onBlur={e => {
               setNicknameError(validateNickname(e.target.value));
@@ -83,7 +82,7 @@ const UserInfo: React.FC<UserInfoProps> = ({
             name="email"
             label="이메일"
             type="text"
-            placeholder={email}
+            placeholder={updatedUserData.email}
             disabled
             isModified={isModified}
           />
@@ -92,9 +91,9 @@ const UserInfo: React.FC<UserInfoProps> = ({
             name="phoneNumber"
             label="휴대폰 번호"
             type="tel"
-            placeholder={phoneNumber}
+            placeholder={updatedUserData.phoneNumber}
             disabled={!isModified}
-            value={infoData.phoneNumber || ''}
+            value={updatedUserData.phoneNumber}
             onChange={e =>
               handleChange('phoneNumber', formatPhoneNumber(e.target.value))
             }
@@ -117,7 +116,7 @@ const UserInfo: React.FC<UserInfoProps> = ({
                 </span>
               </div>
               <textarea
-                value={infoData.introduction || ''}
+                value={updatedUserData.introduction}
                 className={
                   isModified
                     ? 'textarea textarea-bordered w-full h-24 py-4 placeholder-gray-500 font-bold text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary resize-none'
@@ -135,7 +134,7 @@ const UserInfo: React.FC<UserInfoProps> = ({
             name="gender"
             label="성별"
             type="text"
-            placeholder={gender}
+            placeholder={updatedUserData.gender}
             disabled
             isModified={isModified}
           />
@@ -144,7 +143,7 @@ const UserInfo: React.FC<UserInfoProps> = ({
             name="birth"
             label="생년 월일"
             type="text"
-            placeholder={birth}
+            placeholder={updatedUserData.birth}
             disabled
             isModified={isModified}
           />
@@ -154,7 +153,7 @@ const UserInfo: React.FC<UserInfoProps> = ({
             label="MBTI"
             type="text"
             disabled={!isModified}
-            value={infoData.mbti || ''}
+            value={updatedUserData.mbti}
             onChange={e => handleChange('mbti', e.target.value.toUpperCase())}
             onBlur={e => validateMBTI(e.target.value)}
             isModified={isModified}

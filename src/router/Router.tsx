@@ -17,7 +17,7 @@ const Router = () => {
       <Route path="/join" element={<JoinPage />} />
       <Route path="/reset-password" element={<ResetPasswordPage />} />
       <Route path="/create-profile" element={<CreateProfilePage />} />
-      <Route path="/mypage" element={<MyPage />}>
+      <Route path="/mypage/my-info" element={<MyPage />}>
         <Route path="/mypage/my-info" element={<MyInfo />} />
       </Route>
     </Routes>
