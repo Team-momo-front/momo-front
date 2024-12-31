@@ -8,6 +8,7 @@ const AccountDelection = () => {
     try {
       if (confirmDelete) {
         // TODO: 회원 탈퇴 및 로그아웃 요청
+        // TODO: 요청 성공시 회원 탈퇴 완료 alert 보여주기 & 처리 전에는 처리중... 상태 보여주기
       }
     } catch {
       console.error('error');
