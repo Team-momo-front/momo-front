@@ -72,7 +72,7 @@ const CreateProfile = () => {
           <ProfileImageUpload
             profileImage={profileImage}
             setProfileImage={setProfileImage}
-            defaultImage="image/upload_profile_image.webp"
+            defaultImage="image/default_profile_image.webp"
           />
         </label>
 
@@ -103,7 +103,6 @@ const CreateProfile = () => {
         </div>
 
         <JoinField
-          id="birthday"
           name="birthday"
           label="생년 월일*"
           type="date"
@@ -117,7 +116,6 @@ const CreateProfile = () => {
         />
 
         <JoinField
-          id="mbti"
           name="mbti"
           label="MBTI"
           type="text"

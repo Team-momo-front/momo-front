@@ -8,7 +8,7 @@ import { isValidUserFormState } from '../../states/recoilState';
 
 const MyInfo = () => {
   // TODO: 서버에서 userData 받아오기
-  const [userData, setUserData] = useState<User>(users[0]);
+  const [userData, setUserData] = useState<User>(users[1]);
   const [isModified, setIsModified] = useState(false);
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [profileImageURL, setProfileImageURL] = useState<string | null>(
@@ -42,7 +42,7 @@ const MyInfo = () => {
             <ProfileImageUpload
               profileImage={profileImage}
               setProfileImage={setProfileImage}
-              defaultImage="/image/upload_profile_image.webp"
+              defaultImage="../../../public/image/default_profile_image.webp"
               profileURL={profileImageURL}
               onProfileImageChange={handleProfileImageChange}
             />
