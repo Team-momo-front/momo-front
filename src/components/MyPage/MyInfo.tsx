@@ -36,6 +36,7 @@ const MyInfo = () => {
 
   const handleSubmit = () => {
     // TODO: 서버로 userData 전송
+    setInitialUserData(updatedUserData);
     console.log('submit', updatedUserData);
     setIsModified(false);
     setIsCanceled(false);

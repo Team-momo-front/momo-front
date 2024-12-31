@@ -4,6 +4,7 @@ import { User } from '../../types/User';
 import { useMBTIValidation } from '../../hooks/useMBTIValidation';
 import { validateNickname, validatePhoneNumber } from '../Join/validation';
 import InfoFormField from './InfoFormField';
+import { convertGenderToLabel } from '../../utils/convertGenderToLabel';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import {
   isValidUserFormState,
@@ -128,7 +129,7 @@ const UserInfo: React.FC<UserInfoProps> = ({ isModified, isCanceled }) => {
             name="gender"
             label="성별"
             type="text"
-            placeholder={updatedUserData.gender}
+            placeholder={convertGenderToLabel(updatedUserData.gender)}
             disabled
             isModified={isModified}
           />
