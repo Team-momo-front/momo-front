@@ -41,7 +41,7 @@ const Nav = () => {
           </li>
           <li className="font-bold text-[16px] hover:text-primary">
             <NavLink
-              to="/"
+              to="/mypage/account-delection"
               className={({ isActive }) =>
                 isActive ? 'text-primary' : 'text-gray-500 focus:text-primary'
               }
