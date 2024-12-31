@@ -14,7 +14,6 @@ const MyInfo = () => {
   // TODO: 서버에서 데이터 받아 전역상태관리 필요
   const [initialUserData, setInitialUserData] =
     useRecoilState(initialUserDataState);
-
   const [updatedUserData, setUpdatedUserData] =
     useRecoilState(updatedUserDataState);
 
@@ -28,6 +27,7 @@ const MyInfo = () => {
 
   const isValidUserForm = useRecoilValue(isValidUserFormState);
 
+  // TODO: 서버에서 유저 데이터 받아서 초기값 셋팅
   useEffect(() => {
     setInitialUserData(users[0]);
     setUpdatedUserData(users[0]);
@@ -37,7 +37,6 @@ const MyInfo = () => {
   const handleSubmit = () => {
     // TODO: 서버로 userData 전송
     setUpdatedUserData(updatedUserData);
-    console.log('Updated Data:', updatedUserData);
     setIsModified(false);
     setIsCanceled(false);
   };
@@ -45,6 +44,7 @@ const MyInfo = () => {
   const handleCancel = () => {
     setUpdatedUserData(initialUserData);
     setProfileImageURL(initialUserData.profileImage ?? null);
+    setProfileImage(null);
     setIsModified(false);
     setIsCanceled(true);
   };
@@ -87,6 +87,7 @@ const MyInfo = () => {
             }`}
           />
         )}
+
         <UserInfo isModified={isModified} isCanceled={isCanceled} />
         <div className="w-full flex justify-end my-10">
           {isModified ? (

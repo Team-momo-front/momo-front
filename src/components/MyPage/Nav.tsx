@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const Nav = () => {
   return (
@@ -8,26 +8,46 @@ const Nav = () => {
           마이페이지
         </span>
         <ul className="flex gap-6 mb-4">
-          <li className="font-bold text-[16px] text-gray-500 hover:text-primary">
-            <Link to="/mypage/my-info" className="focus:text-primary">
+          <li className="font-bold text-[16px] hover:text-primary">
+            <NavLink
+              to="/mypage/my-info"
+              className={({ isActive }) =>
+                isActive ? 'text-primary' : 'text-gray-500 focus:text-primary'
+              }
+            >
               내 정보
-            </Link>
+            </NavLink>
           </li>
           {/* TODO: 각각 라우터 생성하고 경로 설정 */}
-          <li className="font-bold text-[16px] text-gray-500 hover:text-primary focus:text-primary">
-            <Link to="/" className="focus:text-primary">
+          <li className="font-bold text-[16px] hover:text-primary">
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                isActive ? 'text-primary' : 'text-gray-500 focus:text-primary'
+              }
+            >
               내 모임 관리
-            </Link>
+            </NavLink>
           </li>
-          <li className="font-bold text-[16px] text-gray-500 hover:text-primary focus:text-primary">
-            <Link to="/" className="focus:text-primary">
+          <li className="font-bold text-[16px] hover:text-primary">
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                isActive ? 'text-primary' : 'text-gray-500 focus:text-primary'
+              }
+            >
               비밀번호 변경
-            </Link>
+            </NavLink>
           </li>
-          <li className="font-bold text-[16px] text-gray-500 hover:text-primary focus:text-primary">
-            <Link to="/" className="focus:text-primary">
+          <li className="font-bold text-[16px] hover:text-primary">
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                isActive ? 'text-primary' : 'text-gray-500 focus:text-primary'
+              }
+            >
               회원 탈퇴
-            </Link>
+            </NavLink>
           </li>
         </ul>
       </div>

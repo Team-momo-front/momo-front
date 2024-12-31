@@ -55,7 +55,7 @@ const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
     if (onProfileImageChange) {
       onProfileImageChange(defaultImage);
     }
-    setIsModalOpen(false); // 모달 닫기
+    handleCloseModal();
   };
 
   const handleOpenModal = () => {
@@ -81,12 +81,13 @@ const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
             updatedProfileURL && 'bg-white p-[5px] border-gray-600 border-[1px]'
           }`}
         />
-        {(!profileImage || !updatedProfileURL) && (
+        {(!profileImage || !profileURL) && (
           <input
             id="file-upload"
             type="file"
             className="hidden "
             accept="image/*"
+            disabled={!!profileURL || !!profileImage}
             onChange={handleFileChange}
           />
         )}
