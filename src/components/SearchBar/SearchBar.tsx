@@ -1,5 +1,7 @@
 import { FaSearch } from 'react-icons/fa';
 import Select from './Select';
+import { Post } from '../../types/Post';
+import { calculateDistance } from '../../utils/calculateDistance';
 
 interface SearchBarProps {
   searchFilter: string;
@@ -7,6 +9,8 @@ interface SearchBarProps {
   searchQuery: string;
   setSearchQuery: (value: string) => void;
   onSearch: () => void;
+  posts: Post[];
+  setFilteredPosts: (posts: Post[]) => void;
 }
 
 const SearchBar = ({
@@ -15,7 +19,44 @@ const SearchBar = ({
   searchQuery,
   setSearchQuery,
   onSearch,
+  posts,
+  setFilteredPosts,
 }: SearchBarProps) => {
+  const handleLocationSearch = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          const userLat = position.coords.latitude;
+          const userLng = position.coords.longitude;
+          const sortedPosts = [...posts].sort((a, b) => {
+            const distanceA = calculateDistance(
+              userLat,
+              userLng,
+              parseFloat(a.y),
+              parseFloat(a.x)
+            );
+            const distanceB = calculateDistance(
+              userLat,
+              userLng,
+              parseFloat(b.y),
+              parseFloat(b.x)
+            );
+
+            return distanceA - distanceB;
+          });
+
+          setFilteredPosts(sortedPosts);
+        },
+        error => {
+          alert('위치 정보를 가져올 수 없습니다.');
+          console.error(error);
+        }
+      );
+    } else {
+      alert('이 브라우저에서는 위치 정보 제공이 지원되지 않습니다.');
+    }
+  };
+
   return (
     <div className="flex justify-center items-center">
       <div className="relative flex items-center text-sm flex-grow max-w-[500px]">
@@ -41,9 +82,7 @@ const SearchBar = ({
       </div>
       <button
         className="ml-5 btn btn-sm btn-primary"
-        onClick={() => {
-          // TODO - 위치 기반 검색
-        }}
+        onClick={handleLocationSearch}
       >
         내 주변 검색
       </button>
