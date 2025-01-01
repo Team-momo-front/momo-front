@@ -6,6 +6,7 @@ import Header from '../components/Header/Header';
 import KakaoMapModal from '../components/modals/KakaoMapModal';
 import useCreatePostForm from '../hooks/useCreatePostForm';
 import { useToggleCategory } from '../hooks/useToggleCategory';
+import { Place } from '../types/Post';
 
 const CreatePostPage = () => {
   const {
@@ -22,27 +23,18 @@ const CreatePostPage = () => {
 
   useEffect(() => {
     updateCategories(categories);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categories]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedPlace, setSelectedPlace] = useState<{
-    place_name: string;
-    address: string;
-    x: string;
-    y: string;
-  } | null>(null);
+  const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  const handleSearchPlace = (place: {
-    place_name: string;
-    address: string;
-    x: string;
-    y: string;
-  }) => {
+  const handleSearchPlace = (place: Place) => {
     setSelectedPlace(place);
-    updateLocation(place.address);
+    updateLocation(place.address_name);
     closeModal();
   };
 

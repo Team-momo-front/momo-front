@@ -1,44 +1,29 @@
-import { useEffect, useState, KeyboardEvent } from 'react';
+import { KeyboardEvent, useEffect, useState } from 'react';
 import { CustomOverlayMap, Map, MapMarker } from 'react-kakao-maps-sdk';
 import { Link } from 'react-router-dom';
+import { Place, PlaceDetail } from '../../types/Post';
 
 interface KakaoMapModalProps {
   onClose: () => void;
-  onSearch: (place: {
-    place_name: string;
-    address: string;
-    x: string;
-    y: string;
-  }) => void;
+  onSearch: (place: Place) => void;
 }
-
-type Place = {
-  id: string;
-  place_name: string;
-  address_name: string;
-  phone?: string;
-  x: string;
-  y: string;
-  place_url: string;
-};
 
 const KakaoMapModal: React.FC<KakaoMapModalProps> = ({ onClose, onSearch }) => {
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [places, setPlaces] = useState<Place[]>([]);
-  const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
+  const [places, setPlaces] = useState<PlaceDetail[]>([]);
+  const [selectedPlace, setSelectedPlace] = useState<PlaceDetail | null>(null);
   const [mapCenter, setMapCenter] = useState<{ lat: number; lng: number }>({
     lat: 37.5665,
     lng: 126.978,
   });
-  const [selectedPlaceDetail, setSelectedPlaceDetail] = useState<Place | null>(
-    null
-  );
+  const [selectedPlaceDetail, setSelectedPlaceDetail] =
+    useState<PlaceDetail | null>(null);
 
   const handleSearch = () => {
     const ps = new kakao.maps.services.Places();
     ps.keywordSearch(searchQuery, (data, status) => {
       if (status === kakao.maps.services.Status.OK) {
-        setPlaces(data as Place[]);
+        setPlaces(data as PlaceDetail[]);
         setMapCenter({
           lat: parseFloat(data[0].y),
           lng: parseFloat(data[0].x),
@@ -66,23 +51,13 @@ const KakaoMapModal: React.FC<KakaoMapModalProps> = ({ onClose, onSearch }) => {
     }
   }, [selectedPlace]);
 
-  const handleSelectPlace = (place: Place) => {
+  const handleSelectPlace = (place: PlaceDetail) => {
     setSelectedPlace(place);
-    onSearch({
-      place_name: place.place_name,
-      address: place.address_name,
-      x: place.x,
-      y: place.y,
-    });
     setSelectedPlaceDetail(place);
   };
 
-  const handleMarkerClick = (place: Place) => {
+  const handleMarkerClick = (place: PlaceDetail) => {
     setSelectedPlaceDetail(place);
-    setMapCenter({
-      lat: parseFloat(place.y),
-      lng: parseFloat(place.x),
-    });
   };
 
   return (
@@ -115,18 +90,21 @@ const KakaoMapModal: React.FC<KakaoMapModalProps> = ({ onClose, onSearch }) => {
             </button>
           </div>
           <div className="flex flex-1">
-            <div className="w-1/3 overflow-auto max-h-[calc(80%-8rem)] p-4 border-r">
+            <ul className="w-1/3 overflow-auto max-h-[calc(80%-8rem)] p-4 border-r">
               {places.map(place => (
-                <div
+                <li
                   key={place.id}
-                  className="p-2 hover:bg-gray-100 cursor-pointer"
+                  className={`p-2 hover:bg-primary/50 cursor-pointer ${
+                    selectedPlace?.place_name === place.place_name &&
+                    'bg-primary/50'
+                  }`}
                   onClick={() => handleSelectPlace(place)}
                 >
                   <h3 className="font-bold text-sm">{place.place_name}</h3>
                   <p className="text-xs text-gray-700">{place.address_name}</p>
-                </div>
+                </li>
               ))}
-            </div>
+            </ul>
             <div className="w-2/3">
               <Map
                 center={mapCenter}
@@ -177,7 +155,7 @@ const KakaoMapModal: React.FC<KakaoMapModalProps> = ({ onClose, onSearch }) => {
                         </Link>
                         <button
                           className="btn btn-xs bg-primary"
-                          onClick={() => handleSelectPlace(selectedPlaceDetail)}
+                          onClick={() => onSearch(selectedPlaceDetail)}
                         >
                           선택하기
                         </button>
