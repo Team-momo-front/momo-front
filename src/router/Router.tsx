@@ -8,7 +8,7 @@ import CreateProfilePage from '../pages/CreateProfilePage';
 import MyPage from '../pages/MyPage';
 import MyInfo from '../components/MyPage/MyInfo';
 import ChangePassword from '../components/MyPage/ChangePassword';
-import AccountDeletion from '../components/MyPage/AccountDelection';
+import AccountDeletion from '../components/MyPage/AccountDeletion';
 
 const Router = () => {
   return (

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const AccountDelection = () => {
+const AccountDeletion = () => {
   const [confirmDelete, setConfirmDelete] = useState(false);
 
   const handleDeleteAccount = () => {
@@ -56,4 +56,4 @@ const AccountDelection = () => {
   );
 };
 
-export default AccountDelection;
+export default AccountDeletion;
