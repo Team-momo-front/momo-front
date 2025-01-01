@@ -18,6 +18,10 @@ const KakaoMapModal: React.FC<KakaoMapModalProps> = ({ onClose, onSearch }) => {
   });
   const [selectedPlaceDetail, setSelectedPlaceDetail] =
     useState<PlaceDetail | null>(null);
+  const [currentLocation, setCurrentLocation] = useState<{
+    lat: number;
+    lng: number;
+  } | null>(null);
 
   const handleSearch = () => {
     const ps = new kakao.maps.services.Places();
@@ -39,6 +43,24 @@ const KakaoMapModal: React.FC<KakaoMapModalProps> = ({ onClose, onSearch }) => {
     if (e.key === 'Enter') {
       e.preventDefault();
       handleSearch();
+    }
+  };
+
+  const handleGetCurrentLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          const { latitude, longitude } = position.coords;
+          setMapCenter({ lat: latitude, lng: longitude });
+          setCurrentLocation({ lat: latitude, lng: longitude });
+        },
+        error => {
+          alert('위치 정보를 가져올 수 없습니다.');
+          console.error(error);
+        }
+      );
+    } else {
+      alert('위치 정보를 가져올 수 없습니다.');
     }
   };
 
@@ -76,7 +98,7 @@ const KakaoMapModal: React.FC<KakaoMapModalProps> = ({ onClose, onSearch }) => {
           ✕
         </button>
         <div className="flex flex-col h-full">
-          <div className="p-4 flex items-center justify-center">
+          <div className="p-4 flex items-center justify-center gap-x-4">
             <input
               type="text"
               value={searchQuery}
@@ -85,8 +107,14 @@ const KakaoMapModal: React.FC<KakaoMapModalProps> = ({ onClose, onSearch }) => {
               placeholder="장소를 검색하세요"
               className="input input-bordered w-2/3 max-w-md"
             />
-            <button onClick={handleSearch} className="btn btn-primary ml-4">
+            <button onClick={handleSearch} className="btn btn-primary">
               검색
+            </button>
+            <button
+              onClick={handleGetCurrentLocation}
+              className="btn btn-social"
+            >
+              내 위치
             </button>
           </div>
           <div className="flex flex-1">
@@ -121,6 +149,7 @@ const KakaoMapModal: React.FC<KakaoMapModalProps> = ({ onClose, onSearch }) => {
                     onClick={() => handleMarkerClick(place)}
                   />
                 ))}
+                {currentLocation && <MapMarker position={currentLocation} />}
                 {selectedPlaceDetail && (
                   <CustomOverlayMap
                     position={{
