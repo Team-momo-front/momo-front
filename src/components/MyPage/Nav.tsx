@@ -10,7 +10,7 @@ const Nav = () => {
         <ul className="flex gap-6 mb-4">
           <li className="font-bold text-[16px]">
             <NavLink
-              to="/mypage/my-info"
+              to="my-info"
               className={({ isActive }) =>
                 isActive
                   ? 'text-primary'
@@ -35,7 +35,7 @@ const Nav = () => {
           </li>
           <li className="font-bold text-[16px]">
             <NavLink
-              to="/mypage/change-password"
+              to="change-password"
               className={({ isActive }) =>
                 isActive
                   ? 'text-primary'
@@ -47,7 +47,7 @@ const Nav = () => {
           </li>
           <li className="font-bold text-[16px]">
             <NavLink
-              to="/mypage/account-delection"
+              to="account-deletion"
               className={({ isActive }) =>
                 isActive
                   ? 'text-primary'
