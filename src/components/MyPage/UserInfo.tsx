@@ -22,7 +22,9 @@ const UserInfo: React.FC<UserInfoProps> = ({ isModified, isCanceled }) => {
   const [updatedUserData, setUpdatedUserData] =
     useRecoilState(updatedUserDataState);
 
-  const setIsFormInvalidForm = useSetRecoilState(isFormInvalidFormState);
+
+  const setIsInvalidUserForm = useSetRecoilState(isFormInvalidFormState);
+  
   const handleChange = (field: keyof User, value: string) => {
     setUpdatedUserData(prev => ({
       ...prev,
@@ -47,9 +49,9 @@ const UserInfo: React.FC<UserInfoProps> = ({ isModified, isCanceled }) => {
       phoneNumberError ||
       (updatedUserData.mbti !== '' && mbtiError)
     ) {
-      setIsFormInvalidForm(true);
+      setIsInvalidUserForm(true);
     } else {
-      setIsFormInvalidForm(false);
+      setIsInvalidUserForm(false);
     }
   }, [nicknameError, mbtiError, phoneNumberError]);
 
