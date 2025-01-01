@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import JoinField from './JoinField.tsx';
 import {
   validateEmail,
@@ -135,7 +136,6 @@ const JoinForm = () => {
           onSubmit={handleJoinSubmit}
         >
           <JoinField
-            id="email"
             name="email"
             label="이메일"
             type="email"
@@ -156,7 +156,6 @@ const JoinForm = () => {
             required
           />
           <JoinField
-            id="emailConfirmCode"
             name="emailConfirmCode"
             label="인증 코드"
             type="text"
@@ -172,7 +171,6 @@ const JoinForm = () => {
             emailConfirmCodeStatus={emailConfirmCodeStatus}
           />
           <JoinField
-            id="password"
             name="password"
             label="비밀번호"
             type="password"
@@ -193,7 +191,6 @@ const JoinForm = () => {
             required
           />
           <JoinField
-            id="passwordConfirm"
             name="passwordConfirm"
             label="비밀번호 확인"
             type="password"
@@ -214,7 +211,6 @@ const JoinForm = () => {
             required
           />
           <JoinField
-            id="nickname"
             name="nickname"
             label="닉네임"
             type="text"
@@ -235,7 +231,6 @@ const JoinForm = () => {
             required
           />
           <JoinField
-            id="phoneNumber"
             name="phoneNumber"
             label="휴대폰 번호"
             type="tel"
@@ -258,15 +253,17 @@ const JoinForm = () => {
           {/* {joinError && <p className="w-[538px] mb-2 font-bold text-[12px] text-error">{joinError}</p>} */}
 
           <div className="w-full flex justify-center items-center">
-            <button
-              type="submit"
-              disabled={isDisabled}
-              className={`btn mt-5 font-bold text-sm ${
-                isDisabled ? 'btn-disabled' : 'btn-primary'
-              }`}
-            >
-              다음 단계로 넘어가기
-            </button>
+            <Link to="/create-profile">
+              <button
+                type="submit"
+                disabled={isDisabled}
+                className={`btn mt-5 font-bold text-sm ${
+                  isDisabled ? 'btn-disabled' : 'btn-primary'
+                }`}
+              >
+                다음 단계로 넘어가기
+              </button>
+            </Link>
           </div>
         </form>
 

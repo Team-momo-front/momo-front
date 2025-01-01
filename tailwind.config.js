@@ -11,7 +11,7 @@ export default {
         gray: {
           100: '#EFF2F6',
           200: '#EEEEEE',
-          300: '#ECECEC',
+          300: '#e8e8e8',
           400: '#CACACA',
           500: '#A1A1A1',
           600: '#9E9E9E',
@@ -36,14 +36,6 @@ export default {
           success: '#ADE145',
           warning: '#ADE145',
           error: '#EC160A',
-          '.btn-header': {
-            'background-color': '#e8e8e8',
-            'border-color': '#e8e8e8',
-          },
-          '.btn-header:hover': {
-            'background-color': '#ADE145',
-            'border-color': '#ADE145',
-          },
           '.btn-primary': {
             'background-color': '#ADE145',
             'border-color': '#ADE145',
@@ -52,6 +44,19 @@ export default {
             'background-color': '#ADE145',
             'border-color': '#ADE145',
           },
+          '.btn-second': {
+            'background-color': '#e8e8e8',
+            'border-color': '#e8e8e8',
+          },
+          '.btn-second:hover': {
+            'background-color': '#ADE145',
+            'border-color': '#ADE145',
+          },
+          '.btn-second:focus': {
+            'background-color': '#ADE145',
+            'border-color': '#ADE145',
+            'outline-color': '#ADE145',
+          },
           '.btn-social': {
             'background-color': '#fee501',
             'border-color': '#fee501',
@@ -59,6 +64,9 @@ export default {
           '.btn-social:hover': {
             'background-color': '#fee501',
             'border-color': '#fee501',
+          },
+          '.btn-social:focus': {
+            'outline-color': '#fee501',
           },
         },
       },

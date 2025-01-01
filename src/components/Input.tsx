@@ -9,6 +9,9 @@ interface InputProps {
   required?: boolean;
   className?: string;
   disabled?: boolean;
+  max?: string;
+  min?: string;
+  length?: number;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -22,6 +25,9 @@ const Input: React.FC<InputProps> = ({
   required = true,
   className = '',
   disabled,
+  max,
+  min,
+  length,
 }) => {
   return (
     <input
@@ -35,6 +41,9 @@ const Input: React.FC<InputProps> = ({
       required={required}
       disabled={disabled}
       className={`input input-bordered bg-white w-full p-4 font-bold text-sm placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary ${className}`}
+      max={max}
+      min={min}
+      maxLength={length}
     />
   );
 };
