@@ -1,8 +1,11 @@
-import Header from '../components/Header/Header';
+import { useEffect, useState } from 'react';
+import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import Categories from '../components/Categories';
 import FormField from '../components/FormField';
-import { useToggleCategory } from '../hooks/useToggleCategory';
+import Header from '../components/Header/Header';
+import KakaoMapModal from '../components/modals/KakaoMapModal';
 import useCreatePostForm from '../hooks/useCreatePostForm';
+import { useToggleCategory } from '../hooks/useToggleCategory';
 
 const CreatePostPage = () => {
   const {
@@ -11,9 +14,37 @@ const CreatePostPage = () => {
     handleSubmit,
     handleFileChange,
     handleInputChange,
+    updateLocation,
+    updateCategories,
   } = useCreatePostForm();
 
   const { categories, toggleCategory } = useToggleCategory();
+
+  useEffect(() => {
+    updateCategories(categories);
+  }, [categories]);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedPlace, setSelectedPlace] = useState<{
+    place_name: string;
+    address: string;
+    x: string;
+    y: string;
+  } | null>(null);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
+  const handleSearchPlace = (place: {
+    place_name: string;
+    address: string;
+    x: string;
+    y: string;
+  }) => {
+    setSelectedPlace(place);
+    updateLocation(place.address);
+    closeModal();
+  };
 
   return (
     <>
@@ -30,7 +61,6 @@ const CreatePostPage = () => {
                 name="title"
                 onChange={handleInputChange}
               />
-
               <FormField
                 label="모임 날짜"
                 type="datetime-local"
@@ -53,13 +83,32 @@ const CreatePostPage = () => {
                 min={2}
                 max={99}
               />
-              <FormField
-                label="장소"
-                type="text"
-                value={formData.location}
-                name="location"
-                onChange={handleInputChange}
-              />
+              <div className="form-control gap-y-4">
+                <div className="label">
+                  <span className="label-text font-bold">장소</span>
+                </div>
+                <input
+                  type="text"
+                  value={selectedPlace?.place_name || ''}
+                  placeholder="장소"
+                  readOnly
+                  className="input input-bordered"
+                />
+                <input
+                  type="text"
+                  value={formData.location}
+                  placeholder="주소"
+                  readOnly
+                  className="input input-bordered"
+                />
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={openModal}
+                >
+                  모임 장소 찾기
+                </button>
+              </div>
               <div className="form-control">
                 <div className="label">
                   <span className="label-text font-bold">카테고리</span>
@@ -99,6 +148,25 @@ const CreatePostPage = () => {
                   onChange={handleFileChange}
                 />
               </label>
+              {selectedPlace && (
+                <div className="mt-4">
+                  <Map
+                    center={{
+                      lat: parseFloat(selectedPlace.y),
+                      lng: parseFloat(selectedPlace.x),
+                    }}
+                    className="w-[280px] h-[280px]"
+                    level={5}
+                  >
+                    <MapMarker
+                      position={{
+                        lat: parseFloat(selectedPlace.y),
+                        lng: parseFloat(selectedPlace.x),
+                      }}
+                    />
+                  </Map>
+                </div>
+              )}
               <div className="flex justify-end mt-auto">
                 <button type="submit" className="btn btn-primary">
                   업로드
@@ -108,6 +176,9 @@ const CreatePostPage = () => {
           </form>
         </div>
       </div>
+      {isModalOpen && (
+        <KakaoMapModal onClose={closeModal} onSearch={handleSearchPlace} />
+      )}
     </>
   );
 };
