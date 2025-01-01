@@ -5,7 +5,7 @@ import { users } from '../../mocks/users';
 import UserInfo from './UserInfo';
 import ProfileImageUpload from '../ProfileImageUpload';
 import {
-  isValidUserFormState,
+  isFormInvalidFormState,
   initialUserDataState,
   updatedUserDataState,
 } from '../../states/recoilState';
@@ -25,7 +25,7 @@ const MyInfo = () => {
     initialUserData.profileImage ?? null
   );
 
-  const isValidUserForm = useRecoilValue(isValidUserFormState);
+  const isInvalidUserForm = useRecoilValue(isFormInvalidFormState);
 
   // TODO: 서버에서 유저 데이터 받아서 초기값 셋팅
   useEffect(() => {
@@ -104,7 +104,7 @@ const MyInfo = () => {
                 type="submit"
                 onClick={handleSubmit}
                 className="btn btn-primary disabled:border-none"
-                disabled={!!isValidUserForm}
+                disabled={!!isInvalidUserForm}
               >
                 저장
               </button>

@@ -7,7 +7,7 @@ import InfoFormField from './InfoFormField';
 import { convertGenderToLabel } from '../../utils/convertGenderToLabel';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import {
-  isValidUserFormState,
+  isFormInvalidFormState,
   initialUserDataState,
   updatedUserDataState,
 } from '../../states/recoilState';
@@ -22,7 +22,7 @@ const UserInfo: React.FC<UserInfoProps> = ({ isModified, isCanceled }) => {
   const [updatedUserData, setUpdatedUserData] =
     useRecoilState(updatedUserDataState);
 
-  const setIsValidUserForm = useSetRecoilState(isValidUserFormState);
+  const setIsInvalidUserForm = useSetRecoilState(isFormInvalidFormState);
 
   const handleChange = (field: keyof User, value: string) => {
     setUpdatedUserData(prev => ({
@@ -48,9 +48,9 @@ const UserInfo: React.FC<UserInfoProps> = ({ isModified, isCanceled }) => {
       phoneNumberError ||
       (updatedUserData.mbti !== '' && mbtiError)
     ) {
-      setIsValidUserForm(true);
+      setIsInvalidUserForm(true);
     } else {
-      setIsValidUserForm(false);
+      setIsInvalidUserForm(false);
     }
   }, [nicknameError, mbtiError, phoneNumberError]);
 

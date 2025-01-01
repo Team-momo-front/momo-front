@@ -1,7 +1,7 @@
 import { atom } from 'recoil';
 import { User } from '../types/User';
 
-export const isValidUserFormState = atom<boolean>({
+export const isFormInvalidFormState = atom<boolean>({
   key: 'isValidUserFormState',
   default: false,
 });
