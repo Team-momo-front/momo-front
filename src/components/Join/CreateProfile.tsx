@@ -142,6 +142,7 @@ const CreateProfile = () => {
             name="introduction"
             onChange={handleChange}
             placeholder="간단한 자기소개를 입력해주세요."
+            maxLength={150}
           />
         </div>
 
