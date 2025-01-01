@@ -8,6 +8,9 @@ export interface Post {
   categories: string[];
   content: string;
   thumbnail?: string;
+  place_name: string;
+  x: string;
+  y: string;
 }
 
 export type PlaceDetail = {
