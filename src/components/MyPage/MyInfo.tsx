@@ -5,7 +5,7 @@ import { users } from '../../mocks/users';
 import UserInfo from './UserInfo';
 import ProfileImageUpload from '../ProfileImageUpload';
 import {
-  isValidUserFormState,
+  isFormInvalidFormState,
   initialUserDataState,
   updatedUserDataState,
 } from '../../states/recoilState';
@@ -25,13 +25,13 @@ const MyInfo = () => {
     initialUserData.profileImage ?? null
   );
 
-  const isValidUserForm = useRecoilValue(isValidUserFormState);
+  const isFormInvalid = useRecoilValue(isFormInvalidFormState);
 
   // TODO: 서버에서 유저 데이터 받아서 초기값 셋팅
   useEffect(() => {
-    setInitialUserData(users[0]);
-    setUpdatedUserData(users[0]);
-    setProfileImageURL(users[0].profileImage ?? null);
+    setInitialUserData(users[1]);
+    setUpdatedUserData(users[1]);
+    setProfileImageURL(users[1].profileImage ?? null);
   }, []);
 
   const handleSubmit = () => {
@@ -69,7 +69,7 @@ const MyInfo = () => {
             <ProfileImageUpload
               profileImage={profileImage}
               setProfileImage={setProfileImage}
-              defaultImage="../../../public/image/default_profile_image.webp"
+              defaultImage="/image/default_profile_image.webp"
               profileURL={profileImageURL}
               onProfileImageChange={handleProfileImageChange}
             />
@@ -77,9 +77,7 @@ const MyInfo = () => {
         ) : (
           <img
             src={
-              initialUserData.profileImage
-                ? initialUserData.profileImage
-                : '/image/upload_profile_image.webp'
+              initialUserData.profileImage || '/image/upload_profile_image.webp'
             }
             alt="user profile image"
             className={`w-[150px] h-[150px] object-cover rounded-full mb-[30px] ${
@@ -104,7 +102,7 @@ const MyInfo = () => {
                 type="submit"
                 onClick={handleSubmit}
                 className="btn btn-primary disabled:border-none"
-                disabled={!!isValidUserForm}
+                disabled={!!isFormInvalid}
               >
                 저장
               </button>
