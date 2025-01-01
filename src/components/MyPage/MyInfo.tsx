@@ -77,9 +77,7 @@ const MyInfo = () => {
         ) : (
           <img
             src={
-              initialUserData.profileImage
-                ? initialUserData.profileImage
-                : '/image/upload_profile_image.webp'
+              initialUserData.profileImage || '/image/upload_profile_image.webp'
             }
             alt="user profile image"
             className={`w-[150px] h-[150px] object-cover rounded-full mb-[30px] ${
