@@ -5,7 +5,7 @@ import JoinPage from '../pages/JoinPage';
 import ResetPasswordPage from '../pages/ResetPasswordPage';
 import CreatePostPage from '../pages/CreatePostPage';
 import CreateProfilePage from '../pages/CreateProfilePage';
-import MyPage from '../pages/Mypage';
+import MyPage from '../pages/MyPage';
 import MyInfo from '../components/MyPage/MyInfo';
 
 const Router = () => {
