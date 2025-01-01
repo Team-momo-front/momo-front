@@ -25,13 +25,15 @@ const MyInfo = () => {
     initialUserData.profileImage ?? null
   );
 
+
   const isInvalidUserForm = useRecoilValue(isFormInvalidFormState);
+
 
   // TODO: 서버에서 유저 데이터 받아서 초기값 셋팅
   useEffect(() => {
-    setInitialUserData(users[0]);
-    setUpdatedUserData(users[0]);
-    setProfileImageURL(users[0].profileImage ?? null);
+    setInitialUserData(users[1]);
+    setUpdatedUserData(users[1]);
+    setProfileImageURL(users[1].profileImage ?? null);
   }, []);
 
   const handleSubmit = () => {

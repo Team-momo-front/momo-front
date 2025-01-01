@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import kakaoIcon from '../../assets/svg/kakaoIcon.svg';
+import { RiKakaoTalkFill } from 'react-icons/ri';
 import Input from '../Input';
 
 const LoginForm = () => {
@@ -32,11 +32,7 @@ const LoginForm = () => {
           type="button"
           className="relative btn btn-block font-bold text-[16px] btn-social"
         >
-          <img
-            src={kakaoIcon}
-            alt="카카오로 시작하기"
-            className="absolute top-[14px] left-4 w-5"
-          />
+          <RiKakaoTalkFill className="absolute top-[14px] left-4 w-5 scale-150" />
           카카오로 시작하기
         </button>
 

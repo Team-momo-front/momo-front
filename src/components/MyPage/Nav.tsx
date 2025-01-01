@@ -1,5 +1,12 @@
 import { NavLink } from 'react-router-dom';
 
+const navItems = [
+  { path: 'my-info', label: '내 정보' },
+  { path: '/', label: '내 모임 관리' },
+  { path: 'change-password', label: '비밀번호 변경' },
+  { path: 'account-deletion', label: '회원 탈퇴' },
+];
+
 const Nav = () => {
   return (
     <div className="mx-4 border-b">
@@ -8,53 +15,24 @@ const Nav = () => {
           마이페이지
         </span>
         <ul className="flex gap-6 mb-4">
-          <li className="font-bold text-[16px] hover:text-primary">
-            <NavLink
-              to="/mypage/my-info"
-              className={({ isActive }) =>
-                isActive ? 'text-primary' : 'text-gray-500 focus:text-primary'
-              }
-            >
-              내 정보
-            </NavLink>
-          </li>
-          {/* TODO: 각각 라우터 생성하고 경로 설정 */}
-          <li className="font-bold text-[16px] hover:text-primary">
-            <NavLink
-              to="/"
-              className={({ isActive }) =>
-                isActive ? 'text-primary' : 'text-gray-500 focus:text-primary'
-              }
-            >
-              내 모임 관리
-            </NavLink>
-          </li>
-          <li className="font-bold text-[16px] hover:text-primary">
-            <NavLink
-              to="/"
-              className={({ isActive }) =>
-                isActive ? 'text-primary' : 'text-gray-500 focus:text-primary'
-              }
-            >
-              비밀번호 변경
-            </NavLink>
-          </li>
-          <li className="font-bold text-[16px] hover:text-primary">
-            <NavLink
-              to="/"
-              className={({ isActive }) =>
-                isActive ? 'text-primary' : 'text-gray-500 focus:text-primary'
-              }
-            >
-              회원 탈퇴
-            </NavLink>
-          </li>
+          {navItems.map(({ path, label }, index) => (
+            <li key={index} className="font-bold text-[16px]">
+              <NavLink
+                to={path}
+                className={({ isActive }) =>
+                  isActive
+                    ? 'text-primary'
+                    : 'text-gray-500 focus:text-primary hover:text-primary'
+                }
+              >
+                {label}
+              </NavLink>
+            </li>
+          ))}
         </ul>
       </div>
     </div>
   );
 };
-
-// header와 76px 떨어져있음
 
 export default Nav;
