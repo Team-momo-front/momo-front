@@ -9,5 +9,3 @@ export interface User {
   mbti?: string;
   introduction?: string;
 }
-
-// TODO: CreateProfile에서 birthdaty -> birth로 수정

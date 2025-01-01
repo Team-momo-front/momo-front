@@ -22,8 +22,9 @@ const UserInfo: React.FC<UserInfoProps> = ({ isModified, isCanceled }) => {
   const [updatedUserData, setUpdatedUserData] =
     useRecoilState(updatedUserDataState);
 
-  const setIsInvalidUserForm = useSetRecoilState(isFormInvalidFormState);
 
+  const setIsInvalidUserForm = useSetRecoilState(isFormInvalidFormState);
+  
   const handleChange = (field: keyof User, value: string) => {
     setUpdatedUserData(prev => ({
       ...prev,
@@ -118,6 +119,7 @@ const UserInfo: React.FC<UserInfoProps> = ({ isModified, isCanceled }) => {
               }
               onChange={e => handleChange('introduction', e.target.value)}
               disabled={!isModified}
+              maxLength={150}
             ></textarea>
           </label>
         </div>
