@@ -69,7 +69,7 @@ const MyInfo = () => {
             <ProfileImageUpload
               profileImage={profileImage}
               setProfileImage={setProfileImage}
-              defaultImage="../../../public/image/default_profile_image.webp"
+              defaultImage="/image/default_profile_image.webp"
               profileURL={profileImageURL}
               onProfileImageChange={handleProfileImageChange}
             />
