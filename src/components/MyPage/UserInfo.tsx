@@ -114,7 +114,7 @@ const UserInfo: React.FC<UserInfoProps> = ({ isModified, isCanceled }) => {
               className={
                 isModified
                   ? 'textarea textarea-bordered w-full h-24 py-4 placeholder-gray-500 font-bold text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary resize-none'
-                  : 'textarea-custom-disabled textarea-bordered h-24 py-4 resize-none font-bold placeholder:font-bold'
+                  : 'textarea-custom-modified textarea-bordered h-24 py-4 resize-none font-bold placeholder:font-bold'
               }
               onChange={e => handleChange('introduction', e.target.value)}
               disabled={!isModified}

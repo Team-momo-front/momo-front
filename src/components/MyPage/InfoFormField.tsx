@@ -48,7 +48,7 @@ const InfoFormField: React.FC<InfoFormFieldProps> = ({
                   error &&
                   'ring-error ring-1 border-error focus:ring-error focus:ring-1 focus:border-error'
                 }`
-              : 'input-custom-disabled font-bold text-sm p-4'
+              : 'input-custom-modified font-bold text-sm p-4'
           }
           maxLength={maxLength}
         />

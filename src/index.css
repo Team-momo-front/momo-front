@@ -41,7 +41,7 @@ a:focus {
   outline: none;
 }
 
-.input-custom-disabled {
+.input-custom-modified {
   flex-shrink: 1;
   appearance: none;
   height: 3rem;
@@ -58,10 +58,10 @@ a:focus {
   background-color: #ffffff;
 }
 
-.input-custom-disabled:has(> input[disabled]),
-.input-custom-disabled-disabled,
-.input-custom-disabled:disabled,
-.input-custom-disabled[disabled] {
+.input-custom-modified:has(> input[disabled]),
+.input-custom-modified-disabled,
+.input-custom-modified:disabled,
+.input-custom-modified[disabled] {
   cursor: default;
   --tw-border-opacity: 1;
   border-color: var(--fallback-bc, oklch(var(--bc) / 0.2));
@@ -69,15 +69,16 @@ a:focus {
   background-color: ##ffffff;
   color: #000000;
 }
-.input-custom-disabled:has(> input[disabled])::placeholder,
-.input-custom-disabled-disabled::placeholder,
-.input-custom-disabled:disabled::placeholder,
-.input-custom-disabled[disabled]::placeholder {
+
+.input-custom-modified:has(> input[disabled])::placeholder,
+.input-custom-modified-disabled::placeholder,
+.input-custom-modified:disabled::placeholder,
+.input-custom-modified[disabled]::placeholder {
   color: #000000;
   font-size: 0.875rem;
 }
 
-.textarea-custom-disabled {
+.textarea-custom-modified {
   min-height: 3rem /* 48px */;
   flex-shrink: 1;
   padding-left: 1rem /* 16px */;
@@ -93,9 +94,9 @@ a:focus {
   background-color: var(--fallback-b1, oklch(var(--b1) / var(--tw-bg-opacity)));
 }
 
-.textarea-custom-disabled-disabled,
-.textarea-custom-disabled:disabled,
-.textarea-custom-disabled[disabled] {
+.textarea-custom-modified-disabled,
+.textarea-custom-modified:disabled,
+.textarea-custom-modified[disabled] {
   cursor: default;
   --tw-border-opacity: 1;
   border-color: var(--fallback-bc, oklch(var(--bc) / 0.2));
@@ -104,9 +105,9 @@ a:focus {
   color: #000000;
 }
 
-.textarea-custom-disabled-disabled::placeholder,
-.textarea-custom-disabled:disabled::placeholder,
-.textarea-custom-disabled[disabled]::placeholder {
+.textarea-custom-modified-disabled::placeholder,
+.textarea-custom-modified:disabled::placeholder,
+.textarea-custom-modified[disabled]::placeholder {
   color: #000000;
   font-size: 0.875rem;
 }
