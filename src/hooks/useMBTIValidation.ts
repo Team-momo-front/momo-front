@@ -40,7 +40,7 @@ const useMBTIValidation = () => {
     }
   };
 
-  return { mbtiError, validateMBTI };
+  return { mbtiError, setMbtiError, validateMBTI };
 };
 
 export { useMBTIValidation };

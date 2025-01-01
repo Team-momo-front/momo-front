@@ -136,7 +136,6 @@ const JoinForm = () => {
           onSubmit={handleJoinSubmit}
         >
           <JoinField
-            id="email"
             name="email"
             label="이메일"
             type="email"
@@ -157,7 +156,6 @@ const JoinForm = () => {
             required
           />
           <JoinField
-            id="emailConfirmCode"
             name="emailConfirmCode"
             label="인증 코드"
             type="text"
@@ -173,7 +171,6 @@ const JoinForm = () => {
             emailConfirmCodeStatus={emailConfirmCodeStatus}
           />
           <JoinField
-            id="password"
             name="password"
             label="비밀번호"
             type="password"
@@ -194,7 +191,6 @@ const JoinForm = () => {
             required
           />
           <JoinField
-            id="passwordConfirm"
             name="passwordConfirm"
             label="비밀번호 확인"
             type="password"
@@ -215,7 +211,6 @@ const JoinForm = () => {
             required
           />
           <JoinField
-            id="nickname"
             name="nickname"
             label="닉네임"
             type="text"
@@ -236,7 +231,6 @@ const JoinForm = () => {
             required
           />
           <JoinField
-            id="phoneNumber"
             name="phoneNumber"
             label="휴대폰 번호"
             type="tel"

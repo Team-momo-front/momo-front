@@ -1,5 +1,3 @@
-import { JoinErrorMessages } from '../../types/JoinErrorMessages.ts';
-
 export const validateEmail = (email: string): string | null => {
   const validEmail =
     /^(?=.{1,254}$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -48,11 +46,11 @@ export const validatePhoneNumber = (phoneNumber: string): string | null => {
   return null;
 };
 
-export const handleValidation = (
+export const handleValidation = <T>(
   name: string,
   value: string,
   validator: (input: string) => string | null,
-  setErrors: React.Dispatch<React.SetStateAction<JoinErrorMessages>>
+  setErrors: React.Dispatch<React.SetStateAction<T>>
 ) => {
   setErrors(prevErrors => ({
     ...prevErrors,
