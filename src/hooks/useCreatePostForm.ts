@@ -66,6 +66,14 @@ const useCreatePostForm = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const updateLocation = (location: string) => {
+    setFormData(prev => ({ ...prev, location }));
+  };
+
+  const updateCategories = (categories: string[]) => {
+    setFormData(prev => ({ ...prev, categories }));
+  };
+
   return {
     formData,
     setFormData,
@@ -73,6 +81,8 @@ const useCreatePostForm = () => {
     handleSubmit,
     handleFileChange,
     handleInputChange,
+    updateLocation,
+    updateCategories,
   };
 };
 
