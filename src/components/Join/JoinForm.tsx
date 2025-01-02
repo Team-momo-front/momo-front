@@ -9,7 +9,7 @@ import {
   validatePhoneNumber,
   handleValidation,
 } from './validation';
-import { JoinErrorMessages } from '../../types/JoinErrorMessages.ts';
+import { JoinErrorMessages } from '../../types/Errors.ts';
 import { formatPhoneNumber } from '../../utils/formatPhoneNumber.ts';
 
 type Form = {

@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 
 const navItems = [
   { path: 'my-info', label: '내 정보' },
-  { path: '/', label: '내 모임 관리' },
+  { path: 'my-meetings', label: '내 모임 관리' },
   { path: 'change-password', label: '비밀번호 변경' },
   { path: 'account-deletion', label: '회원 탈퇴' },
 ];

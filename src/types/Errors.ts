@@ -6,3 +6,8 @@ export type JoinErrorMessages = {
   nicknameError: string | null;
   phoneNumberError: string | null;
 };
+
+export type passwordErrorMessages = Pick<
+  JoinErrorMessages,
+  'passwordError' | 'passwordConfirmError'
+>;

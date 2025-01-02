@@ -25,9 +25,7 @@ const MyInfo = () => {
     initialUserData.profileImage ?? null
   );
 
-
   const isInvalidUserForm = useRecoilValue(isFormInvalidFormState);
-
 
   // TODO: 서버에서 유저 데이터 받아서 초기값 셋팅
   useEffect(() => {
@@ -65,7 +63,7 @@ const MyInfo = () => {
 
   return (
     <div className="w-full">
-      <div className="w-[680px] m-auto flex flex-col items-center mt-[50px]">
+      <div className="w-[680px] m-auto flex flex-col items-center mt-[30px]">
         {isModified ? (
           <div className="mb-[30px]">
             <ProfileImageUpload
