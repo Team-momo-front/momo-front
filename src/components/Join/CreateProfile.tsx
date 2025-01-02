@@ -60,7 +60,7 @@ const CreateProfile = () => {
   };
 
   return (
-    <div className="w-full h-screen flex justify-center items-center">
+    <div className="w-full h-screen flex justify-center mt-8">
       <form
         className="w-[320px] flex flex-col gap-4"
         onSubmit={handleProfileSubmit}
