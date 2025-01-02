@@ -23,7 +23,7 @@ const PostCard: React.FC<PostCardProps> = ({
   const handleAdminBtnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     //+
     e.stopPropagation();
-    navigate(`/post/admin/${post.id}`);
+    navigate(`/post/view-applicant/${post.id}`);
   };
 
   const hasThumbnail = post.thumbnail !== undefined;
@@ -92,13 +92,22 @@ const PostCard: React.FC<PostCardProps> = ({
         </p>
       </div>
       {isHosted && (
-        <div className={`absolute bottom-0 right-0 px-4 py-6`}>
+        <div
+          className={`absolute bottom-0 right-0 px-4 py-6 w-full flex justify-between gap-4`}
+        >
           <button
             type="button"
             onClick={e => handleAdminBtnClick(e)}
-            className="btn btn-second btn-sm font-bold z-100"
+            className="btn btn-second btn-sm font-bold z-100 flex-1"
           >
-            관리
+            모집글 보기
+          </button>
+          <button
+            type="button"
+            onClick={e => handleAdminBtnClick(e)}
+            className="btn btn-second btn-sm font-bold z-100 flex-1"
+          >
+            신청자 보기
           </button>
         </div>
       )}
