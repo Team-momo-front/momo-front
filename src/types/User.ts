@@ -8,4 +8,6 @@ export interface User {
   birth: string;
   mbti?: string;
   introduction?: string;
+  userId: string;
+  status?: string;
 }

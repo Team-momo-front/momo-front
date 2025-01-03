@@ -23,7 +23,7 @@ const PostCardBtn: React.FC<PostCardBtnProps> = ({
 
   const handleAdminBtnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    navigate(`/post/view-applicant/${post.id}`);
+    navigate(`/view-applicant/${post.id}`);
   };
 
   const handleDeleteBtnClick = (e: React.MouseEvent<HTMLButtonElement>) => {

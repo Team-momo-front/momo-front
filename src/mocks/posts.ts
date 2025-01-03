@@ -86,7 +86,7 @@ export const posts: Post[] = [
     categories: ['디저트', '커피'],
     content: '강동구의 조용한 카페에서 디저트 모임!',
     hostedUserId: 'user_113',
-    participatedUserId: ['user_512'],
+    participatedUserId: ['user_512', 'user_513', 'user_514'],
     status: '모집 완료',
     participationStatus: '모집 취소',
   },

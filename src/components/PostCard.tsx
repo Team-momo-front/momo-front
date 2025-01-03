@@ -10,12 +10,14 @@ interface PostCardProps {
   post: Post;
   isHosted?: boolean;
   isParticipated?: boolean;
+  className?: string;
 }
 
 const PostCard: React.FC<PostCardProps> = ({
   post,
   isHosted,
   isParticipated,
+  className,
 }) => {
   const navigate = useNavigate();
 
@@ -44,7 +46,7 @@ const PostCard: React.FC<PostCardProps> = ({
       transform transition-all duration-300 ease-in-out 
       hover:translate-y-[4px] hover:shadow-lg cursor-pointer space-y-2 bg-white ${
         isHosted || isParticipated ? 'pb-[70px] min-h-[420px]' : 'min-h-[370px]'
-      }
+      } ${className}
       }`}
       onClick={handleClick}
     >
