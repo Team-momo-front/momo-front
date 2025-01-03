@@ -110,6 +110,7 @@ const PostCard: React.FC<PostCardProps> = ({
         post={post}
         isHosted={isHosted}
         isParticipated={isParticipated}
+        status={status}
       />
     </div>
   );
