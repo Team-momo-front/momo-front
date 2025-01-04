@@ -48,15 +48,17 @@ const PostCard: React.FC<PostCardProps> = ({
       }`}
       onClick={handleClick}
     >
-      {hasThumbnail && (
-        <img
-          src="/image/placeholder_thumbnail.webp"
-          alt={post.title}
-          className="w-full h-1/2 rounded-lg object-cover"
-        />
-      )}
-      <div className="space-y-1">
-        <div className="flex items-center justify-between gap-1">
+      <img
+        src={
+          hasThumbnail
+            ? 'image/thumbnail_example.webp' // TODO : post.thumbnail
+            : 'image/thumbnail_default.webp'
+        }
+        alt={post.title}
+        className="w-full h-1/2 rounded-lg object-cover"
+      />
+      <div className="px-2 space-y-1">
+       <div className="flex items-center justify-between gap-1">
           <h2 className="text-lg font-extrabold truncate">{post.title}</h2>
           {isHosted && (
             <div className="flex gap-1 items-center shrink-0">
@@ -98,13 +100,7 @@ const PostCard: React.FC<PostCardProps> = ({
             </span>
           ))}
         </div>
-        <p
-          className={`text-sm ${
-            hasThumbnail ? 'line-clamp-2' : 'line-clamp-4'
-          }`}
-        >
-          {post.content}
-        </p>
+        <p className="text-sm line-clamp-2">{post.content}</p>
       </div>
       <PostCardBtn
         post={post}
