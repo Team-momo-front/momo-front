@@ -1,17 +1,16 @@
 import { FaCalendar, FaMapMarkerAlt } from 'react-icons/fa';
 import { FaPerson } from 'react-icons/fa6';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { Post } from '../types/Post';
 import { formatDate } from '../utils/formatDate';
 import { getStatusAndColorByRole } from '../utils/getStatusAndColorByRole';
-import PostCardBtn from './PostCardBtn';
 import PostCardBtn from './PostCardBtn';
 
 interface PostCardProps {
   post: Post;
   isHosted?: boolean;
   isParticipated?: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 const PostCard: React.FC<PostCardProps> = ({
@@ -20,6 +19,9 @@ const PostCard: React.FC<PostCardProps> = ({
   isParticipated,
   onClick,
 }) => {
+  const location = useLocation();
+  const isViewApplicantPage = location.pathname.includes('/view-applicant');
+
   const hasThumbnail = post.thumbnail !== undefined;
 
   let status, color;
@@ -45,8 +47,8 @@ const PostCard: React.FC<PostCardProps> = ({
       <img
         src={
           hasThumbnail
-            ? 'image/thumbnail_example.webp' // TODO : post.thumbnail
-            : 'image/thumbnail_default.webp'
+            ? '/image/thumbnail_example.webp' // TODO : post.thumbnail
+            : '/image/thumbnail_default.webp'
         }
         alt={post.title}
         className="w-full h-1/2 rounded-lg object-cover"
