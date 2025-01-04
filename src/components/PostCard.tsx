@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Post } from '../types/Post';
 import { formatDate } from '../utils/formatDate';
 import { getStatusAndColorByRole } from '../utils/getStatusAndColorByRole';
-import PostCardBtn from './postCardBtn';
+import PostCardBtn from './PostCardBtn';
 
 interface PostCardProps {
   post: Post;
