@@ -98,14 +98,14 @@ const PostCard: React.FC<PostCardProps> = ({
           <button
             type="button"
             onClick={e => handleAdminBtnClick(e)}
-            className="btn btn-second btn-sm font-bold z-100 flex-1"
+            className="btn btn-second btn-sm font-bold flex-1"
           >
             모집글 보기
           </button>
           <button
             type="button"
             onClick={e => handleAdminBtnClick(e)}
-            className="btn btn-second btn-sm font-bold z-100 flex-1"
+            className="btn btn-second btn-sm font-bold flex-1"
           >
             신청자 보기
           </button>
