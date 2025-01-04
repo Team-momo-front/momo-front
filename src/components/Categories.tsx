@@ -4,21 +4,30 @@ const Categories = ({
   selectedCategories,
   toggleCategory,
   size = 'sm',
+  readOnly = false,
 }: {
   selectedCategories: string[];
-  toggleCategory: (category: string) => void;
+  toggleCategory?: (category: string) => void;
   size?: string;
+  readOnly?: boolean;
 }) => {
+  const filteredCategories = readOnly ? selectedCategories : CategoryList;
+
   return (
     <div className="flex flex-row gap-x-2">
-      {CategoryList.map(category => (
+      {filteredCategories.map(category => (
         <button
           key={category}
           type="button"
           className={`rounded-full btn btn-${size} ${
             selectedCategories.includes(category) && 'btn-primary'
           }`}
-          onClick={() => toggleCategory(category)}
+          onClick={
+            !readOnly && toggleCategory
+              ? () => toggleCategory(category)
+              : undefined
+          }
+          disabled={readOnly}
         >
           {category}
         </button>
