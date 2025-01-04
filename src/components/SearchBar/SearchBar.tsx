@@ -26,18 +26,17 @@ const SearchBar = ({
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         position => {
-          const userLat = position.coords.latitude;
-          const userLng = position.coords.longitude;
+          const { latitude, longitude } = position.coords;
           const sortedPosts = [...posts].sort((a, b) => {
             const distanceA = calculateDistance(
-              userLat,
-              userLng,
+              latitude,
+              longitude,
               parseFloat(a.y),
               parseFloat(a.x)
             );
             const distanceB = calculateDistance(
-              userLat,
-              userLng,
+              latitude,
+              longitude,
               parseFloat(b.y),
               parseFloat(b.x)
             );
