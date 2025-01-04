@@ -17,17 +17,17 @@ const PostCardBtn: React.FC<PostCardBtnProps> = ({
   const navigate = useNavigate();
 
   const handleGoToPostBtnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
+    // e.stopPropagation();
     navigate(`/post/${post.id}`);
   };
 
   const handleAdminBtnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
+    // e.stopPropagation();
     navigate(`/view-applicant/${post.id}`);
   };
 
   const handleDeleteBtnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
+    // e.stopPropagation();
     // TODO: API 참가한 모임 목록에서 DELETE 요청
   };
 
