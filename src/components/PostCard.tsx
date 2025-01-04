@@ -1,6 +1,6 @@
 import { FaCalendar, FaMapMarkerAlt } from 'react-icons/fa';
 import { FaPerson } from 'react-icons/fa6';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Post } from '../types/Post';
 import { formatDate } from '../utils/formatDate';
 import { getStatusAndColorByRole } from '../utils/getStatusAndColorByRole';
@@ -10,16 +10,17 @@ interface PostCardProps {
   post: Post;
   isHosted?: boolean;
   isParticipated?: boolean;
-  className?: string;
 }
 
 const PostCard: React.FC<PostCardProps> = ({
   post,
   isHosted,
   isParticipated,
-  className,
 }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const isViewApplicantPage = location.pathname.includes('/view-applicant');
 
   const handleClick = () => {
     if (!isHosted && !isParticipated) {
@@ -46,7 +47,6 @@ const PostCard: React.FC<PostCardProps> = ({
       transform transition-all duration-300 ease-in-out 
       hover:translate-y-[4px] hover:shadow-lg cursor-pointer space-y-2 bg-white ${
         isHosted || isParticipated ? 'pb-[70px] min-h-[420px]' : 'min-h-[370px]'
-      } ${className}
       }`}
       onClick={handleClick}
     >
@@ -108,12 +108,15 @@ const PostCard: React.FC<PostCardProps> = ({
           {post.content}
         </p>
       </div>
-      <PostCardBtn
-        post={post}
-        isHosted={isHosted}
-        isParticipated={isParticipated}
-        status={status}
-      />
+
+      {!isViewApplicantPage && (
+        <PostCardBtn
+          post={post}
+          isHosted={isHosted}
+          isParticipated={isParticipated}
+          status={status}
+        />
+      )}
     </div>
   );
 };

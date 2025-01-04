@@ -4,7 +4,13 @@ import { User } from '../../types/User';
 import { users } from '../../mocks/users';
 import { useNavigate } from 'react-router-dom';
 
-const ParticipantList = ({ post }: { post: Post }) => {
+const ParticipantList = ({
+  post,
+  isFinished,
+}: {
+  post: Post;
+  isFinished: boolean;
+}) => {
   const [participants, setParticipants] = useState(users);
 
   useEffect(() => {
@@ -31,34 +37,39 @@ const ParticipantList = ({ post }: { post: Post }) => {
   };
 
   const renderUserList = (users: User[], title: string) => (
-    <div>
+    <div className="mb-4">
       <span className="block text-lg font-extrabold mb-3 cursor-default">
         {title}
       </span>
       <ul className="flex flex-col gap-2">
-        {users.map((participant, index) => (
-          <li
-            key={index}
-            className="py-[10px] px-2 flex items-center gap-2 border-gray-300 border-[1px] rounded-xl cursor-pointer transform transition-all duration-300 ease-in-out hover:translate-y-[-4px]"
-            onClick={() => handleGoToProfile(participant.id)}
-          >
-            <img
-              src={
-                participant.profileImage || '/image/default_profile_image.webp'
-              }
-              alt={participant.nickname}
-              className="w-10 h-10 rounded-full p-[1px] bg-white border-gray-600 border-[1px]"
-            />
-            <span className="font-bold text-sm">{participant.nickname}</span>
-          </li>
-        ))}
+        {users.length > 0 ? (
+          users.map((participant, index) => (
+            <li
+              key={index}
+              className="py-[10px] px-2 flex items-center gap-2 border-gray-300 border-[1px] rounded-xl cursor-pointer transform transition-all duration-300 ease-in-out hover:translate-y-[-4px]"
+              onClick={() => handleGoToProfile(participant.id)}
+            >
+              <img
+                src={
+                  participant.profileImage ||
+                  '/image/default_profile_image.webp'
+                }
+                alt={participant.nickname}
+                className="w-10 h-10 rounded-full p-[1px] bg-white border-gray-600 border-[1px]"
+              />
+              <span className="font-bold text-sm">{participant.nickname}</span>
+            </li>
+          ))
+        ) : (
+          <span className="font-bold text-sm">현재 아무도 없습니다.</span>
+        )}
       </ul>
     </div>
   );
 
   return (
-    <div className="min-w-[340px] md:min-w-96 grid grid-rows-2 gap-3 h-full">
-      {renderUserList(pendingUsers, '참여 신청')}
+    <div className="min-w-[340px] md:min-w-96 flex flex-col gap-3 h-full">
+      {!isFinished && renderUserList(pendingUsers, '참여 신청')}
       {renderUserList(approvedUsers, '참여 확정')}
     </div>
   );
