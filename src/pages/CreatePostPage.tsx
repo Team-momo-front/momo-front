@@ -7,6 +7,10 @@ import KakaoMapModal from '../components/modals/KakaoMapModal';
 import useCreatePostForm from '../hooks/useCreatePostForm';
 import { useToggleCategory } from '../hooks/useToggleCategory';
 import { Place } from '../types/Post';
+import {
+  getLocalDateTime,
+  getOneYearLaterDateTime,
+} from '../utils/getLocalDateTime';
 
 const CreatePostPage = () => {
   const {
@@ -52,6 +56,8 @@ const CreatePostPage = () => {
                 value={formData.title}
                 name="title"
                 onChange={handleInputChange}
+                minLength={1}
+                maxLength={60}
               />
               <FormField
                 label="모임 날짜"
@@ -60,6 +66,8 @@ const CreatePostPage = () => {
                 value={formData.meetingDate}
                 name="meetingDate"
                 onChange={handleInputChange}
+                min={getLocalDateTime()}
+                max={getOneYearLaterDateTime()}
               />
               <FormField
                 label="모임 인원"
@@ -121,6 +129,8 @@ const CreatePostPage = () => {
                   value={formData.content}
                   name="content"
                   onChange={handleInputChange}
+                  minLength={1}
+                  maxLength={600}
                   required
                 />
               </label>

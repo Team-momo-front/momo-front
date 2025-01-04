@@ -8,10 +8,16 @@ import { useToggleCategory } from '../hooks/useToggleCategory';
 import { posts } from '../mocks/posts';
 import { Post } from '../types/Post';
 
+const sortedPosts = [...posts].sort((a, b) => {
+  const dateA = new Date(a.meetingDate).getTime();
+  const dateB = new Date(b.meetingDate).getTime();
+  return dateA - dateB;
+});
+
 const ListPage = () => {
   const [searchFilter, setSearchFilter] = useState<string>('location');
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [filteredPosts, setFilteredPosts] = useState<Post[]>(posts);
+  const [filteredPosts, setFilteredPosts] = useState<Post[]>(sortedPosts);
 
   const { categories: selectedCategories, toggleCategory } =
     useToggleCategory();
@@ -27,7 +33,7 @@ const ListPage = () => {
   };
 
   const handleSearch = () => {
-    const filtered = posts.filter(post => {
+    const filtered = filteredPosts.filter(post => {
       const matchesCategory =
         selectedCategories.length === 0 ||
         selectedCategories.some(category => post.categories.includes(category));
@@ -51,6 +57,8 @@ const ListPage = () => {
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
           onSearch={handleSearch}
+          posts={filteredPosts}
+          setFilteredPosts={setFilteredPosts}
         />
         <div className="mt-[30px] flex justify-between">
           <div className="w-[123px]" />
