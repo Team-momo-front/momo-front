@@ -21,7 +21,11 @@ const PostCard = ({ post }: { post: Post }) => {
       onClick={handleClick}
     >
       <img
-        src={hasThumbnail ? post.thumbnail : 'image/thumbnail_default.webp'}
+        src={
+          hasThumbnail
+            ? 'image/thumbnail_example.webp' // TODO : post.thumbnail
+            : 'image/thumbnail_default.webp'
+        }
         alt={post.title}
         className="w-full h-1/2 rounded-lg object-cover"
       />
