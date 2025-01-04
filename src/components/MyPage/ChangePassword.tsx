@@ -6,11 +6,7 @@ import {
   validatePassword,
   validatePasswordConfirm,
 } from '../Join/validation';
-
-export type passwordErrorMessages = {
-  passwordError: string | null;
-  passwordConfirmError: string | null;
-};
+import { passwordErrorMessages } from '../../types/Errors';
 
 const ChangePassword = () => {
   const [password, setPassword] = useState<string>('');

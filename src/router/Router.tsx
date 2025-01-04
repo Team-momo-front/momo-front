@@ -10,6 +10,7 @@ import ListPage from '../pages/ListPage';
 import LoginPage from '../pages/LoginPage';
 import MyPage from '../pages/MyPage';
 import ResetPasswordPage from '../pages/ResetPasswordPage';
+import MyMeetings from '../components/MyPage/MyMeetings';
 
 const Router = () => {
   return (
@@ -23,6 +24,7 @@ const Router = () => {
       <Route path="/create-profile" element={<CreateProfilePage />} />
       <Route path="/mypage" element={<MyPage />}>
         <Route path="my-info" element={<MyInfo />} />
+        <Route path="my-meetings" element={<MyMeetings />} />
         <Route path="change-password" element={<ChangePassword />} />
         <Route path="account-deletion" element={<AccountDeletion />} />
       </Route>
