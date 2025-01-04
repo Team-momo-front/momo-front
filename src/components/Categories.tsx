@@ -4,18 +4,14 @@ const Categories = ({
   selectedCategories,
   toggleCategory,
   size = 'sm',
-  categories = CategoryList,
   readOnly = false,
 }: {
   selectedCategories: string[];
   toggleCategory?: (category: string) => void;
   size?: string;
-  categories?: string[];
   readOnly?: boolean;
 }) => {
-  const filteredCategories = readOnly
-    ? categories.filter(category => CategoryList.includes(category))
-    : CategoryList;
+  const filteredCategories = readOnly ? selectedCategories : CategoryList;
 
   return (
     <div className="flex flex-row gap-x-2">
