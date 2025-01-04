@@ -8,6 +8,9 @@ export interface Post {
   categories: string[];
   content: string;
   thumbnail?: string;
+  place_name: string;
+  lat: number;
+  lng: number;
   hostedUserId?: string;
   participatedUserId?: string[];
   status: HostStatus;

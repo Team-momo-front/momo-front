@@ -5,29 +5,21 @@ import { Post } from '../types/Post';
 import { formatDate } from '../utils/formatDate';
 import { getStatusAndColorByRole } from '../utils/getStatusAndColorByRole';
 import PostCardBtn from './PostCardBtn';
+import PostCardBtn from './PostCardBtn';
 
 interface PostCardProps {
   post: Post;
   isHosted?: boolean;
   isParticipated?: boolean;
+  onClick: () => void;
 }
 
 const PostCard: React.FC<PostCardProps> = ({
   post,
   isHosted,
   isParticipated,
+  onClick,
 }) => {
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const isViewApplicantPage = location.pathname.includes('/view-applicant');
-
-  const handleClick = () => {
-    if (!isHosted && !isParticipated) {
-      navigate(`/post/${post.id}`);
-    }
-  };
-
   const hasThumbnail = post.thumbnail !== undefined;
 
   let status, color;
@@ -48,16 +40,18 @@ const PostCard: React.FC<PostCardProps> = ({
       hover:translate-y-[4px] hover:shadow-lg cursor-pointer space-y-2 bg-white ${
         isHosted || isParticipated ? 'pb-[70px] min-h-[420px]' : 'min-h-[370px]'
       }`}
-      onClick={handleClick}
+      onClick={onClick}
     >
-      {hasThumbnail && (
-        <img
-          src="/image/placeholder_thumbnail.webp"
-          alt={post.title}
-          className="w-full h-1/2 rounded-lg object-cover"
-        />
-      )}
-      <div className="space-y-1">
+      <img
+        src={
+          hasThumbnail
+            ? 'image/thumbnail_example.webp' // TODO : post.thumbnail
+            : 'image/thumbnail_default.webp'
+        }
+        alt={post.title}
+        className="w-full h-1/2 rounded-lg object-cover"
+      />
+      <div className="px-2 space-y-1">
         <div className="flex items-center justify-between gap-1">
           <h2 className="text-lg font-extrabold truncate">{post.title}</h2>
           {isHosted && (
@@ -100,13 +94,7 @@ const PostCard: React.FC<PostCardProps> = ({
             </span>
           ))}
         </div>
-        <p
-          className={`text-sm ${
-            hasThumbnail ? 'line-clamp-2' : 'line-clamp-4'
-          }`}
-        >
-          {post.content}
-        </p>
+        <p className="text-sm line-clamp-2">{post.content}</p>
       </div>
 
       {!isViewApplicantPage && (

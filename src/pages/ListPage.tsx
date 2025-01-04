@@ -1,16 +1,23 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Categories from '../components/Categories';
 import Header from '../components/Header/Header';
 import PostCard from '../components/PostCard';
 import SearchBar from '../components/SearchBar/SearchBar';
-import { posts } from '../mocks/posts';
-import { useNavigate } from 'react-router-dom';
 import { useToggleCategory } from '../hooks/useToggleCategory';
+import { posts } from '../mocks/posts';
+import { Post } from '../types/Post';
+
+const sortedPosts = [...posts].sort((a, b) => {
+  const dateA = new Date(a.meetingDate).getTime();
+  const dateB = new Date(b.meetingDate).getTime();
+  return dateA - dateB;
+});
 
 const ListPage = () => {
   const [searchFilter, setSearchFilter] = useState<string>('location');
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [filteredPosts, setFilteredPosts] = useState(posts);
+  const [filteredPosts, setFilteredPosts] = useState<Post[]>(sortedPosts);
 
   const { categories: selectedCategories, toggleCategory } =
     useToggleCategory();
@@ -21,8 +28,12 @@ const ListPage = () => {
     navigate('/create');
   };
 
+  const handleNavigateToDetail = (id: string) => {
+    navigate(`/post/${id}`);
+  };
+
   const handleSearch = () => {
-    const filtered = posts.filter(post => {
+    const filtered = filteredPosts.filter(post => {
       const matchesCategory =
         selectedCategories.length === 0 ||
         selectedCategories.some(category => post.categories.includes(category));
@@ -46,6 +57,8 @@ const ListPage = () => {
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
           onSearch={handleSearch}
+          posts={filteredPosts}
+          setFilteredPosts={setFilteredPosts}
         />
         <div className="mt-[30px] flex justify-between">
           <div className="w-[123px]" />
@@ -65,7 +78,10 @@ const ListPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-start mt-[26px]">
           {filteredPosts.map((post, index) => (
             <div key={index} className="w-full">
-              <PostCard post={post} />
+              <PostCard
+                post={post}
+                onClick={() => handleNavigateToDetail(post.id)}
+              />
             </div>
           ))}
         </div>
