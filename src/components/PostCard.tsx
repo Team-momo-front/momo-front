@@ -1,16 +1,9 @@
 import { FaCalendar, FaMapMarkerAlt } from 'react-icons/fa';
 import { FaPerson } from 'react-icons/fa6';
-import { useNavigate } from 'react-router-dom';
 import { Post } from '../types/Post';
 import { formatDate } from '../utils/formatDate';
 
-const PostCard = ({ post }: { post: Post }) => {
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    navigate(`/post/${post.id}`);
-  };
-
+const PostCard = ({ post, onClick }: { post: Post; onClick: () => void }) => {
   const hasThumbnail = post.thumbnail !== undefined;
 
   return (
@@ -18,7 +11,7 @@ const PostCard = ({ post }: { post: Post }) => {
       className="w-full aspect-[300/370] px-4 py-6 border shadow-md 
       transform transition-all duration-300 ease-in-out 
       hover:translate-y-[4px] hover:shadow-lg cursor-pointer space-y-2 bg-white"
-      onClick={handleClick}
+      onClick={onClick}
     >
       {hasThumbnail && (
         <img

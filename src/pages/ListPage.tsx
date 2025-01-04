@@ -1,16 +1,17 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Categories from '../components/Categories';
 import Header from '../components/Header/Header';
 import PostCard from '../components/PostCard';
 import SearchBar from '../components/SearchBar/SearchBar';
-import { posts } from '../mocks/posts';
-import { useNavigate } from 'react-router-dom';
 import { useToggleCategory } from '../hooks/useToggleCategory';
+import { posts } from '../mocks/posts';
+import { Post } from '../types/Post';
 
 const ListPage = () => {
   const [searchFilter, setSearchFilter] = useState<string>('location');
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [filteredPosts, setFilteredPosts] = useState(posts);
+  const [filteredPosts, setFilteredPosts] = useState<Post[]>(posts);
 
   const { categories: selectedCategories, toggleCategory } =
     useToggleCategory();
@@ -19,6 +20,10 @@ const ListPage = () => {
 
   const handleCreatePost = () => {
     navigate('/create');
+  };
+
+  const handleNavigateToDetail = (id: string) => {
+    navigate(`/post/${id}`);
   };
 
   const handleSearch = () => {
@@ -65,7 +70,10 @@ const ListPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-start mt-[26px]">
           {filteredPosts.map((post, index) => (
             <div key={index} className="w-full">
-              <PostCard post={post} />
+              <PostCard
+                post={post}
+                onClick={() => handleNavigateToDetail(post.id)}
+              />
             </div>
           ))}
         </div>
