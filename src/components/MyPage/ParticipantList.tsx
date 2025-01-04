@@ -46,7 +46,7 @@ const ParticipantList = ({
           users.map((participant, index) => (
             <li
               key={index}
-              className="py-[10px] px-2 flex items-center gap-2 border-gray-300 border-[1px] rounded-xl cursor-pointer transform transition-all duration-300 ease-in-out hover:translate-y-[-4px]"
+              className="p-2 flex items-center gap-2 border-gray-300 border-[1px] rounded-xl cursor-pointer transform transition-all duration-300 ease-in-out hover:translate-y-[-4px]"
               onClick={() => handleGoToProfile(participant.id)}
             >
               <img
