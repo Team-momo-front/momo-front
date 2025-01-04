@@ -48,10 +48,10 @@ const Header = () => {
                 className="w-full items-center"
                 onClick={handleNavigateMypage}
               >
-                <a className="hover:font-bold">마이페이지</a>
+                <a className="text-sm hover:font-bold">마이페이지</a>
               </li>
               <li className="w-full items-center" onClick={handleLogout}>
-                <a className="hover:font-bold flex justify-center w-full">
+                <a className="text-sm hover:font-bold flex justify-center w-full">
                   로그아웃
                 </a>
               </li>
