@@ -1,5 +1,6 @@
 import { atom } from 'recoil';
 import { User } from '../types/User';
+import { ActiveState } from '../types/Post';
 
 export const isFormInvalidFormState = atom<boolean>({
   key: 'isValidUserFormState',
@@ -34,4 +35,9 @@ export const updatedUserDataState = atom<User>({
     introduction: '',
     profileImage: '',
   },
+});
+
+export const isActiveState = atom<ActiveState>({
+  key: 'isActiveState',
+  default: 'isHosted',
 });

@@ -3,21 +3,49 @@ import { FaPerson } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 import { Post } from '../types/Post';
 import { formatDate } from '../utils/formatDate';
+import { getStatusAndColorByRole } from '../utils/getStatusAndColorByRole';
+import PostCardBtn from './postCardBtn';
 
-const PostCard = ({ post }: { post: Post }) => {
+interface PostCardProps {
+  post: Post;
+  isHosted?: boolean;
+  isParticipated?: boolean;
+}
+
+const PostCard: React.FC<PostCardProps> = ({
+  post,
+  isHosted,
+  isParticipated,
+}) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/post/${post.id}`);
+    if (!isHosted && !isParticipated) {
+      navigate(`/post/${post.id}`);
+    }
   };
 
   const hasThumbnail = post.thumbnail !== undefined;
 
+  let status, color;
+
+  if (isHosted) {
+    ({ status, color } = getStatusAndColorByRole(post.status, 'isHosted'));
+  } else if (isParticipated) {
+    ({ status, color } = getStatusAndColorByRole(
+      post.participationStatus,
+      'isParticipated'
+    ));
+  }
+
   return (
     <div
-      className="w-full aspect-[300/370] px-4 py-6 border shadow-md 
+      className={`w-full aspect-[300/370] px-4 py-6 border shadow-md 
       transform transition-all duration-300 ease-in-out 
-      hover:translate-y-[4px] hover:shadow-lg cursor-pointer space-y-2 bg-white"
+      hover:translate-y-[4px] hover:shadow-lg cursor-pointer space-y-2 bg-white ${
+        isHosted || isParticipated ? 'pb-[70px] min-h-[420px]' : 'min-h-[370px]'
+      }
+      }`}
       onClick={handleClick}
     >
       <img
@@ -30,7 +58,24 @@ const PostCard = ({ post }: { post: Post }) => {
         className="w-full h-1/2 rounded-lg object-cover"
       />
       <div className="px-2 space-y-1">
-        <h2 className="text-lg font-extrabold truncate">{post.title}</h2>
+       <div className="flex items-center justify-between gap-1">
+          <h2 className="text-lg font-extrabold truncate">{post.title}</h2>
+          {isHosted && (
+            <div className="flex gap-1 items-center shrink-0">
+              <span className={`w-2 h-2 rounded-full ${color}`}></span>
+              <p className="font-bold text-sm">{status}</p>
+            </div>
+          )}
+          {isParticipated && (
+            <div className="flex gap-1 items-center shrink-0">
+              <span
+                className={`w-2 h-2 rounded-full 
+                  ${color}`}
+              ></span>
+              <p className="font-bold text-sm">{status}</p>
+            </div>
+          )}
+        </div>
         <div className="flex justify-between items-center">
           <p className="text-sm flex items-center gap-x-1">
             <FaCalendar className="w-4 h-4" />
@@ -57,6 +102,12 @@ const PostCard = ({ post }: { post: Post }) => {
         </div>
         <p className="text-sm line-clamp-2">{post.content}</p>
       </div>
+      <PostCardBtn
+        post={post}
+        isHosted={isHosted}
+        isParticipated={isParticipated}
+        status={status}
+      />
     </div>
   );
 };
