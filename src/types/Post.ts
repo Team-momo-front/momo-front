@@ -9,7 +9,9 @@ export interface Post {
   content: string;
   thumbnail?: string;
   hostedUserId?: string;
-  status: string;
+  participatedUserId?: string[];
+  status: HostStatus;
+  participationStatus: ParticipantStatus;
 }
 
 export type PlaceDetail = {
@@ -26,3 +28,13 @@ export type Place = Pick<
   PlaceDetail,
   'place_name' | 'address_name' | 'x' | 'y'
 >;
+
+export type HostStatus = '모집 중..' | '모집 완료';
+export type ParticipantStatus =
+  | '승인 대기'
+  | '승인 완료'
+  | '승인 거부'
+  | '모집 완료'
+  | '모집 취소';
+
+export type ActiveState = 'isHosted' | 'isParticipated';

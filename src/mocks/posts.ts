@@ -13,7 +13,9 @@ export const posts: Post[] = [
       '강남의 숨겨진 한식 맛집을 함께 탐방해요! 강남의 숨겨진 한식 맛집을 함께 탐방해요! 강남의 숨겨진 한식 맛집을 함께 탐방해요!',
     thumbnail: 'image/korean_food.webp',
     hostedUserId: 'user_113',
+    participatedUserId: ['user_512'],
     status: '모집 중..',
+    participationStatus: '승인 대기',
   },
   {
     id: '2',
@@ -26,7 +28,9 @@ export const posts: Post[] = [
     content:
       '마포에서 핫한 디저트 카페를 추천합니다. 마포에서 핫한 디저트 카페를 추천합니다. 마포에서 핫한 디저트 카페를 추천합니다.',
     hostedUserId: 'user_456',
+    participatedUserId: ['user_512'],
     status: '모집 완료',
+    participationStatus: '승인 거부',
   },
   {
     id: '3',
@@ -39,7 +43,9 @@ export const posts: Post[] = [
     content: '종로에서 최고의 초밥을 즐기러 갑시다.',
     thumbnail: 'image/sushi.webp',
     hostedUserId: 'user_789',
+    participatedUserId: ['user_512'],
     status: '모집 완료',
+    participationStatus: '승인 대기',
   },
   {
     id: '4',
@@ -51,7 +57,9 @@ export const posts: Post[] = [
     categories: ['중식'],
     content: '동대문에서 중식 신메뉴를 즐기실 분!',
     hostedUserId: 'user_101',
+    participatedUserId: ['user_512'],
     status: '모집 완료',
+    participationStatus: '승인 대기',
   },
   {
     id: '5',
@@ -64,7 +72,9 @@ export const posts: Post[] = [
     content: '서초구에서 고급 스테이크를 함께 먹어요.',
     thumbnail: 'image/steak.webp',
     hostedUserId: 'user_112',
+    participatedUserId: ['user_512'],
     status: '모집 완료',
+    participationStatus: '승인 대기',
   },
   {
     id: '6',
@@ -76,7 +86,9 @@ export const posts: Post[] = [
     categories: ['디저트', '커피'],
     content: '강동구의 조용한 카페에서 디저트 모임!',
     hostedUserId: 'user_113',
+    participatedUserId: ['user_512'],
     status: '모집 완료',
+    participationStatus: '모집 취소',
   },
   {
     id: '7',
@@ -88,7 +100,9 @@ export const posts: Post[] = [
     categories: ['한식'],
     content: '노원구 비빔밥 맛집 투어 함께해요.',
     hostedUserId: 'user_104',
+    participatedUserId: ['user_512'],
     status: '모집 완료',
+    participationStatus: '승인 완료',
   },
   {
     id: '8',
@@ -100,7 +114,9 @@ export const posts: Post[] = [
     categories: ['일식', '라멘'],
     content: '성북구 라멘 맛집에서 모여요.',
     hostedUserId: 'user_105',
+    participatedUserId: ['user_512'],
     status: '모집 완료',
+    participationStatus: '승인 대기',
   },
   {
     id: '9',
@@ -113,7 +129,9 @@ export const posts: Post[] = [
     content: '송파구에서 중화요리와 함께 즐겨요.',
     thumbnail: 'image/chinese_food.webp',
     hostedUserId: 'user_106',
+    participatedUserId: ['user_512', 'user_514'],
     status: '모집 완료',
+    participationStatus: '승인 대기',
   },
   {
     id: '10',
@@ -125,7 +143,9 @@ export const posts: Post[] = [
     categories: ['양식', '피자', '파스타'],
     content: '은평구에서 피자와 파스타를 먹어요.',
     hostedUserId: 'user_107',
+    participatedUserId: ['user_514'],
     status: '모집 완료',
+    participationStatus: '승인 대기',
   },
   {
     id: '11',
@@ -138,7 +158,9 @@ export const posts: Post[] = [
     content: '광진구의 인기 디저트 맛집에 갑시다.',
     thumbnail: 'image/dessert.webp',
     hostedUserId: 'user_108',
+    participatedUserId: ['user_513', 'user_514'],
     status: '모집 중..',
+    participationStatus: '승인 대기',
   },
   {
     id: '12',
@@ -150,7 +172,9 @@ export const posts: Post[] = [
     categories: ['기타'],
     content: '동작구에서 다양한 음식을 탐방합니다.',
     hostedUserId: 'user_109',
+    participatedUserId: ['user_514'],
     status: '모집 완료',
+    participationStatus: '승인 대기',
   },
   {
     id: '13',
@@ -162,7 +186,9 @@ export const posts: Post[] = [
     categories: ['한식', '소주'],
     content: '강서구의 김치찌개 전문점을 찾아갑니다.',
     hostedUserId: 'user_110',
+    participatedUserId: ['user_512'],
     status: '모집 완료',
+    participationStatus: '모집 완료',
   },
   {
     id: '14',
@@ -175,7 +201,9 @@ export const posts: Post[] = [
     content: '중랑구에서 초밥과 사케를 함께해요.',
     thumbnail: 'image/sushi_party.webp',
     hostedUserId: 'user_111',
+    participatedUserId: ['user_513'],
     status: '모집 완료',
+    participationStatus: '승인 거부',
   },
   {
     id: '15',
@@ -187,7 +215,9 @@ export const posts: Post[] = [
     categories: ['중식', '탕수육', '짜장면'],
     content: '금천구의 중식당에서 탕수육을 나눠요.',
     hostedUserId: 'user_112',
+    participatedUserId: ['user_513'],
     status: '모집 완료',
+    participationStatus: '승인 대기',
   },
   {
     id: '16',
@@ -200,6 +230,8 @@ export const posts: Post[] = [
     content: '양천구 프렌치 레스토랑에서 만나요.',
     thumbnail: 'image/french_food.webp',
     hostedUserId: 'user_113',
+    participatedUserId: ['user_512', 'user_513', 'user_514'],
     status: '모집 중..',
+    participationStatus: '모집 취소',
   },
 ];

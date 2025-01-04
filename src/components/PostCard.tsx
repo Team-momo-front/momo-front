@@ -3,37 +3,47 @@ import { FaPerson } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 import { Post } from '../types/Post';
 import { formatDate } from '../utils/formatDate';
+import { getStatusAndColorByRole } from '../utils/getStatusAndColorByRole';
+import PostCardBtn from './postCardBtn';
 
 interface PostCardProps {
   post: Post;
   isHosted?: boolean;
-  // isParticipated?: boolean;
+  isParticipated?: boolean;
 }
+
 const PostCard: React.FC<PostCardProps> = ({
   post,
   isHosted,
-  // isParticipated,
+  isParticipated,
 }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/post/${post.id}`);
-  };
-
-  const handleAdminBtnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    //+
-    e.stopPropagation();
-    navigate(`/post/view-applicant/${post.id}`);
+    if (!isHosted && !isParticipated) {
+      navigate(`/post/${post.id}`);
+    }
   };
 
   const hasThumbnail = post.thumbnail !== undefined;
+
+  let status, color;
+
+  if (isHosted) {
+    ({ status, color } = getStatusAndColorByRole(post.status, 'isHosted'));
+  } else if (isParticipated) {
+    ({ status, color } = getStatusAndColorByRole(
+      post.participationStatus,
+      'isParticipated'
+    ));
+  }
 
   return (
     <div
       className={`w-full aspect-[300/370] px-4 py-6 border shadow-md 
       transform transition-all duration-300 ease-in-out 
       hover:translate-y-[4px] hover:shadow-lg cursor-pointer space-y-2 bg-white ${
-        isHosted ? 'pb-[70px] min-h-[420px]' : 'min-h-[370px]'
+        isHosted || isParticipated ? 'pb-[70px] min-h-[420px]' : 'min-h-[370px]'
       }
       }`}
       onClick={handleClick}
@@ -50,12 +60,17 @@ const PostCard: React.FC<PostCardProps> = ({
           <h2 className="text-lg font-extrabold truncate">{post.title}</h2>
           {isHosted && (
             <div className="flex gap-1 items-center shrink-0">
+              <span className={`w-2 h-2 rounded-full ${color}`}></span>
+              <p className="font-bold text-sm">{status}</p>
+            </div>
+          )}
+          {isParticipated && (
+            <div className="flex gap-1 items-center shrink-0">
               <span
-                className={`w-2 h-2 rounded-full ${
-                  post.status === '모집 완료' ? 'bg-primary' : 'bg-gray-400'
-                }`}
+                className={`w-2 h-2 rounded-full 
+                  ${color}`}
               ></span>
-              <p className="font-bold text-sm">{post.status}</p>
+              <p className="font-bold text-sm">{status}</p>
             </div>
           )}
         </div>
@@ -91,26 +106,12 @@ const PostCard: React.FC<PostCardProps> = ({
           {post.content}
         </p>
       </div>
-      {isHosted && (
-        <div
-          className={`absolute bottom-0 right-0 px-4 py-6 w-full flex justify-between gap-4`}
-        >
-          <button
-            type="button"
-            onClick={e => handleAdminBtnClick(e)}
-            className="btn btn-second btn-sm font-bold flex-1"
-          >
-            모집글 보기
-          </button>
-          <button
-            type="button"
-            onClick={e => handleAdminBtnClick(e)}
-            className="btn btn-second btn-sm font-bold flex-1"
-          >
-            신청자 보기
-          </button>
-        </div>
-      )}
+      <PostCardBtn
+        post={post}
+        isHosted={isHosted}
+        isParticipated={isParticipated}
+        status={status}
+      />
     </div>
   );
 };
