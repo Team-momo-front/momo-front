@@ -42,7 +42,7 @@ const Header = () => {
             />
             <ul
               tabIndex={0}
-              className="dropdown-content menu bg-base-100 rounded-box z-[1] w-[116px] p-2 shadow"
+              className="dropdown-content menu bg-base-100 rounded-box z-[1] w-[120px] p-2 shadow"
             >
               <li
                 className="w-full items-center"
