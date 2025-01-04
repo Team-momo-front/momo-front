@@ -7,7 +7,9 @@ import { posts } from '../mocks/posts';
 const PostDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   if (id === undefined) return;
-  const post = posts.filter(post => post.id === id)[0];
+  const post = posts.find(post => post.id === id);
+
+  if (post === undefined) return;
 
   return (
     <>
