@@ -20,13 +20,11 @@ const PostCard = ({ post }: { post: Post }) => {
       hover:translate-y-[4px] hover:shadow-lg cursor-pointer space-y-2 bg-white"
       onClick={handleClick}
     >
-      {hasThumbnail && (
-        <img
-          src="image/placeholder_thumbnail.webp"
-          alt={post.title}
-          className="w-full h-1/2 rounded-lg object-cover"
-        />
-      )}
+      <img
+        src={hasThumbnail ? post.thumbnail : 'image/thumbnail_default.webp'}
+        alt={post.title}
+        className="w-full h-1/2 rounded-lg object-cover"
+      />
       <div className="px-2 space-y-1">
         <h2 className="text-lg font-extrabold truncate">{post.title}</h2>
         <div className="flex justify-between items-center">
@@ -53,13 +51,7 @@ const PostCard = ({ post }: { post: Post }) => {
             </span>
           ))}
         </div>
-        <p
-          className={`text-sm ${
-            hasThumbnail ? 'line-clamp-2' : 'line-clamp-4'
-          }`}
-        >
-          {post.content}
-        </p>
+        <p className="text-sm line-clamp-2">{post.content}</p>
       </div>
     </div>
   );
