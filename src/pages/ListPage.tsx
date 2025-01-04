@@ -28,6 +28,10 @@ const ListPage = () => {
     navigate('/create');
   };
 
+  const handleNavigateToDetail = (id: string) => {
+    navigate(`/post/${id}`);
+  };
+
   const handleSearch = () => {
     const filtered = filteredPosts.filter(post => {
       const matchesCategory =
@@ -74,7 +78,10 @@ const ListPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-start mt-[26px]">
           {filteredPosts.map((post, index) => (
             <div key={index} className="w-full">
-              <PostCard post={post} />
+              <PostCard
+                post={post}
+                onClick={() => handleNavigateToDetail(post.id)}
+              />
             </div>
           ))}
         </div>

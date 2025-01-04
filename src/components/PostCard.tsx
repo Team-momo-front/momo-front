@@ -1,30 +1,23 @@
 import { FaCalendar, FaMapMarkerAlt } from 'react-icons/fa';
 import { FaPerson } from 'react-icons/fa6';
-import { useNavigate } from 'react-router-dom';
 import { Post } from '../types/Post';
 import { formatDate } from '../utils/formatDate';
 import { getStatusAndColorByRole } from '../utils/getStatusAndColorByRole';
-import PostCardBtn from './postCardBtn';
+import PostCardBtn from './PostCardBtn';
 
 interface PostCardProps {
   post: Post;
   isHosted?: boolean;
   isParticipated?: boolean;
+  onClick: () => void;
 }
 
 const PostCard: React.FC<PostCardProps> = ({
   post,
   isHosted,
   isParticipated,
+  onClick,
 }) => {
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    if (!isHosted && !isParticipated) {
-      navigate(`/post/${post.id}`);
-    }
-  };
-
   const hasThumbnail = post.thumbnail !== undefined;
 
   let status, color;
@@ -46,7 +39,7 @@ const PostCard: React.FC<PostCardProps> = ({
         isHosted || isParticipated ? 'pb-[70px] min-h-[420px]' : 'min-h-[370px]'
       }
       }`}
-      onClick={handleClick}
+      onClick={onClick}
     >
       <img
         src={
@@ -58,7 +51,7 @@ const PostCard: React.FC<PostCardProps> = ({
         className="w-full h-1/2 rounded-lg object-cover"
       />
       <div className="px-2 space-y-1">
-       <div className="flex items-center justify-between gap-1">
+        <div className="flex items-center justify-between gap-1">
           <h2 className="text-lg font-extrabold truncate">{post.title}</h2>
           {isHosted && (
             <div className="flex gap-1 items-center shrink-0">

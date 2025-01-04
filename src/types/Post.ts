@@ -9,9 +9,9 @@ export interface Post {
   content: string;
   thumbnail?: string;
   place_name: string;
-  x: string;
-  y: string;
-hostedUserId?: string;
+  lat: number;
+  lng: number;
+  hostedUserId?: string;
   participatedUserId?: string[];
   status: HostStatus;
   participationStatus: ParticipantStatus;
