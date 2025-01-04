@@ -12,9 +12,8 @@ export const getStatusAndColorByRole = (
   if (isActiveState === 'isHosted') {
     if (status === '모집 완료') {
       return { status: '모집 완료', color: 'bg-primary' };
-    } else {
-      return { status: '모집 중..', color: 'bg-gray-400' };
     }
+    return { status: '모집 중..', color: 'bg-gray-400' };
   }
 
   if (isActiveState === 'isParticipated') {
