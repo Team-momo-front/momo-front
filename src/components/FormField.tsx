@@ -8,6 +8,8 @@ const FormField = ({
   required = true,
   min,
   max,
+  minLength,
+  maxLength,
 }: {
   label: string;
   type: string;
@@ -16,8 +18,10 @@ const FormField = ({
   name?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   required?: boolean;
-  min?: number;
-  max?: number;
+  min?: number | string;
+  max?: number | string;
+  minLength?: number;
+  maxLength?: number;
 }) => (
   <label className="form-control">
     <div className="label">
@@ -32,6 +36,8 @@ const FormField = ({
       required={required}
       min={min}
       max={max}
+      minLength={minLength}
+      maxLength={maxLength}
     />
   </label>
 );
