@@ -21,13 +21,13 @@ const Categories = ({
           type="button"
           className={`rounded-full btn btn-${size} ${
             selectedCategories.includes(category) && 'btn-primary'
-          }`}
+          } ${readOnly && 'pointer-events-none'}`}
           onClick={
             !readOnly && toggleCategory
               ? () => toggleCategory(category)
               : undefined
           }
-          disabled={readOnly}
+          aria-disabled={readOnly}
         >
           {category}
         </button>

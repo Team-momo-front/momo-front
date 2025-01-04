@@ -7,7 +7,7 @@ import { posts } from '../mocks/posts';
 const PostDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   if (id === undefined) return;
-  const post = posts.filter(post => (post.id = id))[0];
+  const post = posts.filter(post => post.id === id)[0];
 
   return (
     <>
@@ -17,17 +17,6 @@ const PostDetailPage = () => {
           <h1 className="text-2xl font-bold mb-6 text-center">{post.title}</h1>
           <div className="flex gap-x-8 justify-center">
             <div className="space-y-4">
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text font-bold">제목</span>
-                </label>
-                <input
-                  type="text"
-                  value={post.title}
-                  readOnly
-                  className="input input-bordered"
-                />
-              </div>
               <div className="form-control">
                 <label className="label">
                   <span className="label-text font-bold">모임 날짜</span>
@@ -92,7 +81,10 @@ const PostDetailPage = () => {
             <div className="flex flex-col justify-between">
               <div>
                 <img
-                  src={post.thumbnail || 'image/upload_image.webp'}
+                  src={
+                    '/image/placeholder_thumbnail.webp'
+                    // post.thumbnail || 'image/thumbnail_default.webp'
+                  }
                   alt="Thumbnail"
                   className="w-[280px] h-[178.48px] object-cover rounded-3xl"
                 />
