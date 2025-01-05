@@ -1,20 +1,12 @@
-import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Header from '../components/Header/Header';
 import PostCard from '../components/PostCard';
 import { posts } from '../mocks/posts';
-import { Post } from '../types/Post';
 import ParticipantList from '../components/MyPage/ParticipantList';
 
 const ViewParticipantPage = () => {
-  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
   const { id } = useParams<{ id: string }>();
-
-  useEffect(() => {
-    const nowPost = posts.find(post => post.id === id);
-    setSelectedPost(nowPost || null);
-  }, [id]);
-
+  const selectedPost = posts.find(post => post.id === id) || null;
   const isFinished = selectedPost?.status === '모집 완료';
 
   return (

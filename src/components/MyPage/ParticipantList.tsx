@@ -22,12 +22,16 @@ const ParticipantList = ({
     }
   }, [post.participatedUserId]);
 
-  const pendingUsers = participants.filter(
-    participant => participant.status === 'pending'
-  );
-
-  const approvedUsers = participants.filter(
-    participant => participant.status === 'approved'
+  const { pendingUsers, approvedUsers } = participants.reduce(
+    (acc: { pendingUsers: User[]; approvedUsers: User[] }, participant) => {
+      if (participant.status === 'pending') {
+        acc.pendingUsers.push(participant);
+      } else if (participant.status === 'approved') {
+        acc.approvedUsers.push(participant);
+      }
+      return acc;
+    },
+    { pendingUsers: [], approvedUsers: [] }
   );
 
   const navigate = useNavigate();
