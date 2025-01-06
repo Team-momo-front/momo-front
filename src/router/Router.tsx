@@ -11,6 +11,7 @@ import LoginPage from '../pages/LoginPage';
 import MyPage from '../pages/MyPage';
 import ResetPasswordPage from '../pages/ResetPasswordPage';
 import MyMeetings from '../components/MyPage/MyMeetings';
+import ViewParticipantPage from '../pages/ViewParticipantPage';
 
 const Router = () => {
   return (
@@ -28,6 +29,7 @@ const Router = () => {
         <Route path="change-password" element={<ChangePassword />} />
         <Route path="account-deletion" element={<AccountDeletion />} />
       </Route>
+      <Route path="/view-applicant/:id" element={<ViewParticipantPage />} />
     </Routes>
   );
 };

@@ -1,5 +1,6 @@
 import { FaCalendar, FaMapMarkerAlt } from 'react-icons/fa';
 import { FaPerson } from 'react-icons/fa6';
+import { useLocation } from 'react-router-dom';
 import { Post } from '../types/Post';
 import { formatDate } from '../utils/formatDate';
 import { getStatusAndColorByRole } from '../utils/getStatusAndColorByRole';
@@ -9,7 +10,7 @@ interface PostCardProps {
   post: Post;
   isHosted?: boolean;
   isParticipated?: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 const PostCard: React.FC<PostCardProps> = ({
@@ -18,6 +19,9 @@ const PostCard: React.FC<PostCardProps> = ({
   isParticipated,
   onClick,
 }) => {
+  const location = useLocation();
+  const isViewApplicantPage = location.pathname.includes('/view-applicant');
+
   const hasThumbnail = post.thumbnail !== undefined;
 
   let status, color;
@@ -37,15 +41,14 @@ const PostCard: React.FC<PostCardProps> = ({
       transform transition-all duration-300 ease-in-out 
       hover:translate-y-[4px] hover:shadow-lg cursor-pointer space-y-2 bg-white ${
         isHosted || isParticipated ? 'pb-[70px] min-h-[420px]' : 'min-h-[370px]'
-      }
       }`}
       onClick={onClick}
     >
       <img
         src={
           hasThumbnail
-            ? 'image/thumbnail_example.webp' // TODO : post.thumbnail
-            : 'image/thumbnail_default.webp'
+            ? '/image/thumbnail_example.webp' // TODO : post.thumbnail
+            : '/image/thumbnail_default.webp'
         }
         alt={post.title}
         className="w-full h-1/2 rounded-lg object-cover"
@@ -95,12 +98,15 @@ const PostCard: React.FC<PostCardProps> = ({
         </div>
         <p className="text-sm line-clamp-2">{post.content}</p>
       </div>
-      <PostCardBtn
-        post={post}
-        isHosted={isHosted}
-        isParticipated={isParticipated}
-        status={status}
-      />
+
+      {!isViewApplicantPage && (
+        <PostCardBtn
+          post={post}
+          isHosted={isHosted}
+          isParticipated={isParticipated}
+          status={status}
+        />
+      )}
     </div>
   );
 };

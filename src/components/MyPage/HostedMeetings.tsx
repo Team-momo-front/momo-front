@@ -23,7 +23,7 @@ const HostedMeetings = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 justify-items-start mt-[26px]">
         {filteredPosts.map((post, index) => (
           <div key={index} className="w-full">
-            <PostCard post={post} isHosted={isActive == 'isHosted'} />
+            <PostCard post={post} isHosted={isActive === 'isHosted'} />
           </div>
         ))}
       </div>

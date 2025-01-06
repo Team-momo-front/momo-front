@@ -17,17 +17,14 @@ const PostCardBtn: React.FC<PostCardBtnProps> = ({
   const navigate = useNavigate();
 
   const handleGoToPostBtnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
     navigate(`/post/${post.id}`);
   };
 
   const handleAdminBtnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-    navigate(`/post/view-applicant/${post.id}`);
+    navigate(`/view-applicant/${post.id}`);
   };
 
   const handleDeleteBtnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
     // TODO: API 참가한 모임 목록에서 DELETE 요청
   };
 
@@ -51,7 +48,7 @@ const PostCardBtn: React.FC<PostCardBtnProps> = ({
               모집글 보기
             </button>
           ) : (
-            <div className="flex-1"></div>
+            <div className="flex-1" />
           )}
           <button
             type="button"
@@ -82,7 +79,7 @@ const PostCardBtn: React.FC<PostCardBtnProps> = ({
               삭제
             </button>
           ) : (
-            <div className="flex-1"></div>
+            <div className="flex-1" />
           )}
         </div>
       )}
