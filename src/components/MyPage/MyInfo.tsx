@@ -1,127 +1,163 @@
-import { useState, useCallback, useEffect } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { users } from '../../mocks/users';
-// import { User } from '../../types/User';
-import UserInfo from './UserInfo';
-import ProfileImageUpload from '../ProfileImageUpload';
+import { useState, useEffect } from 'react';
+import { formatPhoneNumber } from '../../utils/formatPhoneNumber';
+import { User } from '../../types/User';
+import { useMBTIValidation } from '../../hooks/useMBTIValidation';
+import { validateNickname, validatePhoneNumber } from '../Join/validation';
+import InfoFormField from './InfoFormField';
+import { convertGenderToLabel } from '../../utils/convertGenderToLabel';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import {
   isFormInvalidFormState,
   initialUserDataState,
   updatedUserDataState,
 } from '../../states/recoilState';
 
-const MyInfo = () => {
-  // TODO: 서버에서 데이터 받아 전역상태관리 필요
-  const [initialUserData, setInitialUserData] =
-    useRecoilState(initialUserDataState);
+interface UserInfoProps {
+  isModified: boolean;
+  isCanceled: boolean;
+}
+
+const UserInfo: React.FC<UserInfoProps> = ({ isModified, isCanceled }) => {
+  const [initialUserData] = useRecoilState(initialUserDataState);
   const [updatedUserData, setUpdatedUserData] =
     useRecoilState(updatedUserDataState);
 
-  const [isModified, setIsModified] = useState(false);
-  const [isCanceled, setIsCanceled] = useState(false);
+  const setIsInvalidUserForm = useSetRecoilState(isFormInvalidFormState);
 
-  const [profileImage, setProfileImage] = useState<File | null>(null);
-  const [profileImageURL, setProfileImageURL] = useState<string | null>(
-    initialUserData.profileImage ?? null
-  );
+  const handleChange = (field: keyof User, value: string) => {
+    setUpdatedUserData(prev => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
 
-  const isInvalidUserForm = useRecoilValue(isFormInvalidFormState);
+  const { mbtiError, setMbtiError, validateMBTI } = useMBTIValidation();
+  const [nicknameError, setNicknameError] = useState<string | null>(null);
+  const [phoneNumberError, setPhoneNumberError] = useState<string | null>(null);
 
-  // TODO: 서버에서 유저 데이터 받아서 초기값 셋팅
   useEffect(() => {
-    setInitialUserData(users[1]);
-    setUpdatedUserData(users[1]);
-    setProfileImageURL(users[1].profileImage ?? null);
-  }, []);
-
-  const handleSubmit = () => {
-    // TODO: 서버로 userData 전송
-    setInitialUserData(updatedUserData);
-    console.log('submit', updatedUserData);
-    setIsModified(false);
-    setIsCanceled(false);
-  };
-
-  const handleCancel = () => {
+    setNicknameError(null);
+    setPhoneNumberError(null);
+    setMbtiError(null);
     setUpdatedUserData(initialUserData);
-    setProfileImageURL(initialUserData.profileImage ?? null);
-    setProfileImage(null);
-    setIsModified(false);
-    setIsCanceled(true);
-  };
+  }, [isCanceled]);
 
-  const handleProfileImageChange = useCallback((newImageURL: string | null) => {
-    setProfileImageURL(newImageURL);
-
-    if (newImageURL) {
-      setUpdatedUserData(prevData => ({
-        ...prevData,
-        profileImage: newImageURL,
-      }));
+  useEffect(() => {
+    if (
+      nicknameError ||
+      phoneNumberError ||
+      (updatedUserData.mbti !== '' && mbtiError)
+    ) {
+      setIsInvalidUserForm(true);
+    } else {
+      setIsInvalidUserForm(false);
     }
-  }, []);
+  }, [nicknameError, mbtiError, phoneNumberError]);
 
   return (
-    <div className="w-full">
-      <div className="w-[680px] m-auto flex flex-col items-center mt-[30px]">
-        {isModified ? (
-          <div className="mb-[30px]">
-            <ProfileImageUpload
-              profileImage={profileImage}
-              setProfileImage={setProfileImage}
-              defaultImage="/image/default_profile_image.webp"
-              profileURL={profileImageURL}
-              onProfileImageChange={handleProfileImageChange}
-            />
-          </div>
-        ) : (
-          <img
-            src={
-              initialUserData.profileImage || '/image/upload_profile_image.webp'
-            }
-            alt="user profile image"
-            className={`w-[150px] h-[150px] object-cover rounded-full mb-[30px] ${
-              initialUserData.profileImage &&
-              'bg-white p-[5px] border-[1px] border-gray-600'
-            }`}
-          />
-        )}
+    <div className="flex justify-between gap-10">
+      <div className="flex flex-col gap-6">
+        <InfoFormField
+          name="nickname"
+          label="닉네임"
+          type="text"
+          disabled={!isModified}
+          required
+          value={updatedUserData.nickname}
+          onChange={e => handleChange('nickname', e.target.value)}
+          onBlur={e => {
+            setNicknameError(validateNickname(e.target.value));
+          }}
+          isModified={isModified}
+          error={nicknameError}
+        />
 
-        <UserInfo isModified={isModified} isCanceled={isCanceled} />
-        <div className="w-full flex justify-end my-10">
-          {isModified ? (
-            <div className="flex gap-4">
-              <button
-                type="button"
-                onClick={handleCancel}
-                className="btn btn-second"
-              >
-                취소
-              </button>
-              <button
-                type="submit"
-                onClick={handleSubmit}
-                className="btn btn-primary disabled:border-none"
-                disabled={!!isInvalidUserForm}
-              >
-                저장
-              </button>
+        <InfoFormField
+          name="email"
+          label="이메일"
+          type="text"
+          placeholder={updatedUserData.email}
+          disabled
+          isModified={isModified}
+        />
+
+        <InfoFormField
+          name="phoneNumber"
+          label="휴대폰 번호"
+          type="tel"
+          placeholder={updatedUserData.phoneNumber}
+          disabled={!isModified}
+          value={updatedUserData.phoneNumber}
+          onChange={e =>
+            handleChange('phoneNumber', formatPhoneNumber(e.target.value))
+          }
+          onBlur={e => {
+            if (!e.target.value) {
+              setPhoneNumberError('휴대폰 번호를 입력해주세요.');
+            } else {
+              setPhoneNumberError(validatePhoneNumber(e.target.value));
+            }
+          }}
+          isModified={isModified}
+          error={phoneNumberError}
+        />
+
+        <div className="w-[320px]">
+          <label className="form-control w-full max-w-xs">
+            <div className="label p-0">
+              <span className="label-text font-bold text-lg mb-2">
+                자기소개
+              </span>
             </div>
-          ) : (
-            <button
-              type="button"
-              onClick={() => {
-                setIsModified(true);
-              }}
-              className="btn btn-primary"
-            >
-              수정하기
-            </button>
-          )}
+            <textarea
+              value={updatedUserData.introduction}
+              className={
+                isModified
+                  ? 'textarea textarea-bordered w-full h-24 py-4 placeholder-gray-500 font-bold text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary resize-none'
+                  : 'textarea-custom-modified textarea-bordered h-24 py-4 resize-none font-bold placeholder:font-bold'
+              }
+              onChange={e => handleChange('introduction', e.target.value)}
+              disabled={!isModified}
+              maxLength={150}
+            ></textarea>
+          </label>
         </div>
+      </div>
+
+      <div className="flex flex-col gap-6">
+        <InfoFormField
+          name="gender"
+          label="성별"
+          type="text"
+          placeholder={convertGenderToLabel(updatedUserData.gender)}
+          disabled
+          isModified={isModified}
+        />
+
+        <InfoFormField
+          name="birth"
+          label="생년 월일"
+          type="text"
+          placeholder={updatedUserData.birth}
+          disabled
+          isModified={isModified}
+        />
+
+        <InfoFormField
+          name="mbti"
+          label="MBTI"
+          type="text"
+          disabled={!isModified}
+          value={updatedUserData.mbti}
+          onChange={e => handleChange('mbti', e.target.value.toUpperCase())}
+          onBlur={e => validateMBTI(e.target.value)}
+          isModified={isModified}
+          maxLength={4}
+          error={mbtiError}
+        />
       </div>
     </div>
   );
 };
 
-export default MyInfo;
+export default UserInfo;

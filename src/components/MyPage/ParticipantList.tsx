@@ -15,6 +15,7 @@ const ParticipantList = ({
 
   useEffect(() => {
     if (post.participatedUserId) {
+      // TODO: User Token으로 서버와 통신해 참가자 목록 받아오기
       const filteredParticipants = users.filter(user =>
         post.participatedUserId?.includes(user.userId)
       );
@@ -36,8 +37,8 @@ const ParticipantList = ({
 
   const navigate = useNavigate();
 
-  const handleGoToProfile = (participantId: number) => {
-    navigate(`/profile/${participantId}`);
+  const handleGoToProfile = (participantId: number, status: string) => {
+    navigate(`/view-applicant/profile/${participantId}?status=${status}`);
   };
 
   const renderUserList = (users: User[], title: string) => (
@@ -51,7 +52,9 @@ const ParticipantList = ({
             <li
               key={index}
               className="p-2 flex items-center gap-2 border-gray-300 border-[1px] rounded-xl cursor-pointer transform transition-all duration-300 ease-in-out hover:translate-y-[-4px]"
-              onClick={() => handleGoToProfile(participant.id)}
+              onClick={() =>
+                handleGoToProfile(participant.id, participant.status)
+              }
             >
               <img
                 src={
