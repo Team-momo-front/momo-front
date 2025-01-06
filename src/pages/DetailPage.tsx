@@ -11,6 +11,9 @@ const PostDetailPage = () => {
 
   if (post === undefined) return;
 
+  const isHost = true;
+  const hasApplied = true;
+
   return (
     <>
       <Header />
@@ -110,7 +113,7 @@ const PostDetailPage = () => {
               </div>
               <div className="flex justify-end mt-auto">
                 <button type="button" className="btn btn-primary">
-                  신청
+                  {isHost ? '수정' : hasApplied ? '신청취소' : '신청'}
                 </button>
               </div>
             </div>
