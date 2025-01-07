@@ -10,7 +10,7 @@ const UserProfileBtn = () => {
 
   return (
     <>
-      {isApplicantView && status === 'pending' ? (
+      {isApplicantView && status === 'pending' && (
         <>
           <button type="button" className="btn btn-second">
             승인
@@ -19,8 +19,6 @@ const UserProfileBtn = () => {
             거절
           </button>
         </>
-      ) : (
-        <></>
       )}
       {isChatView && (
         <>
