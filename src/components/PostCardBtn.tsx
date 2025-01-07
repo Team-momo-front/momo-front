@@ -42,7 +42,7 @@ const PostCardBtn: React.FC<PostCardBtnProps> = ({
           {isAvailableViewPost ? (
             <button
               type="button"
-              onClick={() => handleGoToPostBtnClick()}
+              onClick={handleGoToPostBtnClick}
               className="btn btn-second btn-sm font-bold flex-1"
             >
               모집글 보기
