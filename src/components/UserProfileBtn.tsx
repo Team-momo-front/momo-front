@@ -27,7 +27,7 @@ const UserProfileBtn = () => {
           </button>
           <button type="button" className="btn btn-primary">
             내보내기
-          </button>{' '}
+          </button>
         </>
       )}
     </>
