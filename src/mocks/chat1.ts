@@ -40,4 +40,28 @@ export const chat1: chatting[] = [
     createdAt: '2025-01-09T04:41:02.140812',
     updatedAt: '2025-01-09T04:41:02.140812',
   },
+  {
+    userId: 'user_511',
+    userNickname: '호랑이',
+    userProfileImageUrl: 'https://picsum.photos/200/300',
+    message: '메뉴 정해졌나요?',
+    createdAt: '2025-01-09T04:41:40.073831',
+    updatedAt: '2025-01-09T04:41:40.073831',
+  },
+  {
+    userId: 'user_113',
+    userNickname: '한식러버',
+    userProfileImageUrl: 'https://picsum.photos/400/600',
+    message: '일단 한식 먹으러 갈건데요.',
+    createdAt: '2025-01-09T04:42:02.140812',
+    updatedAt: '2025-01-09T04:42:02.140812',
+  },
+  {
+    userId: 'user_113',
+    userNickname: '한식러버',
+    userProfileImageUrl: 'https://picsum.photos/400/600',
+    message: '사람이 더 모이면 함께 정해보죠',
+    createdAt: '2025-01-09T04:42:11.140812',
+    updatedAt: '2025-01-09T04:42:11.140812',
+  },
 ];
