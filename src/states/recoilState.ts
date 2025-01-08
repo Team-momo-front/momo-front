@@ -19,6 +19,8 @@ export const initialUserDataState = atom<User>({
     mbti: '',
     introduction: '',
     profileImage: '',
+    userId: '',
+    status: '',
   },
 });
 
@@ -34,10 +36,17 @@ export const updatedUserDataState = atom<User>({
     mbti: '',
     introduction: '',
     profileImage: '',
+    userId: '',
+    status: '',
   },
 });
 
 export const isActiveState = atom<ActiveState>({
   key: 'isActiveState',
   default: 'isHosted',
+});
+
+export const isChatModalOpenState = atom<boolean>({
+  key: 'isChatModalOpenState',
+  default: false,
 });
