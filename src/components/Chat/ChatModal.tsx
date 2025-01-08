@@ -1,10 +1,30 @@
+import { useState } from 'react';
+import { chats } from '../../mocks/chats';
+import { Chat } from '../../types/Chat';
+import ChatList from './ChatList';
+import ChatRoom from './ChatRoom';
+
 const ChatModal = () => {
+  const [isChatRoomOpen, setIsChatRoomOpen] = useState(false);
+  const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
+
+  const openChatRoom = (chat: Chat) => {
+    setSelectedChat(chat);
+    setIsChatRoomOpen(true);
+  };
+
+  const closeChatRoom = () => {
+    setSelectedChat(null);
+    setIsChatRoomOpen(false);
+  };
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white p-6 rounded-[40px] shadow-lg min-w-80 min-h-[75vh]">
-        <div className="w-full font-bold text-xl flex items-center justify-center border-b-[1px] border-gray-300 pb-5">
-          <span className="block">채팅</span>
-        </div>
+      <div className="bg-white p-6 rounded-[40px] shadow-lg w-80 min-h-[75vh]">
+        {isChatRoomOpen ? (
+          <ChatRoom chat={selectedChat} handleBackBtn={closeChatRoom} />
+        ) : (
+          <ChatList chats={chats} onChatClick={openChatRoom} />
+        )}
       </div>
     </div>
   );
