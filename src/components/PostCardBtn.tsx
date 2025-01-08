@@ -16,15 +16,15 @@ const PostCardBtn: React.FC<PostCardBtnProps> = ({
 }) => {
   const navigate = useNavigate();
 
-  const handleGoToPostBtnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleGoToPostBtnClick = () => {
     navigate(`/post/${post.id}`);
   };
 
-  const handleAdminBtnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleAdminBtnClick = () => {
     navigate(`/view-applicant/${post.id}`);
   };
 
-  const handleDeleteBtnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleDeleteBtnClick = () => {
     // TODO: API 참가한 모임 목록에서 DELETE 요청
   };
 
@@ -42,7 +42,7 @@ const PostCardBtn: React.FC<PostCardBtnProps> = ({
           {isAvailableViewPost ? (
             <button
               type="button"
-              onClick={e => handleGoToPostBtnClick(e)}
+              onClick={handleGoToPostBtnClick}
               className="btn btn-second btn-sm font-bold flex-1"
             >
               모집글 보기
@@ -52,7 +52,7 @@ const PostCardBtn: React.FC<PostCardBtnProps> = ({
           )}
           <button
             type="button"
-            onClick={e => handleAdminBtnClick(e)}
+            onClick={() => handleAdminBtnClick()}
             className="btn btn-second btn-sm font-bold flex-1"
           >
             신청자 보기
@@ -65,7 +65,7 @@ const PostCardBtn: React.FC<PostCardBtnProps> = ({
         >
           <button
             type="button"
-            onClick={e => handleGoToPostBtnClick(e)}
+            onClick={() => handleGoToPostBtnClick()}
             className="btn btn-second btn-sm font-bold flex-1"
           >
             모집글 보기
@@ -73,7 +73,7 @@ const PostCardBtn: React.FC<PostCardBtnProps> = ({
           {isAvailableDelete ? (
             <button
               type="button"
-              onClick={e => handleDeleteBtnClick(e)}
+              onClick={() => handleDeleteBtnClick()}
               className="btn btn-second btn-sm font-bold flex-1"
             >
               삭제

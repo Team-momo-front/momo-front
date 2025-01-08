@@ -10,7 +10,7 @@ interface InfoFormFieldProps {
   required?: boolean;
   disabled?: boolean;
   maxLength?: number;
-  isModified: boolean;
+  isModified?: boolean;
 }
 
 const InfoFormField: React.FC<InfoFormFieldProps> = ({

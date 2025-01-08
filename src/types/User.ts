@@ -9,5 +9,5 @@ export interface User {
   mbti?: string;
   introduction?: string;
   userId: string;
-  status?: string;
+  status: string;
 }

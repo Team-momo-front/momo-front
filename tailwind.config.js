@@ -7,7 +7,7 @@ export default {
         nanumGothic: ['NanumGothic'],
       },
       colors: {
-        primary: '#ADE145',
+        primary: '#FFA726',
         gray: {
           100: '#EFF2F6',
           200: '#EEEEEE',
@@ -27,35 +27,35 @@ export default {
     themes: [
       {
         theme: {
-          primary: '#ADE145',
-          secondary: '#ADE145',
-          accent: '#ADE145',
+          primary: '#FFA726',
+          secondary: '#FFA726',
+          accent: '#FFA726',
           neutral: '#9E9E9E',
           'base-100': '#ffffff',
           info: '#0000ff',
-          success: '#ADE145',
-          warning: '#ADE145',
+          success: '#FFA726',
+          warning: '#FFA726',
           error: '#EC160A',
           '.btn-primary': {
-            'background-color': '#ADE145',
-            'border-color': '#ADE145',
+            'background-color': '#FFA726',
+            'border-color': '#FFA726',
           },
           '.btn-primary:hover': {
-            'background-color': '#ADE145',
-            'border-color': '#ADE145',
+            'background-color': '#FFA726',
+            'border-color': '#FFA726',
           },
           '.btn-second': {
             'background-color': '#e8e8e8',
             'border-color': '#e8e8e8',
           },
           '.btn-second:hover': {
-            'background-color': '#ADE145',
-            'border-color': '#ADE145',
+            'background-color': '#FFA726',
+            'border-color': '#FFA726',
           },
           '.btn-second:focus': {
-            'background-color': '#ADE145',
-            'border-color': '#ADE145',
-            'outline-color': '#ADE145',
+            'background-color': '#FFA726',
+            'border-color': '#FFA726',
+            'outline-color': '#FFA726',
           },
           '.btn-social': {
             'background-color': '#fee501',
