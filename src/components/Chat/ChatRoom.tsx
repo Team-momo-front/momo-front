@@ -7,9 +7,14 @@ import ChatInput from './ChatInput';
 interface ChatRoomProps {
   chat: Chat | null;
   handleBackBtn: () => void;
+  handleViewParticipantList: () => void;
 }
 
-const ChatRoom = ({ chat, handleBackBtn }: ChatRoomProps) => {
+const ChatRoom = ({
+  chat,
+  handleBackBtn,
+  handleViewParticipantList,
+}: ChatRoomProps) => {
   if (!chat) return null;
 
   // TODO: chat.roomId로 채팅 기록 조회
@@ -25,12 +30,15 @@ const ChatRoom = ({ chat, handleBackBtn }: ChatRoomProps) => {
         <div className="flex justify-between items-center flex-1 max-w-[80%] gap-4">
           <span className="block text-lg truncate">{chat.meetingTitle}</span>
         </div>
-        <RxHamburgerMenu />
+        <button type="button" onClick={handleViewParticipantList}>
+          <RxHamburgerMenu />
+        </button>
       </div>
 
       <div className="py-4 overflow-scroll max-h-[90%]">
-        {chat1.map(chat => (
+        {chat1.map((chat, index) => (
           <div
+            key={index}
             className={`chat ${
               chat.userId === nowUserId ? 'chat-end' : 'chat-start'
             } mb-1`}
