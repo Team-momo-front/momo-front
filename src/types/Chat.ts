@@ -6,4 +6,5 @@ export interface Chat {
   lastMessage: string;
   hostId: string;
   unreadMessagesCount: number | null;
+  readerId: string[];
 }

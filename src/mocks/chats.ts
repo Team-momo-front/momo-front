@@ -9,6 +9,7 @@ export const chats: Chat[] = [
     lastMessage: '안녕하세요',
     hostId: 'user_113',
     unreadMessagesCount: 3,
+    readerId: ['user_113', 'user_511'],
   },
   {
     roomId: 2,
@@ -18,6 +19,7 @@ export const chats: Chat[] = [
     lastMessage: '하이',
     hostId: 'user_789',
     unreadMessagesCount: null,
+    readerId: ['user_789', 'user_512'],
   },
   {
     roomId: 3,
@@ -27,5 +29,6 @@ export const chats: Chat[] = [
     lastMessage: 'ㅋㅋㅋㅋㅋ',
     hostId: 'user_101',
     unreadMessagesCount: 101,
+    readerId: ['user_101', 'user_513'],
   },
 ];
