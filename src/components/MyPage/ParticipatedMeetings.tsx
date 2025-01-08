@@ -17,7 +17,6 @@ const ParticipatedMeetings = () => {
       return post.participatedUserId?.includes(participatedUserId);
     });
     setFilteredPosts(participatedPost);
-    console.log(participatedPost);
   }, []);
 
   return (

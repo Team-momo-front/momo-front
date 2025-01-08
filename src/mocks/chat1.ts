@@ -7,6 +7,12 @@ interface chatting {
   updatedAt: string;
 }
 
+interface chattingParticipantList {
+  id: string;
+  nickname: string;
+  profileImageUrl: string;
+}
+
 export const chat1: chatting[] = [
   {
     userId: 'user_113',
@@ -63,5 +69,18 @@ export const chat1: chatting[] = [
     message: '사람이 더 모이면 함께 정해보죠',
     createdAt: '2025-01-09T04:42:11.140812',
     updatedAt: '2025-01-09T04:42:11.140812',
+  },
+];
+
+export const chat1ParticipantList: chattingParticipantList[] = [
+  {
+    id: 'user_113',
+    nickname: '한식러버',
+    profileImageUrl: 'https://picsum.photos/400/600',
+  },
+  {
+    id: 'user_511',
+    nickname: '호랑이',
+    profileImageUrl: 'https://picsum.photos/200/300',
   },
 ];

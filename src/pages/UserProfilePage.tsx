@@ -6,10 +6,10 @@ import InfoFormField from '../components/MyPage/InfoFormField';
 import UserProfileBtn from '../components/UserProfileBtn';
 
 const UserProfilePage = () => {
-  const { id } = useParams<{ id: string }>();
+  const { userId } = useParams<{ userId: string }>();
 
   // TODO: 유저 프로필 가져오기 API
-  const selectedUser = users.find(user => user.id === Number(id));
+  const selectedUser = users.find(user => user.userId === userId);
 
   return (
     <div className="w-full h-screen flex justify-center items-center m-auto">

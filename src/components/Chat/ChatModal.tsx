@@ -45,7 +45,12 @@ const ChatModal = () => {
           />
         )}
 
-        {isViewParticipantListOpen && <ChatParticipantList />}
+        {isViewParticipantListOpen && (
+          <ChatParticipantList
+            chat={selectedChat}
+            handleBackBtn={openChatRoom}
+          />
+        )}
       </div>
     </div>
   );
