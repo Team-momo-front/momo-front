@@ -26,6 +26,7 @@ export default {
         displayUp: 'displayUp 0.3s ease-in-out',
         displayLeft: 'displayLeft 0.6s ease-in-out',
         displayRight: 'displayRight 0.6s ease-in-out',
+        upDown: 'upDown 1s ease-in-out infinite',
       },
       keyframes: {
         fadeIn: {
@@ -43,6 +44,11 @@ export default {
         displayRight: {
           '0%': { opacity: 0, transform: 'translateX(-100%)' },
           '100%': { opacity: 1, transform: 'translateX(0)' },
+        },
+        upDown: {
+          '0%': { transform: 'translateY(0%)' },
+          '50%': { transform: 'translateY(10%)' },
+          '100%': { transform: 'translateY(0%)' },
         },
       },
     },
