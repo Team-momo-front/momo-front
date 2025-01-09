@@ -15,7 +15,7 @@ const ChatFloatingBtn = () => {
         }}
         className="fixed bg-primary w-[100px] h-[100px] rounded-full bottom-10 right-10 flex justify-center items-center z-50 animate-upDown"
       >
-        <img src="/public/chat.svg" alt="floating chatting button" />
+        <img src="/chat.svg" alt="floating chatting button" />
       </button>
 
       {isChatModalOpen && <ChatModal />}
