@@ -1,13 +1,33 @@
+import { useSetRecoilState } from 'recoil';
+import {
+  isChatModalOpenState,
+  isChatRoomOpenState,
+  isChatListOpenState,
+  isViewParticipantListOpenState,
+} from '../../states/recoilState';
+
 interface ChatAlertProps {
   handleCancelBtn: () => void;
   roomId: number;
 }
 
 const ChatAlert: React.FC<ChatAlertProps> = ({ handleCancelBtn, roomId }) => {
+  const setIsChatModalOpen = useSetRecoilState(isChatModalOpenState);
+  const setIsChatListOpen = useSetRecoilState(isChatListOpenState);
+  const setIsChatRoomOpen = useSetRecoilState(isChatRoomOpenState);
+  const setIsViewParticipantListOpen = useSetRecoilState(
+    isViewParticipantListOpenState
+  );
+
   const handleLeaveChatRoom = () => {
     // TODO: API 참가한 모임에서 DELETE 요청
     // /api/v1/chatrooms/{roomId}/leave
     console.log('exit', roomId);
+    // 모달 상태 초기화 코드
+    setIsChatModalOpen(false);
+    setIsChatListOpen(true);
+    setIsChatRoomOpen(false);
+    setIsViewParticipantListOpen(false);
   };
 
   return (
