@@ -1,16 +1,24 @@
-import { useState } from 'react';
 import { chats } from '../../mocks/chats';
 import { Chat } from '../../types/Chat';
 import ChatList from './ChatList';
 import ChatRoom from './ChatRoom';
 import ChatParticipantList from './ChatParticipantList';
+import { useRecoilState } from 'recoil';
+import {
+  isChatListOpenState,
+  isChatRoomOpenState,
+  isViewParticipantListOpenState,
+  selectedChatState,
+} from '../../states/recoilState';
 
 const ChatModal = () => {
-  const [isChatListOpen, setIsChatListOpen] = useState(true);
-  const [isChatRoomOpen, setIsChatRoomOpen] = useState(false);
-  const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
+  const [isChatRoomOpen, setIsChatRoomOpen] =
+    useRecoilState(isChatRoomOpenState);
+  const [isChatListOpen, setIsChatListOpen] =
+    useRecoilState(isChatListOpenState);
   const [isViewParticipantListOpen, setIsViewParticipantListOpen] =
-    useState(false);
+    useRecoilState(isViewParticipantListOpenState);
+  const [selectedChat, setSelectedChat] = useRecoilState(selectedChatState);
 
   const openChatRoom = (chat: Chat) => {
     setSelectedChat(chat);

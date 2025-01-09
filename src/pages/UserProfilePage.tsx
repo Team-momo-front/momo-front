@@ -6,7 +6,7 @@ import InfoFormField from '../components/MyPage/InfoFormField';
 import UserProfileBtn from '../components/UserProfileBtn';
 
 const UserProfilePage = () => {
-  const { userId } = useParams<{ userId: string }>();
+  const { userId, roomId } = useParams();
 
   // TODO: 유저 프로필 가져오기 API
   const selectedUser = users.find(user => user.userId === userId);
@@ -83,7 +83,7 @@ const UserProfilePage = () => {
             />
 
             <div className="flex gap-3 flex-1 items-end justify-end">
-              <UserProfileBtn />
+              <UserProfileBtn roomId={Number(roomId)} />
             </div>
           </div>
         </div>

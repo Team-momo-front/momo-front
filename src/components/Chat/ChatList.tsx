@@ -5,7 +5,7 @@ interface ChatListProps {
   onChatClick: (chat: Chat) => void;
 }
 
-const ChatList = ({ chats, onChatClick }: ChatListProps) => {
+const ChatList: React.FC<ChatListProps> = ({ chats, onChatClick }) => {
   return (
     <>
       <div className="w-full font-bold text-xl flex items-center justify-center border-b-[1px] border-gray-300 pb-5 pt-1">

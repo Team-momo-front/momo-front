@@ -40,7 +40,10 @@ const Router = () => {
         element={<UserProfilePage />}
       />
       {/* 채팅 유저 프로필 보기 */}
-      <Route path="/chat/profile/:userId" element={<UserProfilePage />} />
+      <Route
+        path="/chat/profile/:roomId/:userId"
+        element={<UserProfilePage />}
+      />
     </Routes>
   );
 };

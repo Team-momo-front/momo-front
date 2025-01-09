@@ -10,11 +10,11 @@ interface ChatRoomProps {
   handleViewParticipantList: () => void;
 }
 
-const ChatRoom = ({
+const ChatRoom: React.FC<ChatRoomProps> = ({
   chat,
   handleBackBtn,
   handleViewParticipantList,
-}: ChatRoomProps) => {
+}) => {
   if (!chat) return null;
 
   // TODO: chat.roomId로 채팅 기록 조회
@@ -66,7 +66,7 @@ const ChatRoom = ({
         ))}
       </div>
 
-      <ChatInput />
+      <ChatInput roomId={chat.roomId} />
     </>
   );
 };
