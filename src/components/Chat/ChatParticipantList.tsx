@@ -3,6 +3,8 @@ import { MdLogout } from 'react-icons/md';
 import { chat1ParticipantList } from '../../mocks/chat1';
 import { Chat } from '../../types/Chat';
 import { Link } from 'react-router-dom';
+import ChatAlert from './ChatAlert';
+import { useState } from 'react';
 
 interface ChatParticipantListProps {
   chat: Chat | null;
@@ -13,15 +15,14 @@ const ChatParticipantList = ({
   chat,
   handleBackBtn,
 }: ChatParticipantListProps) => {
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+
   if (!chat) return null;
 
   // TODO: chat.roomId로 참여자 목록 조회 API 호출
 
-  const handleExitChatRoom = () => {
-    // TODO: API 참가한 모임에서 DELETE 요청
-    // /api/v1/chatrooms/{roomId}/leave
-    console.log(chat.roomId);
-    console.log('exit');
+  const handleCancelBtn = () => {
+    setIsAlertOpen(false);
   };
 
   return (
@@ -62,11 +63,15 @@ const ChatParticipantList = ({
 
       <button
         type="button"
-        onClick={handleExitChatRoom}
+        onClick={() => setIsAlertOpen(true)}
         className="absolute bottom-0"
       >
         <MdLogout className="text-2xl cursor-pointer" />
       </button>
+
+      {isAlertOpen && (
+        <ChatAlert handleCancelBtn={handleCancelBtn} roomId={chat.roomId} />
+      )}
     </div>
   );
 };

@@ -1,11 +1,7 @@
 import { useState } from 'react';
 import { IoSend } from 'react-icons/io5';
 
-interface ChatInputProps {
-  roomId: number;
-}
-
-const ChatInput: React.FC<ChatInputProps> = ({ roomId }) => {
+const ChatInput = ({ roomId }: { roomId: number }) => {
   const [message, setMessage] = useState<string>('');
 
   const handleSendText = (e: React.FormEvent<HTMLFormElement>) => {
