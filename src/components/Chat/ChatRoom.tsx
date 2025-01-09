@@ -1,3 +1,4 @@
+import { useRef, useEffect } from 'react';
 import { Chat } from '../../types/Chat';
 import { IoArrowBack } from 'react-icons/io5';
 import { RxHamburgerMenu } from 'react-icons/rx';
@@ -15,6 +16,14 @@ const ChatRoom: React.FC<ChatRoomProps> = ({
   handleBackBtn,
   handleViewParticipantList,
 }) => {
+  const scrollRef = useRef(null);
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, []);
+
   if (!chat) return null;
 
   // TODO: chat.roomId로 채팅 기록 조회
@@ -23,7 +32,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({
 
   return (
     <>
-      <div className="w-full font-bold text-xl flex items-center border-b-[1px] border-gray-300 pb-5 pt-1">
+      <div className="w-full font-bold text-xl flex items-center border-b-[1px] border-gray-300 pb-5 pt-1 animate-fadeIn">
         <button type="button" onClick={handleBackBtn} className="mr-4">
           <IoArrowBack />
         </button>
@@ -35,12 +44,14 @@ const ChatRoom: React.FC<ChatRoomProps> = ({
         </button>
       </div>
 
-      <div className="py-4 overflow-scroll max-h-[90%]">
+      <div className="py-14 overflow-scroll max-h-[90%]" ref={scrollRef}>
         {chat1.map((chat, index) => (
           <div
             key={index}
             className={`chat ${
-              chat.userId === nowUserId ? 'chat-end' : 'chat-start'
+              chat.userId === nowUserId
+                ? 'chat-end animate-displayLeft'
+                : 'chat-start animate-displayRight'
             } mb-1`}
           >
             <div className="chat-image avatar">

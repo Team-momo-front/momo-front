@@ -39,8 +39,8 @@ const ChatModal = () => {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white p-6 rounded-[40px] shadow-lg w-80 h-[75vh]">
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 animate-fadeIn">
+      <div className="bg-white p-6 rounded-[40px] shadow-lg w-80 h-[75vh] animate-displayUp">
         {isChatListOpen && (
           <ChatList chats={chats} onChatClick={openChatRoom} />
         )}

@@ -45,7 +45,10 @@ const ChatParticipantList = ({
             key={index}
             to={`/chat/profile/${chat.roomId}/${participant.id}`}
           >
-            <li key={index} className="flex gap-2 items-center cursor-pointer">
+            <li
+              key={index}
+              className="flex gap-2 items-center cursor-pointer hover:translate-x-1 duration-300 ease-in-out"
+            >
               <img
                 src={participant.profileImageUrl}
                 alt="participant profile image"

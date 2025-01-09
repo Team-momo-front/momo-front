@@ -13,7 +13,7 @@ const ChatFloatingBtn = () => {
         onClick={() => {
           setIsChatModalOpen(!isChatModalOpen);
         }}
-        className="fixed bg-primary w-[100px] h-[100px] rounded-full bottom-10 right-10 flex justify-center items-center z-10"
+        className="fixed bg-primary w-[100px] h-[100px] rounded-full bottom-10 right-10 flex justify-center items-center z-50"
       >
         <img src="/public/chat.svg" alt="floating chatting button" />
       </button>

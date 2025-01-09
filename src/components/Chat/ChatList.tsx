@@ -15,7 +15,7 @@ const ChatList: React.FC<ChatListProps> = ({ chats, onChatClick }) => {
         {chats.map(chat => (
           <li
             key={chat.roomId}
-            className="flex justify-between items-center cursor-pointer"
+            className="flex justify-between items-center cursor-pointer hover:translate-x-1 duration-300 ease-in-out"
             onClick={() => onChatClick(chat)}
           >
             <img
