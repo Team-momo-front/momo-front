@@ -22,6 +22,7 @@ const ChatModal = () => {
 
   const openChatRoom = (chat: Chat) => {
     setSelectedChat(chat);
+    setIsViewParticipantListOpen(false);
     setIsChatListOpen(false);
     setIsChatRoomOpen(true);
   };

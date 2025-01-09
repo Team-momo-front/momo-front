@@ -16,7 +16,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({
   handleBackBtn,
   handleViewParticipantList,
 }) => {
-  const scrollRef = useRef(null);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -44,7 +44,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({
         </button>
       </div>
 
-      <div className="py-14 overflow-scroll max-h-[90%]" ref={scrollRef}>
+      <div className="py-2 pb-14 overflow-scroll max-h-[90%]" ref={scrollRef}>
         {chat1.map((chat, index) => (
           <div
             key={index}
