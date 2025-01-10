@@ -35,9 +35,15 @@ const Router = () => {
       {/* 주최한 모임 -> 신청자 보기 페이지 */}
       <Route path="/view-applicant/:id" element={<ViewParticipantPage />} />
       {/* 주최한 모임 -> 신청자 보기 페이지 -> 신청자 프로필 보기 */}
-      <Route path="/view-applicant/profile/:id" element={<UserProfilePage />} />
+      <Route
+        path="/view-applicant/profile/:userId"
+        element={<UserProfilePage />}
+      />
       {/* 채팅 유저 프로필 보기 */}
-      <Route path="/chat/profile/:id" element={<UserProfilePage />} />
+      <Route
+        path="/chat/profile/:roomId/:userId"
+        element={<UserProfilePage />}
+      />
     </Routes>
   );
 };

@@ -37,7 +37,7 @@ const ParticipantList = ({
 
   const navigate = useNavigate();
 
-  const handleGoToProfile = (participantId: number, status: string) => {
+  const handleGoToProfile = (participantId: string, status: string) => {
     navigate(`/view-applicant/profile/${participantId}?status=${status}`);
   };
 
@@ -53,7 +53,7 @@ const ParticipantList = ({
               key={index}
               className="p-2 flex items-center gap-2 border-gray-300 border-[1px] rounded-xl cursor-pointer transform transition-all duration-300 ease-in-out hover:translate-y-[-4px]"
               onClick={() =>
-                handleGoToProfile(participant.id, participant.status)
+                handleGoToProfile(participant.userId, participant.status)
               }
             >
               <img
