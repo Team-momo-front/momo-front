@@ -5,9 +5,11 @@ import { Chat } from '../../types/Chat';
 import { Link } from 'react-router-dom';
 import ChatAlert from './ChatAlert';
 import { useState } from 'react';
+import { useSetRecoilState } from 'recoil';
+import { isChatModalOpenState } from '../../states/recoilState';
 
 interface ChatParticipantListProps {
-  chat: Chat | null;
+  chat: Chat;
   handleBackBtn: (chat: Chat) => void;
 }
 
@@ -15,9 +17,8 @@ const ChatParticipantList = ({
   chat,
   handleBackBtn,
 }: ChatParticipantListProps) => {
+  const setIsModalOpen = useSetRecoilState(isChatModalOpenState);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
-
-  if (!chat) return null;
 
   // TODO: chat.roomId로 참여자 목록 조회 API 호출
 
@@ -45,11 +46,9 @@ const ChatParticipantList = ({
           <Link
             key={index}
             to={`/chat/profile/${chat.roomId}/${participant.id}`}
+            onClick={() => setIsModalOpen(false)}
           >
-            <li
-              key={index}
-              className="flex gap-2 items-center cursor-pointer hover:translate-x-1 duration-300 ease-in-out"
-            >
+            <li className="flex gap-2 items-center cursor-pointer hover:translate-x-1 duration-300 ease-in-out">
               <img
                 src={participant.profileImageUrl}
                 alt="participant profile image"

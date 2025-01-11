@@ -1,5 +1,4 @@
 import { useParams } from 'react-router-dom';
-import Header from '../components/Header/Header';
 import PostCard from '../components/PostCard';
 import { posts } from '../mocks/posts';
 import ParticipantList from '../components/MyPage/ParticipantList';
@@ -11,7 +10,6 @@ const ViewParticipantPage = () => {
 
   return (
     <>
-      <Header />
       <div className="h-[calc(100vh-62px)] flex justify-center items-center overflow-auto">
         <div className="w-full mt-[300px] flex flex-col justify-center items-center gap-14 md:mt-0 md:gap-20 md:flex-row md:items-start">
           {selectedPost && (

@@ -1,11 +1,15 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import { isViewParticipantListOpenState } from '../states/recoilState';
+import {
+  isChatModalOpenState,
+  isViewParticipantListOpenState,
+} from '../states/recoilState';
 
 const UserProfileBtn = ({ roomId }: { roomId: number }) => {
   const setIsViewParticipantListOpen = useSetRecoilState(
     isViewParticipantListOpenState
   );
+  const setIsChatModalOpen = useSetRecoilState(isChatModalOpenState);
 
   const location = useLocation();
   const { userId } = useParams();
@@ -29,6 +33,7 @@ const UserProfileBtn = ({ roomId }: { roomId: number }) => {
 
   const handleGoToChatRoom = () => {
     setIsViewParticipantListOpen(true);
+    setIsChatModalOpen(true);
     navigate(-1);
   };
 
