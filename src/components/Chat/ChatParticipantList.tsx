@@ -9,7 +9,7 @@ import { useSetRecoilState } from 'recoil';
 import { isChatModalOpenState } from '../../states/recoilState';
 
 interface ChatParticipantListProps {
-  chat: Chat | null;
+  chat: Chat;
   handleBackBtn: (chat: Chat) => void;
 }
 
@@ -19,8 +19,6 @@ const ChatParticipantList = ({
 }: ChatParticipantListProps) => {
   const setIsModalOpen = useSetRecoilState(isChatModalOpenState);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
-
-  if (!chat) return null;
 
   // TODO: chat.roomId로 참여자 목록 조회 API 호출
 
