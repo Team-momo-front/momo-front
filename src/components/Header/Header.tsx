@@ -1,7 +1,9 @@
-import logo from '../../assets/svg/logo.svg';
-import { Link, useNavigate } from 'react-router-dom';
-import { FaBell } from 'react-icons/fa6';
 import { useState } from 'react';
+import { FaBell } from 'react-icons/fa6';
+import { Link, useNavigate } from 'react-router-dom';
+import logo from '../../assets/svg/logo.svg';
+import { notifications } from '../../mocks/notifications';
+import { Notification } from '../../types/Notification';
 
 const Header = () => {
   // TODO: API 연결 후 전역 상태관리
@@ -18,6 +20,20 @@ const Header = () => {
     navigate('/');
   };
 
+  // TODO : 서버데이터 사용
+  const [data, setData] = useState<Notification[] | []>(notifications);
+
+  const handleDelete = (id: number) => {
+    // TODO : 서버호출
+    setData(prev => prev.filter(notification => notification.id !== id));
+  };
+  const handleDeleteAll = () => {
+    // TODO : 서버호출
+    setData([]);
+  };
+
+  const hasNotification = data.length > 0;
+
   return (
     <div className="w-full h-[62px] border-b-[1px] border-gray-100 grid grid-cols-3 items-center">
       <div />
@@ -32,10 +48,46 @@ const Header = () => {
 
       {isLogined ? (
         <div className="flex justify-end items-center gap-5 mr-6">
-          <FaBell className="scale-150 fill-primary cursor-pointer" />
+          <div
+            tabIndex={0}
+            className="relative dropdown dropdown-hover dropdown-end"
+          >
+            <FaBell className="w-6 h-6 fill-primary cursor-pointer" />
+            {hasNotification && (
+              <div className="w-1.5 h-1.5 bg-red-500 rounded-full absolute top-0 right-0" />
+            )}
+            <div className="relative menu dropdown-content">
+              <ul className="absolute -right-10 bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+                {hasNotification ? (
+                  data.map(notification => (
+                    <li className="group">
+                      <a className="text-xs group-hover:font-bold">
+                        {notification.content}
+                        <button
+                          className="ml-auto hover:font-bold hover:text-primary"
+                          onClick={() => handleDelete(notification.id)}
+                        >
+                          ✕
+                        </button>
+                      </a>
+                    </li>
+                  ))
+                ) : (
+                  <div className="text-xs m-2">알림이 없습니다</div>
+                )}
+                <div className="flex justify-end m-2">
+                  <button
+                    className="hover:font-bold text-xs"
+                    onClick={handleDeleteAll}
+                  >
+                    모두 지우기
+                  </button>
+                </div>
+              </ul>
+            </div>
+          </div>
           <div className="dropdown dropdown-end dropdown-hover">
             <img
-              tabIndex={0}
               src="/image/default_profile_image.webp"
               alt="profile image"
               className="w-[30px] h-[30px] object-cover p-[1px] border border-gray-600 rounded-full cursor-pointer"
