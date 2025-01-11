@@ -50,10 +50,7 @@ const ChatParticipantList = ({
             to={`/chat/profile/${chat.roomId}/${participant.id}`}
             onClick={() => setIsModalOpen(false)}
           >
-            <li
-              key={index}
-              className="flex gap-2 items-center cursor-pointer hover:translate-x-1 duration-300 ease-in-out"
-            >
+            <li className="flex gap-2 items-center cursor-pointer hover:translate-x-1 duration-300 ease-in-out">
               <img
                 src={participant.profileImageUrl}
                 alt="participant profile image"
