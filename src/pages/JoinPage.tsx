@@ -1,11 +1,7 @@
 import JoinForm from '../components/Join/JoinForm';
 
 const JoinPage = () => {
-  return (
-    <>
-      <JoinForm />
-    </>
-  );
+  return <JoinForm />;
 };
 
 export default JoinPage;

@@ -18,12 +18,11 @@ import Layout from '../components/Layout/Layout';
 const Router = () => {
   return (
     <Routes>
-      {/* 메인페이지 - 모집글 리스트 */}
-      <Route path="/" element={<ListPage />} />
-      <Route path="/post/:id" element={<PostDetailPage />} />
-      <Route path="/create" element={<CreatePostPage />} />
-      {/* 레이아웃 적용 */}
       <Route element={<Layout />}>
+        {/* 메인페이지 - 모집글 리스트 */}
+        <Route path="/" element={<ListPage />} />
+        <Route path="/post/:id" element={<PostDetailPage />} />
+        <Route path="/create" element={<CreatePostPage />} />
         {/* 로그인 & 회원가입 */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/join" element={<JoinPage />} />
