@@ -10,7 +10,7 @@ const UserProfilePage = () => {
   const { userId, roomId } = useParams();
   const location = useLocation();
 
-  const isChatUserProfilePage = location.pathname !== '/chat/profile';
+  const isChatUserProfilePage = location.pathname.includes('/chat/profile');
 
   // TODO: 유저 프로필 가져오기 API
   const selectedUser = users.find(user => user.userId === userId);
