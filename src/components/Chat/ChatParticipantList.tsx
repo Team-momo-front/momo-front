@@ -5,6 +5,8 @@ import { Chat } from '../../types/Chat';
 import { Link } from 'react-router-dom';
 import ChatAlert from './ChatAlert';
 import { useState } from 'react';
+import { useSetRecoilState } from 'recoil';
+import { isChatModalOpenState } from '../../states/recoilState';
 
 interface ChatParticipantListProps {
   chat: Chat | null;
@@ -15,6 +17,7 @@ const ChatParticipantList = ({
   chat,
   handleBackBtn,
 }: ChatParticipantListProps) => {
+  const setIsModalOpen = useSetRecoilState(isChatModalOpenState);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
 
   if (!chat) return null;
@@ -45,6 +48,7 @@ const ChatParticipantList = ({
           <Link
             key={index}
             to={`/chat/profile/${chat.roomId}/${participant.id}`}
+            onClick={() => setIsModalOpen(false)}
           >
             <li
               key={index}
