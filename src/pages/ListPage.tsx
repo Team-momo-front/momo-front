@@ -32,6 +32,7 @@ const ListPage = () => {
     navigate(`/post/${id}`);
   };
 
+  // TODO: 타입스크립트로 하라고 하셔요
   const handleSearch = () => {
     const filtered = filteredPosts.filter(post => {
       const matchesCategory =
