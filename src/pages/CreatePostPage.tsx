@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import Categories from '../components/Categories';
 import FormField from '../components/FormField';
-import Header from '../components/Header/Header';
 import KakaoMapModal from '../components/modals/KakaoMapModal';
 import useCreatePostForm from '../hooks/useCreatePostForm';
 import { useToggleCategory } from '../hooks/useToggleCategory';
@@ -44,7 +43,6 @@ const CreatePostPage = () => {
 
   return (
     <>
-      <Header />
       <div className="flex justify-center px-16 py-10">
         <div className="w-full max-w-5xl px-14">
           <h1 className="text-2xl font-bold mb-6 text-center">밥친구 구하기</h1>
