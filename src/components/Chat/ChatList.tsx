@@ -1,3 +1,5 @@
+import { useSetRecoilState } from 'recoil';
+import { isChatModalOpenState } from '../../states/recoilState';
 import { Chat } from '../../types/Chat';
 
 interface ChatListProps {
@@ -6,10 +8,19 @@ interface ChatListProps {
 }
 
 const ChatList: React.FC<ChatListProps> = ({ chats, onChatClick }) => {
+  const setIsChatModalOpen = useSetRecoilState(isChatModalOpenState);
+
   return (
     <>
-      <div className="w-full font-bold text-xl flex items-center justify-center border-b-[1px] border-gray-300 pb-5 pt-1">
+      <div className="relative w-full font-bold text-xl flex items-center justify-center border-b-[1px] border-gray-300 pb-5 pt-1">
         <span className="block">채팅</span>
+        <button
+          className="absolute right-4 text-gray-500 hover:text-gray-800"
+          onClick={() => setIsChatModalOpen(false)}
+          aria-label="닫기"
+        >
+          ✕
+        </button>
       </div>
       {chats.length > 0 ? (
         <ul className="flex flex-col justify-center gap-4 py-4">
