@@ -67,12 +67,17 @@ export default {
           warning: '#FFA726',
           error: '#EC160A',
           '.btn-primary': {
-            'background-color': '#FFA726',
-            'border-color': '#FFA726',
+            'background-color': '#FFB74D',
+            'border-color': '#FFB74D',
           },
           '.btn-primary:hover': {
             'background-color': '#FFA726',
             'border-color': '#FFA726',
+          },
+          '.btn-primary:focus': {
+            'background-color': '#FFA726',
+            'border-color': '#FFA726',
+            'outline-color': '#FFA726',
           },
           '.btn-second': {
             'background-color': '#e8e8e8',
@@ -88,14 +93,16 @@ export default {
             'outline-color': '#FFA726',
           },
           '.btn-social': {
-            'background-color': '#fee501',
-            'border-color': '#fee501',
+            'background-color': '#FFEC3B',
+            'border-color': '#FFEC3B',
           },
           '.btn-social:hover': {
             'background-color': '#fee501',
             'border-color': '#fee501',
           },
           '.btn-social:focus': {
+            'background-color': '#fee501',
+            'border-color': '#fee501',
             'outline-color': '#fee501',
           },
         },
