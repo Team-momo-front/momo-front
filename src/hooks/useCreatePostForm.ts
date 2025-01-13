@@ -3,23 +3,29 @@ import { useNavigate } from 'react-router-dom';
 
 interface FormData {
   title: string;
-  meetingDate: string;
-  location: string;
-  participationCount: number;
+  locatinoId: number | null;
+  latitude: number | null;
+  longitude: number | null;
+  address: string;
+  meetingDateTime: string;
+  maxCount: number;
+  category: string[];
   content: string;
   thumbnail: File | null;
-  categories: string[];
 }
 
 const useCreatePostForm = () => {
   const [formData, setFormData] = useState<FormData>({
     title: '',
-    meetingDate: '',
-    location: '',
-    participationCount: 0,
+    locatinoId: null,
+    latitude: null,
+    longitude: null,
+    address: '',
+    meetingDateTime: '',
+    maxCount: 0,
+    category: [],
     content: '',
     thumbnail: null,
-    categories: [],
   });
 
   const [thumbnailURL, setThumbnailURL] = useState<string | null>(null);
@@ -66,12 +72,23 @@ const useCreatePostForm = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const updateLocation = (location: string) => {
-    setFormData(prev => ({ ...prev, location }));
+  const updateLocation = (
+    locatinoId: string,
+    latitude: string,
+    longitude: string,
+    address: string
+  ) => {
+    setFormData(prev => ({
+      ...prev,
+      locatinoId: Number(locatinoId),
+      latitude: Number(latitude),
+      longitude: Number(longitude),
+      address,
+    }));
   };
 
-  const updateCategories = (categories: string[]) => {
-    setFormData(prev => ({ ...prev, categories }));
+  const updateCategories = (category: string[]) => {
+    setFormData(prev => ({ ...prev, category }));
   };
 
   return {

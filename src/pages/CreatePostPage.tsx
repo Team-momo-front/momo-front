@@ -37,7 +37,7 @@ const CreatePostPage = () => {
 
   const handleSearchPlace = (place: Place) => {
     setSelectedPlace(place);
-    updateLocation(place.address_name);
+    updateLocation(place.id, place.y, place.x, place.address_name);
     closeModal();
   };
 
@@ -61,8 +61,8 @@ const CreatePostPage = () => {
                 label="모임 날짜"
                 type="datetime-local"
                 size="60"
-                value={formData.meetingDate}
-                name="meetingDate"
+                value={formData.meetingDateTime}
+                name="meetingDateTime"
                 onChange={handleInputChange}
                 min={getLocalDateTime()}
                 max={getOneYearLaterDateTime()}
@@ -71,12 +71,8 @@ const CreatePostPage = () => {
                 label="모임 인원"
                 type="number"
                 size="24"
-                value={
-                  formData.participationCount === 0
-                    ? ''
-                    : formData.participationCount
-                }
-                name="participationCount"
+                value={formData.maxCount === 0 ? '' : formData.maxCount}
+                name="maxCount"
                 onChange={handleInputChange}
                 min={2}
                 max={99}
@@ -94,7 +90,7 @@ const CreatePostPage = () => {
                 />
                 <input
                   type="text"
-                  value={formData.location}
+                  value={formData.address}
                   placeholder="주소"
                   readOnly
                   className="input input-bordered"
