@@ -29,7 +29,7 @@ export type PlaceDetail = {
 
 export type Place = Pick<
   PlaceDetail,
-  'place_name' | 'address_name' | 'x' | 'y'
+  'id' | 'place_name' | 'address_name' | 'x' | 'y'
 >;
 
 export type HostStatus = '모집 중..' | '모집 완료';
