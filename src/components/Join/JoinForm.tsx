@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import axios, { AxiosError } from 'axios';
 import JoinField from './JoinField.tsx';
 import {
   validateEmail,
@@ -14,7 +15,6 @@ import { formatPhoneNumber } from '../../utils/formatPhoneNumber.ts';
 
 type Form = {
   email: string;
-  emailConfirmCode: string;
   password: string;
   passwordConfirm: string;
   nickname: string;
@@ -24,7 +24,6 @@ type Form = {
 const JoinForm = () => {
   const [form, setForm] = useState<Form>({
     email: '',
-    emailConfirmCode: '',
     password: '',
     passwordConfirm: '',
     nickname: '',
@@ -33,19 +32,13 @@ const JoinForm = () => {
 
   const [errors, setErrors] = useState<JoinErrorMessages>({
     emailError: null,
-    emailConfirmCodeError: null,
     passwordError: null,
     passwordConfirmError: null,
     nicknameError: null,
     phoneNumberError: null,
   });
 
-  // TODO: 이메일 인증 실패, 중복값 검사(이메일, 닉네임, 전화 번호), 서버 통신 오류 에러 처리
-  // const [joinError, setJoinError] = useState<string | null>(null);
-  const [isInputDisabled, setIsInputDisabled] = useState(true);
-  const [emailConfirmCodeStatus, setEmailConfirmCodeStatus] = useState<
-    'success' | 'error' | null
-  >(null);
+  const [joinError, setJoinError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -59,7 +52,6 @@ const JoinForm = () => {
   const clearErrors = () => {
     setErrors({
       emailError: null,
-      emailConfirmCodeError: null,
       passwordError: null,
       passwordConfirmError: null,
       nicknameError: null,
@@ -70,9 +62,6 @@ const JoinForm = () => {
   const setValidationErrors = () => {
     setErrors({
       emailError: validateEmail(form.email),
-      // TODO: 인증 코드 유효성 검사 서버와 통신하여
-      // validateEmailConfirmCode 구현 필요
-      emailConfirmCodeError: null,
       passwordError: validatePassword(form.password),
       passwordConfirmError: validatePasswordConfirm(
         form.password,
@@ -83,40 +72,38 @@ const JoinForm = () => {
     });
   };
 
-  const handleEmailValidation = async () => {
-    console.log('인증 코드 요청');
-    // TODO: API 통신
-    // test: 버튼 클릭 이벤트 하드 코딩
-    const successResponse = { success: true };
+  const navigate = useNavigate();
 
-    try {
-      const data = successResponse;
-      // TODO: "인증 코드 발송이 완료되었습니다." 화면에 출력 필요
-      if (data.success) {
-        setIsInputDisabled(false);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleEmailConfirmCodeValidation = () => {
-    // test
-    const validCode = '1234';
-
-    if (form.emailConfirmCode === validCode) {
-      setEmailConfirmCodeStatus('success');
-    } else {
-      setEmailConfirmCodeStatus('error');
-    }
-  };
-
-  const handleJoinSubmit = (e: React.FormEvent) => {
+  const handleJoinSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     clearErrors();
     setValidationErrors();
 
-    // TODO: API 요청, joinSubmit logic
+    try {
+      const response = await axios.post(
+        'http://54.180.112.35:8080/api/v1/users/signup',
+        {
+          email: form.email,
+          password: form.password,
+          nickname: form.nickname,
+          phone: form.phoneNumber.replace(/[^0-9]/g, ''),
+        }
+      );
+
+      console.log(response.data);
+
+      navigate('/verify-email-code');
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        if (err.response && err.response.status === 409) {
+          const field = err.response.data.field;
+          setJoinError(`이미 사용 중인 ${field}입니다.`);
+        }
+        if (err.response && err.response.status === 400) {
+          setJoinError(err.response.data.message);
+        }
+      }
+    }
   };
 
   const isFormValid =
@@ -155,21 +142,7 @@ const JoinForm = () => {
             placeholder="이메일을 입력해주세요."
             required
           />
-          <JoinField
-            name="emailConfirmCode"
-            label="인증 코드"
-            type="text"
-            value={form.emailConfirmCode}
-            onChange={e => {
-              handleChange(e);
-            }}
-            onBlur={handleEmailConfirmCodeValidation}
-            error={errors.emailConfirmCodeError}
-            placeholder="인증 코드를 입력해주세요."
-            required
-            disabled={isInputDisabled}
-            emailConfirmCodeStatus={emailConfirmCodeStatus}
-          />
+
           <JoinField
             name="password"
             label="비밀번호"
@@ -250,31 +223,25 @@ const JoinForm = () => {
             placeholder="휴대폰 번호를 입력해주세요."
             required
           />
-          {/* {joinError && <p className="w-[538px] mb-2 font-bold text-[12px] text-error">{joinError}</p>} */}
+
+          {joinError && (
+            <p className="w-[538px] mb-2 font-bold text-[12px] text-error">
+              {joinError}
+            </p>
+          )}
 
           <div className="w-full flex justify-center items-center">
-            <Link to="/create-profile">
-              <button
-                type="submit"
-                disabled={isDisabled}
-                className={`btn mt-5 font-bold text-sm ${
-                  isDisabled ? 'btn-disabled' : 'btn-primary'
-                }`}
-              >
-                다음 단계로 넘어가기
-              </button>
-            </Link>
+            <button
+              type="submit"
+              disabled={isDisabled}
+              className={`btn mt-5 font-bold text-sm ${
+                isDisabled ? 'btn-disabled' : 'btn-primary'
+              }`}
+            >
+              다음 단계로 넘어가기
+            </button>
           </div>
         </form>
-
-        <button
-          type="button"
-          // TODO:
-          onClick={handleEmailValidation}
-          className="mt-7 btn btn-primary font-bold text-sm"
-        >
-          이메일 인증
-        </button>
       </div>
     </div>
   );
