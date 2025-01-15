@@ -1,11 +1,11 @@
 import { KeyboardEvent, useEffect, useState } from 'react';
 import { CustomOverlayMap, Map, MapMarker } from 'react-kakao-maps-sdk';
 import { Link } from 'react-router-dom';
-import { Place, PlaceDetail } from '../../types/Post';
+import { PlaceDetail } from '../../types/Post';
 
 interface KakaoMapModalProps {
   onClose: () => void;
-  onSearch: (place: Place) => void;
+  onSearch: (place: PlaceDetail) => void;
 }
 
 const KakaoMapModal: React.FC<KakaoMapModalProps> = ({ onClose, onSearch }) => {
