@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios, { AxiosError } from 'axios';
 import JoinField from './JoinField.tsx';
 import { useMBTIValidation } from '../../hooks/useMBTIValidation.ts';
 import { GiPartyPopper } from 'react-icons/gi';
@@ -52,11 +53,55 @@ const CreateProfile = () => {
     !profileForm.birth ||
     (!!profileForm.mbti && !!mbtiError);
 
-  const handleProfileSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsModalOpen(true);
+  const [createProfileError, setCreateProfileError] = useState<string | null>(
+    null
+  );
 
-    // TODO: API 요청
+  const formData = new FormData();
+  formData.append('gender', profileForm.gender);
+  formData.append('birth', profileForm.birth);
+  formData.append('introduction', profileForm.introduction);
+
+  if (profileForm.mbti) {
+    formData.append('mbti', profileForm.mbti);
+  }
+
+  if (profileImage) {
+    formData.append('profileImage', profileImage);
+  }
+
+  const handleProfileSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post(
+        'http://54.180.112.35:8080/api/v1/profiles',
+        formData,
+        {
+          headers: {
+            // Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${null}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+
+      console.log(response.data);
+
+      if (response.status === 201) {
+        setIsModalOpen(true);
+      }
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        if (err.response && err.response.status === 409) {
+          setCreateProfileError(err.response.data.message);
+        }
+        if (err.response && err.response.status === 400) {
+          setCreateProfileError(err.response.data.message);
+        }
+        setCreateProfileError(err.message);
+      }
+    }
   };
 
   return (
@@ -154,6 +199,12 @@ const CreateProfile = () => {
         <p className="font-bold text-sm text-gray-500">
           *표시된 항목은 필수 입력 항목입니다.
         </p>
+
+        {createProfileError && (
+          <p className="w-[538px] mb-2 font-bold text-[12px] text-error">
+            {createProfileError}
+          </p>
+        )}
       </form>
 
       {isModalOpen && (
