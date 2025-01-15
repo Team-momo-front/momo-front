@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import JoinField from './JoinField';
 
 const VerifyEmailCode = () => {
@@ -12,22 +12,27 @@ const VerifyEmailCode = () => {
   const navigate = useNavigate();
 
   const handleEmailConfirmCodeValidation = async () => {
-    // TODO: API 통신
-    // 'http://54.180.112.35:8080/api/v1/users/signup/verify'
     try {
       const response = await axios.post(
-        'http://54.180.112.35:8080/api/v1/users/signup',
+        'http://54.180.112.35:8080/api/v1/users/signup/verify',
         {
-          code: emailConfirmCode,
+          params: {
+            code: emailConfirmCode,
+          },
         }
       );
 
       console.log(response.data);
 
       navigate('/create-profile');
-    } catch (error) {
-      console.error(error);
-      setEmailConfirmCodeError('인증 코드가 다릅니다. 다시 확인해 주세요');
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        if (err.response && err.response.status === 400) {
+          setEmailConfirmCodeError(err.response.data.message);
+        } else {
+          setEmailConfirmCodeError('서버와의 연결에 문제가 발생했습니다.');
+        }
+      }
     }
   };
 

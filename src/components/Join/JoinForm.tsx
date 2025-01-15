@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import JoinField from './JoinField.tsx';
 import {
   validateEmail,
@@ -45,7 +45,7 @@ const JoinForm = () => {
 
     setForm(prev => ({
       ...prev,
-      [name]: name === 'phoneNumber' ? value.replace(/[^0-9]/g, '') : value,
+      [name]: name === 'phoneNumber' ? formatPhoneNumber(value) : value,
     }));
   };
 
@@ -86,16 +86,23 @@ const JoinForm = () => {
           email: form.email,
           password: form.password,
           nickname: form.nickname,
-          phone: form.phoneNumber,
+          phone: form.phoneNumber.replace(/[^0-9]/g, ''),
         }
       );
 
       console.log(response.data);
 
       navigate('/verify-email-code');
-    } catch (err: unknown) {
-      console.log(err);
-      setJoinError('회원가입에 실패했습니다. 다시 확인해 주세요.');
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        if (err.response && err.response.status === 409) {
+          const field = err.response.data.field;
+          setJoinError(`이미 사용 중인 ${field}입니다.`);
+        }
+        if (err.response && err.response.status === 400) {
+          setJoinError(err.response.data.message);
+        }
+      }
     }
   };
 
@@ -200,7 +207,7 @@ const JoinForm = () => {
             name="phoneNumber"
             label="휴대폰 번호"
             type="tel"
-            value={formatPhoneNumber(form.phoneNumber)}
+            value={form.phoneNumber}
             onChange={e => {
               handleChange(e);
             }}
