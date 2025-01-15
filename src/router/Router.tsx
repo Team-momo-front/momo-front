@@ -14,6 +14,7 @@ import MyMeetings from '../components/MyPage/MyMeetings';
 import ViewParticipantPage from '../pages/ViewParticipantPage';
 import UserProfilePage from '../pages/UserProfilePage';
 import Layout from '../components/Layout/Layout';
+import VerifyEmailCode from '../components/Join/VerifyEmailCode';
 
 const Router = () => {
   return (
@@ -26,8 +27,9 @@ const Router = () => {
         {/* 로그인 & 회원가입 */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/join" element={<JoinPage />} />
-        <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route path="/verify-email-code" element={<VerifyEmailCode />} />
         <Route path="/create-profile" element={<CreateProfilePage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
         {/* 마이페이지 */}
         <Route path="/mypage" element={<MyPage />}>
           <Route path="my-info" element={<MyInfo />} />
