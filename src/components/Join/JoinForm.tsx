@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import JoinField from './JoinField.tsx';
 import {
   validateEmail,
@@ -11,11 +12,9 @@ import {
 } from './validation';
 import { JoinErrorMessages } from '../../types/Errors.ts';
 import { formatPhoneNumber } from '../../utils/formatPhoneNumber.ts';
-import axios, { AxiosError } from 'axios';
 
 type Form = {
   email: string;
-  // emailConfirmCode: string;
   password: string;
   passwordConfirm: string;
   nickname: string;
@@ -25,7 +24,6 @@ type Form = {
 const JoinForm = () => {
   const [form, setForm] = useState<Form>({
     email: '',
-    // emailConfirmCode: '',
     password: '',
     passwordConfirm: '',
     nickname: '',
@@ -34,16 +32,13 @@ const JoinForm = () => {
 
   const [errors, setErrors] = useState<JoinErrorMessages>({
     emailError: null,
-    // emailConfirmCodeError: null,
     passwordError: null,
     passwordConfirmError: null,
     nicknameError: null,
     phoneNumberError: null,
   });
 
-  // TODO: 이메일 인증 실패, 중복값 검사(이메일, 닉네임, 전화 번호), 서버 통신 오류 에러 처리
-  // const [joinError, setJoinError] = useState<string | null>(null);
-  // const [isInputDisabled, setIsInputDisabled] = useState(true);
+  const [joinError, setJoinError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -57,7 +52,6 @@ const JoinForm = () => {
   const clearErrors = () => {
     setErrors({
       emailError: null,
-      // emailConfirmCodeError: null,
       passwordError: null,
       passwordConfirmError: null,
       nicknameError: null,
@@ -68,9 +62,6 @@ const JoinForm = () => {
   const setValidationErrors = () => {
     setErrors({
       emailError: validateEmail(form.email),
-      // TODO: 인증 코드 유효성 검사 서버와 통신하여
-      // validateEmailConfirmCode 구현 필요
-      // emailConfirmCodeError: null,
       passwordError: validatePassword(form.password),
       passwordConfirmError: validatePasswordConfirm(
         form.password,
@@ -81,24 +72,13 @@ const JoinForm = () => {
     });
   };
 
-  const handleJoinSubmit = (e: React.FormEvent) => {
+  const navigate = useNavigate();
+
+  const handleJoinSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     clearErrors();
     setValidationErrors();
 
-    // TODO: API 요청, joinSubmit logic
-  };
-
-  const isFormValid =
-    form.email &&
-    form.password &&
-    form.passwordConfirm &&
-    form.nickname &&
-    form.phoneNumber;
-  const isDisabled =
-    !isFormValid || Object.values(errors).some(error => error !== null);
-
-  const handleSignupRequest = async () => {
     try {
       const response = await axios.post(
         'http://54.180.112.35:8080/api/v1/users/signup',
@@ -111,17 +91,22 @@ const JoinForm = () => {
       );
 
       console.log(response.data);
+
+      navigate('/verify-email-code');
     } catch (err: unknown) {
       console.log(err);
-      if (err instanceof AxiosError) {
-        // 서버에서 응답한 오류 메시지 출력
-        console.log('Error response:', err.response);
-      } else {
-        // 다른 오류 처리
-        console.log('Error:', err);
-      }
+      setJoinError('회원가입에 실패했습니다. 다시 확인해 주세요.');
     }
   };
+
+  const isFormValid =
+    form.email &&
+    form.password &&
+    form.passwordConfirm &&
+    form.nickname &&
+    form.phoneNumber;
+  const isDisabled =
+    !isFormValid || Object.values(errors).some(error => error !== null);
 
   return (
     <div className="w-full h-screen flex justify-center items-center">
@@ -231,21 +216,23 @@ const JoinForm = () => {
             placeholder="휴대폰 번호를 입력해주세요."
             required
           />
-          {/* {joinError && <p className="w-[538px] mb-2 font-bold text-[12px] text-error">{joinError}</p>} */}
+
+          {joinError && (
+            <p className="w-[538px] mb-2 font-bold text-[12px] text-error">
+              {joinError}
+            </p>
+          )}
 
           <div className="w-full flex justify-center items-center">
-            <Link to="/verify-email-code">
-              <button
-                type="submit"
-                disabled={isDisabled}
-                className={`btn mt-5 font-bold text-sm ${
-                  isDisabled ? 'btn-disabled' : 'btn-primary'
-                }`}
-                onClick={handleSignupRequest}
-              >
-                다음 단계로 넘어가기
-              </button>
-            </Link>
+            <button
+              type="submit"
+              disabled={isDisabled}
+              className={`btn mt-5 font-bold text-sm ${
+                isDisabled ? 'btn-disabled' : 'btn-primary'
+              }`}
+            >
+              다음 단계로 넘어가기
+            </button>
           </div>
         </form>
       </div>

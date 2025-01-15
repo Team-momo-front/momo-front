@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import JoinField from './JoinField';
 
 const VerifyEmailCode = () => {
@@ -7,45 +8,33 @@ const VerifyEmailCode = () => {
   const [emailConfirmCodeError, setEmailConfirmCodeError] = useState<
     string | null
   >(null);
-  const [emailConfirmCodeStatus, setEmailConfirmCodeStatus] = useState<
-    'success' | 'error' | null
-  >(null);
 
-  const handleEmailValidation = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const navigate = useNavigate();
 
-    console.log('인증 코드 요청');
+  const handleEmailConfirmCodeValidation = async () => {
     // TODO: API 통신
     // 'http://54.180.112.35:8080/api/v1/users/signup/verify'
-    // test: 버튼 클릭 이벤트 하드 코딩
-    const successResponse = { success: true };
-
     try {
-      console.log(successResponse);
+      const response = await axios.post(
+        'http://54.180.112.35:8080/api/v1/users/signup',
+        {
+          code: emailConfirmCode,
+        }
+      );
+
+      console.log(response.data);
+
+      navigate('/create-profile');
     } catch (error) {
       console.error(error);
-      setEmailConfirmCodeError(emailConfirmCodeStatus);
-    }
-  };
-
-  const handleEmailConfirmCodeValidation = () => {
-    // test
-    const validCode = '1234';
-
-    if (emailConfirmCode === validCode) {
-      setEmailConfirmCodeStatus('success');
-    } else {
-      setEmailConfirmCodeStatus('error');
+      setEmailConfirmCodeError('인증 코드가 다릅니다. 다시 확인해 주세요');
     }
   };
 
   return (
     <div className="w-full h-screen flex justify-center items-center">
       <div className="max-w-[538px] flex gap-x-6">
-        <form
-          className="w-[320px] flex flex-col gap-4"
-          onSubmit={handleEmailValidation}
-        >
+        <div className="w-[320px] flex flex-col gap-4">
           <JoinField
             name="emailConfirmCode"
             label="인증 코드"
@@ -58,17 +47,16 @@ const VerifyEmailCode = () => {
             error={emailConfirmCodeError}
             placeholder="인증 코드를 입력해주세요."
             required
-            emailConfirmCodeStatus={emailConfirmCodeStatus}
           />
-          <Link to={'/create-profile'}>
-            <button
-              type="button"
-              className="mt-7 btn btn-primary font-bold text-sm"
-            >
-              이메일 인증
-            </button>
-          </Link>
-        </form>
+
+          <button
+            type="button"
+            className="mt-7 btn btn-primary font-bold text-sm"
+            onClick={handleEmailConfirmCodeValidation}
+          >
+            이메일 인증
+          </button>
+        </div>
       </div>
     </div>
   );
