@@ -1,12 +1,12 @@
 import { useMutation } from '@tanstack/react-query';
-import { createMeetings } from '../api/meeting';
+import { createMeeting } from '../api/meeting';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 export const useCreateMeeting = () => {
   const navigate = useNavigate();
   return useMutation({
-    mutationFn: createMeetings,
+    mutationFn: createMeeting,
     onSuccess: () => {
       alert('모집글이 작성되었습니다.');
       navigate('/');
