@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { CreatePostRequest } from '../api/meeting';
+import { CreateMeetingRequest } from '../api/meeting';
 import { useCreateMeeting } from './useCreateMeeting';
 
 const useCreatePostForm = () => {
-  const [formData, setFormData] = useState<CreatePostRequest>({
+  const [formData, setFormData] = useState<CreateMeetingRequest>({
     title: '',
     locatinoId: null,
     latitude: null,
