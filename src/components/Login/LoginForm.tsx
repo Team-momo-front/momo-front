@@ -29,6 +29,7 @@ const LoginForm = () => {
         setUserLoginType('emailUser');
       }
 
+      console.log(response.data.accessToken);
       navigate('/');
     } catch (err) {
       if (err instanceof AxiosError) {

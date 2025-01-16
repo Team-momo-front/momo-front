@@ -21,6 +21,7 @@ const KakaoLogin = () => {
         setAccessToken(response.data.accessToken);
         setUserLoginType('kakaoUser');
 
+        console.log(response.data.accessToken);
         navigate('/');
       } catch (err) {
         if (err instanceof AxiosError) {
