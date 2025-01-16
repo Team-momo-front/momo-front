@@ -13,19 +13,16 @@ const VerifyEmailCode = () => {
 
   const handleEmailConfirmCodeValidation = async () => {
     try {
-      const response = await axios.post(
-        'http://54.180.112.35:8080/api/v1/users/signup/verify',
-        null,
-        {
-          params: {
-            code: emailConfirmCode,
-          },
-        }
-      );
+      const response = await axios.post('/api/v1/users/signup/verify', null, {
+        params: {
+          code: emailConfirmCode,
+        },
+      });
 
       console.log(response.data);
 
-      navigate('/create-profile');
+      alert('이메일 인증 성공! 회원가입이 완료되었습니다. 로그인해주세요.');
+      navigate('/login');
     } catch (err) {
       if (err instanceof AxiosError) {
         if (err.response && err.response.status === 400) {
