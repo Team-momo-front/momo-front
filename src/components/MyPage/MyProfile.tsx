@@ -10,7 +10,6 @@ import {
   updatedUserDataState,
 } from '../../states/recoilState';
 import axiosInstance from '../../api/axiosInstance';
-import { AxiosError } from 'axios';
 import ProfileRedirect from './ProfileRedirect';
 
 const MyInfo = () => {
