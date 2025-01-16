@@ -71,3 +71,8 @@ export const selectedChatState = atom<Chat | null>({
   key: 'selectedChatState',
   default: null,
 });
+
+export const isLoginUserState = atom<boolean>({
+  key: 'isLoginUserState',
+  default: false,
+});

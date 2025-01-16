@@ -1,29 +1,75 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { RiKakaoTalkFill } from 'react-icons/ri';
 import Input from '../Input';
+import axios, { AxiosError } from 'axios';
+import { useState } from 'react';
+import { useSetRecoilState } from 'recoil';
+import { isLoginUserState } from '../../states/recoilState';
 
 const LoginForm = () => {
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [loginError, setLoginError] = useState<string | null>(null);
+  const setIsLoginUser = useSetRecoilState(isLoginUserState);
+
+  const navigate = useNavigate();
+
+  const handleLoginSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post(
+        'http://54.180.112.35:8080/api/v1/users/login',
+        { email: email, password: password }
+      );
+
+      console.log(response.data);
+
+      if (response.data && response.data.accessToken) {
+        console.log(response.data.accessToken);
+        localStorage.setItem('accessToken', response.data.accessToken);
+        setIsLoginUser(response.data.accessToken);
+      }
+
+      navigate('/');
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        if (err.response && err.response.status === 400) {
+          setLoginError(err.response.data.message);
+        }
+        if (err.response && err.response.status === 404) {
+          setLoginError(err.response.data.message);
+        }
+      }
+    }
+  };
+
   return (
     <div className="w-full h-screen flex justify-center items-center">
-      <form className="w-[320px] h-[340px] flex flex-col items-center gap-4">
+      <form
+        className="w-[320px] h-[340px] flex flex-col items-center gap-4"
+        onSubmit={e => handleLoginSubmit(e)}
+      >
         <span className="font-bold text-2xl">로그인</span>
-
         <Input
           type="email"
           name="email"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
           placeholder="이메일을 입력해주세요."
           required
         />
         <Input
           type="password"
           name="password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
           placeholder="비밀번호를 입력해주세요."
           required
         />
 
         <button
           type="submit"
-          // TODO: onSubmit={handleLoginSubmit}
           className="btn btn-block font-bold text-[16px] btn-primary"
         >
           로그인
@@ -43,6 +89,12 @@ const LoginForm = () => {
             </span>
           </Link>
         </div>
+
+        {loginError && (
+          <p className="w-[538px] mb-2 font-bold text-[12px] text-error">
+            {loginError}
+          </p>
+        )}
       </form>
     </div>
   );
