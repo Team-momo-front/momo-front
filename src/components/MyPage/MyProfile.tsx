@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { users } from '../../mocks/users';
+// import { users } from '../../mocks/users';
 // import { User } from '../../types/User';
 import UserInfo from './MyInfo';
 import ProfileImageUpload from '../ProfileImageUpload';
@@ -34,17 +34,9 @@ const MyInfo = () => {
   // TODO: 서버에서 유저 데이터 받아서 초기값 셋팅
   useEffect(() => {
     const fetchUserData = async () => {
-      try {
-        const response = await axiosInstance.get('/api/v1/users/me');
-        console.log(response.data);
-      } catch (err) {
-        if (err instanceof AxiosError) {
-          if (err.response && err.response.data.code === 'PROFILE_REQUIRED') {
-          }
-        }
-      }
+      const response = await axiosInstance.get('/api/v1/users/me');
+      console.log(response.data);
     };
-
     fetchUserData();
   }, []);
 
