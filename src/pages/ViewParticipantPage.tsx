@@ -1,8 +1,8 @@
 import { useParams } from 'react-router-dom';
-import PostCard from '../components/PostCard';
-import { posts } from '../mocks/posts';
 import ParticipantList from '../components/MyPage/ParticipantList';
+import PostCard from '../components/PostCard';
 import useDeleteMeeting from '../hooks/useDeleteMeeting';
+import { posts } from '../mocks/posts';
 
 const ViewParticipantPage = () => {
   const { id } = useParams<{ id: string }>();
