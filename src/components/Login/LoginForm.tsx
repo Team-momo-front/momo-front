@@ -3,14 +3,11 @@ import { RiKakaoTalkFill } from 'react-icons/ri';
 import Input from '../Input';
 import axios, { AxiosError } from 'axios';
 import { useState } from 'react';
-import { useSetRecoilState } from 'recoil';
-import { accessTokenState } from '../../states/recoilState';
 
 const LoginForm = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [loginError, setLoginError] = useState<string | null>(null);
-  const setAccessToken = useSetRecoilState(accessTokenState);
 
   const navigate = useNavigate();
 
@@ -24,7 +21,8 @@ const LoginForm = () => {
       });
 
       if (response.data && response.data.accessToken) {
-        setAccessToken(response.data.accessToken);
+        localStorage.setItem('accessToken', response.data.accessToken);
+        localStorage.setItem('loginUserType', 'emailUser');
       }
 
       navigate('/');

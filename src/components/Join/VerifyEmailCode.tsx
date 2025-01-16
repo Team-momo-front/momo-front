@@ -46,7 +46,6 @@ const VerifyEmailCode = () => {
             onChange={e => {
               setEmailConfirmCode(e.target.value);
             }}
-            onBlur={handleEmailConfirmCodeValidation}
             error={emailConfirmCodeError}
             placeholder="인증 코드를 입력해주세요."
             required

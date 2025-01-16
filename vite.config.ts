@@ -14,7 +14,8 @@ export default defineConfig({
         target: 'http://54.180.112.35:8080',
         changeOrigin: true,
         secure: false,
-        ws: true,
+        // 웹소켓 설정
+        // ws: true,
       },
     },
   },

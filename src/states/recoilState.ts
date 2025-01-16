@@ -3,6 +3,7 @@ import { User } from '../types/User';
 import { ActiveState } from '../types/Post';
 import { Chat } from '../types/Chat';
 
+// 마이페이지 & 유저
 export const isFormInvalidFormState = atom<boolean>({
   key: 'isValidUserFormState',
   default: false,
@@ -47,6 +48,7 @@ export const isActiveState = atom<ActiveState>({
   default: 'isHosted',
 });
 
+// 채팅
 export const isChatModalOpenState = atom<boolean>({
   key: 'isChatModalOpenState',
   default: false,
@@ -69,10 +71,5 @@ export const isViewParticipantListOpenState = atom<boolean>({
 
 export const selectedChatState = atom<Chat | null>({
   key: 'selectedChatState',
-  default: null,
-});
-
-export const accessTokenState = atom<string | null>({
-  key: 'accessTokenState',
   default: null,
 });
