@@ -15,7 +15,6 @@ const VerifyEmailCode = () => {
     try {
       const response = await axios.post(
         'http://54.180.112.35:8080/api/v1/users/signup/verify',
-        null,
         {
           params: {
             code: emailConfirmCode,
