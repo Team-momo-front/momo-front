@@ -2,11 +2,12 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios, { AxiosError } from 'axios';
 import { useSetRecoilState } from 'recoil';
-import { accessTokenState } from '../../states/recoilState';
+import { accessTokenState, userLoginTypeState } from '../../states/recoilState';
 
 const KakaoLogin = () => {
   const navigate = useNavigate();
   const setAccessToken = useSetRecoilState(accessTokenState);
+  const setUserLoginType = useSetRecoilState(userLoginTypeState);
 
   useEffect(() => {
     const code = new URL(window.location.href).searchParams.get('code');
@@ -18,6 +19,7 @@ const KakaoLogin = () => {
         });
 
         setAccessToken(response.data.accessToken);
+        setUserLoginType('kakaoUser');
 
         navigate('/');
       } catch (err) {

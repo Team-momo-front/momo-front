@@ -4,13 +4,14 @@ import Input from '../Input';
 import axios, { AxiosError } from 'axios';
 import { useState } from 'react';
 import { useSetRecoilState } from 'recoil';
-import { accessTokenState } from '../../states/recoilState';
+import { accessTokenState, userLoginTypeState } from '../../states/recoilState';
 
 const LoginForm = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [loginError, setLoginError] = useState<string | null>(null);
   const setAccessToken = useSetRecoilState(accessTokenState);
+  const setUserLoginType = useSetRecoilState(userLoginTypeState);
 
   const navigate = useNavigate();
 
@@ -25,6 +26,7 @@ const LoginForm = () => {
 
       if (response.data && response.data.accessToken) {
         setAccessToken(response.data.accessToken);
+        setUserLoginType('emailUser');
       }
 
       navigate('/');
