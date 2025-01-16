@@ -21,7 +21,6 @@ const UserInfo: React.FC<UserInfoProps> = ({ isModified, isCanceled }) => {
   const [initialUserData] = useRecoilState(initialUserDataState);
   const [updatedUserData, setUpdatedUserData] =
     useRecoilState(updatedUserDataState);
-
   const setIsInvalidUserForm = useSetRecoilState(isFormInvalidFormState);
 
   const handleChange = (field: keyof User, value: string) => {

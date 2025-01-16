@@ -9,6 +9,9 @@ import {
   initialUserDataState,
   updatedUserDataState,
 } from '../../states/recoilState';
+import axiosInstance from '../../api/axiosInstance';
+import { AxiosError } from 'axios';
+import ProfileRedirect from './ProfileRedirect';
 
 const MyInfo = () => {
   // TODO: 서버에서 데이터 받아 전역상태관리 필요
@@ -26,13 +29,30 @@ const MyInfo = () => {
   );
 
   const isInvalidUserForm = useRecoilValue(isFormInvalidFormState);
+  const hasProfile = localStorage.getItem('hasProfile');
 
   // TODO: 서버에서 유저 데이터 받아서 초기값 셋팅
   useEffect(() => {
-    setInitialUserData(users[1]);
-    setUpdatedUserData(users[1]);
-    setProfileImageURL(users[1].profileImage ?? null);
+    const fetchUserData = async () => {
+      try {
+        const response = await axiosInstance.get('/api/v1/users/me');
+        console.log(response.data);
+      } catch (err) {
+        if (err instanceof AxiosError) {
+          if (err.response && err.response.data.code === 'PROFILE_REQUIRED') {
+          }
+        }
+      }
+    };
+
+    fetchUserData();
   }, []);
+
+  // useEffect(() => {
+  //   setInitialUserData(users[1]);
+  //   setUpdatedUserData(users[1]);
+  //   setProfileImageURL(users[1].profileImage ?? null);
+  // }, []);
 
   const handleSubmit = () => {
     // TODO: 서버로 userData 전송
@@ -61,7 +81,7 @@ const MyInfo = () => {
     }
   }, []);
 
-  return (
+  return hasProfile === 'true' ? (
     <div className="w-full">
       <div className="w-[680px] m-auto flex flex-col items-center mt-[30px]">
         {isModified ? (
@@ -121,6 +141,10 @@ const MyInfo = () => {
         </div>
       </div>
     </div>
+  ) : (
+    <>
+      <ProfileRedirect />
+    </>
   );
 };
 

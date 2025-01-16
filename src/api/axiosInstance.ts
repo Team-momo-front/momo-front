@@ -1,10 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://54.180.112.35:8080';
-
-const axiosInstance = axios.create({
-  baseURL: BASE_URL,
-});
+const axiosInstance = axios.create();
 
 axiosInstance.interceptors.request.use(
   config => {
@@ -28,6 +24,10 @@ axiosInstance.interceptors.response.use(
     // TODO : 401, 403 등의 에러 처리
     // if (error.response && error.response.status === 401) {
     // }
+    if (error.response && error.response.data.code === 'PROFILE_REQUIRED') {
+      // 프로필 검증 오류시 로컬스토리지 'hasProfile'에 'false'값 저장
+      localStorage.setItem('hasProfile', 'false');
+    }
     return Promise.reject(error);
   }
 );
