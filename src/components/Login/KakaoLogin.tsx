@@ -1,13 +1,15 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios, { AxiosError } from 'axios';
+import { useSetRecoilState } from 'recoil';
+import { accessTokenState } from '../../states/recoilState';
 
 const KakaoLogin = () => {
   const navigate = useNavigate();
+  const setAccessToken = useSetRecoilState(accessTokenState);
 
   useEffect(() => {
     const code = new URL(window.location.href).searchParams.get('code');
-    console.log(code);
 
     const fetchAccessToken = async () => {
       try {
@@ -15,7 +17,7 @@ const KakaoLogin = () => {
           code: code,
         });
 
-        console.log(response.data);
+        setAccessToken(response.data.accessToken);
 
         navigate('/');
       } catch (err) {
