@@ -72,7 +72,7 @@ export const selectedChatState = atom<Chat | null>({
   default: null,
 });
 
-export const accessTokenState = atom<string | null>({
-  key: 'accessTokenState',
-  default: null,
+export const isLoginUserState = atom<boolean>({
+  key: 'isLoginUserState',
+  default: false,
 });
