@@ -18,6 +18,7 @@ import ViewParticipantPage from '../pages/ViewParticipantPage';
 
 const queryClient = new QueryClient();
 import VerifyEmailCode from '../components/Join/VerifyEmailCode';
+import KakaoLogin from '../components/Login/KakaoLogin';
 
 const Router = () => {
   return (
@@ -34,6 +35,7 @@ const Router = () => {
           <Route path="/verify-email-code" element={<VerifyEmailCode />} />
           <Route path="/create-profile" element={<CreateProfilePage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route path="/kakao/callback" element={<KakaoLogin />} />
           {/* 마이페이지 */}
           <Route path="/mypage" element={<MyPage />}>
             <Route path="my-info" element={<MyInfo />} />

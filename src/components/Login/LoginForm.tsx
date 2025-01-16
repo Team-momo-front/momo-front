@@ -4,13 +4,13 @@ import Input from '../Input';
 import axios, { AxiosError } from 'axios';
 import { useState } from 'react';
 import { useSetRecoilState } from 'recoil';
-import { isLoginUserState } from '../../states/recoilState';
+import { accessTokenState } from '../../states/recoilState';
 
 const LoginForm = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [loginError, setLoginError] = useState<string | null>(null);
-  const setIsLoginUser = useSetRecoilState(isLoginUserState);
+  const setAccessToken = useSetRecoilState(accessTokenState);
 
   const navigate = useNavigate();
 
@@ -18,17 +18,13 @@ const LoginForm = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        'http://54.180.112.35:8080/api/v1/users/login',
-        { email: email, password: password }
-      );
-
-      console.log(response.data);
+      const response = await axios.post('/api/v1/users/login', {
+        email: email,
+        password: password,
+      });
 
       if (response.data && response.data.accessToken) {
-        console.log(response.data.accessToken);
-        localStorage.setItem('accessToken', response.data.accessToken);
-        setIsLoginUser(response.data.accessToken);
+        setAccessToken(response.data.accessToken);
       }
 
       navigate('/');
@@ -42,6 +38,14 @@ const LoginForm = () => {
         }
       }
     }
+  };
+
+  const handleKakaoLogin = () => {
+    const clientId = import.meta.env.VITE_KAKAO_CLIENT_ID;
+    const redirectUri = import.meta.env.VITE_KAKAO_REDIRECT_URI;
+    const kakaoLoginUrl = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}`;
+
+    window.location.href = kakaoLoginUrl;
   };
 
   return (
@@ -77,6 +81,7 @@ const LoginForm = () => {
         <button
           type="button"
           className="relative btn btn-block font-bold text-[16px] btn-social"
+          onClick={handleKakaoLogin}
         >
           <RiKakaoTalkFill className="absolute top-[14px] left-4 w-5 scale-150" />
           카카오로 시작하기
