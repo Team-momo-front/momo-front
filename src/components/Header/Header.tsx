@@ -18,16 +18,16 @@ const Header = () => {
   const handleLogout = async () => {
     try {
       if (userLoginType === 'emailUser') {
-        const response = await axios.post(
-          '/api/v1/users/logout',
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
-        console.log('로그아웃 성공:', response.data);
+        const response = await axios.delete('/api/v1/users/logout', {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        console.log(response.data);
+        alert(response.data.message);
+
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('loginUserType');
 
         navigate('/');
       } else if (userLoginType === 'kakaoUser') {
@@ -36,7 +36,11 @@ const Header = () => {
             Authorization: `Bearer ${accessToken}`,
           },
         });
-        console.log('로그아웃 성공:', response.data);
+        console.log(response.data);
+        alert(response.data.message);
+
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('loginUserType');
 
         navigate('/');
       }
