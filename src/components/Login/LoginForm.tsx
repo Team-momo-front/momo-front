@@ -44,6 +44,15 @@ const LoginForm = () => {
     }
   };
 
+  const handleKakaoLogin = () => {
+    const clientId = '27bbfdb96e3f9b77e112ca662ac84480';
+    // const redirectUri = 'http://54.180.112.35:8080/api/v1/oauth/kakao/callback';
+    const redirectUri = 'http://localhost:5173/kakao/callback';
+    const kakaoLoginUrl = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}`;
+
+    window.location.href = kakaoLoginUrl;
+  };
+
   return (
     <div className="w-full h-screen flex justify-center items-center">
       <form
@@ -77,6 +86,7 @@ const LoginForm = () => {
         <button
           type="button"
           className="relative btn btn-block font-bold text-[16px] btn-social"
+          onClick={handleKakaoLogin}
         >
           <RiKakaoTalkFill className="absolute top-[14px] left-4 w-5 scale-150" />
           카카오로 시작하기
