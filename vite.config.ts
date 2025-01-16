@@ -9,4 +9,14 @@ export default defineConfig({
     VitePluginHtmlEnv(),
     VitePluginHtmlEnv({ compiler: true }),
   ],
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://54.180.112.35:8080',
+        changeOrigin: true,
+        secure: false,
+        ws: true,
+      },
+    },
+  },
 });

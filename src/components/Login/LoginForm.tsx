@@ -18,12 +18,10 @@ const LoginForm = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        'http://54.180.112.35:8080/api/v1/users/login',
-        { email: email, password: password }
-      );
-
-      console.log(response.data);
+      const response = await axios.post('/api/v1/users/login', {
+        email: email,
+        password: password,
+      });
 
       if (response.data && response.data.accessToken) {
         console.log(response.data.accessToken);

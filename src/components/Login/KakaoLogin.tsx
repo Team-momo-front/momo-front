@@ -11,10 +11,9 @@ const KakaoLogin = () => {
 
     const fetchAccessToken = async () => {
       try {
-        const response = await axios.post(
-          'http://54.180.112.35:8080/api/v1/oauth/kakao/callback',
-          { code: code }
-        );
+        const response = await axios.post('/api/v1/oauth/kakao/callback', {
+          code: code,
+        });
 
         console.log(response.data);
 

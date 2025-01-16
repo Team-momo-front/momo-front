@@ -80,18 +80,16 @@ const JoinForm = () => {
     setValidationErrors();
 
     try {
-      const response = await axios.post(
-        'http://54.180.112.35:8080/api/v1/users/signup',
-        {
-          email: form.email,
-          password: form.password,
-          nickname: form.nickname,
-          phone: form.phoneNumber.replace(/[^0-9]/g, ''),
-        }
-      );
+      const response = await axios.post('/api/v1/users/signup', {
+        email: form.email,
+        password: form.password,
+        nickname: form.nickname,
+        phone: form.phoneNumber.replace(/[^0-9]/g, ''),
+      });
 
       console.log(response.data);
 
+      alert(response.data);
       navigate('/verify-email-code');
     } catch (err) {
       if (err instanceof AxiosError) {
