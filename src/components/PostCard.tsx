@@ -28,7 +28,7 @@ const PostCard: React.FC<PostCardProps> = ({
 
   if (isHosted) {
     ({ status, color } = getStatusAndColorByRole(post.status, 'isHosted'));
-  } else if (isParticipated) {
+  } else if (isParticipated && post.participationStatus) {
     ({ status, color } = getStatusAndColorByRole(
       post.participationStatus,
       'isParticipated'

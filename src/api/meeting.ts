@@ -1,3 +1,4 @@
+import { CreatedMeeting } from '../types/Post';
 import { apiClient } from './apiClient';
 export interface CreateMeetingRequest {
   title: string;
@@ -25,8 +26,8 @@ export interface MeetingStatus {
 }
 
 export interface getMyMeetingsRequest {
-  lastId: number;
-  pageSize: number;
+  lastId?: number;
+  pageSize?: number;
 }
 
 const COMMON_URL = '/api/v1/meetings';
@@ -49,5 +50,7 @@ export const setMeetingStatus = async (id: string, data: MeetingStatus) =>
 export const getParticipants = async (id: string) =>
   apiClient({ url: `${COMMON_URL}/${id}/participants`, method: 'get' });
 
-export const getMyMeetings = async (params: getMyMeetingsRequest) =>
+export const getMyMeetings = async (
+  params: getMyMeetingsRequest
+): Promise<CreatedMeeting[]> =>
   apiClient({ url: `${COMMON_URL}/created`, method: 'get', params });

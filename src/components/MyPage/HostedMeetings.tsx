@@ -1,27 +1,21 @@
-import { useState } from 'react';
-import PostCard from '../PostCard';
-import { posts } from '../../mocks/posts';
-import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
+import useGetMyMeetings from '../../hooks/useGetmyMeetings';
 import { isActiveState } from '../../states/recoilState';
+import convertMeetingsToPosts from '../../utils/convertMeetingsToPosts';
+import PostCard from '../PostCard';
 
 const HostedMeetings = () => {
-  const [filteredPosts, setFilteredPosts] = useState(posts);
+  const { data: myMeetings } = useGetMyMeetings({});
   const isActive = useRecoilValue(isActiveState);
 
-  // TODO: User Token으로 서버와 통신해 주최한 모임 받아오기
-  // 현재는 목데이터 사용
-  const userId = 'user_113';
+  if (myMeetings === undefined) return;
 
-  useEffect(() => {
-    const hostedPosts = posts.filter(post => post.hostedUserId === userId);
-    setFilteredPosts(hostedPosts);
-  }, []);
+  const posts = convertMeetingsToPosts(myMeetings);
 
   return (
     <div className="px-16 py-1">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 justify-items-start mt-[26px]">
-        {filteredPosts.map((post, index) => (
+        {posts.map((post, index) => (
           <div key={index} className="w-full">
             <PostCard post={post} isHosted={isActive === 'isHosted'} />
           </div>
