@@ -5,7 +5,7 @@ import FormField from '../components/FormField';
 import KakaoMapModal from '../components/modals/KakaoMapModal';
 import useCreatePostForm from '../hooks/useCreatePostForm';
 import { useToggleCategory } from '../hooks/useToggleCategory';
-import { Place } from '../types/Post';
+import { PlaceDetail } from '../types/Post';
 import {
   getLocalDateTime,
   getOneYearLaterDateTime,
@@ -14,7 +14,6 @@ import {
 const CreatePostPage = () => {
   const {
     formData,
-    thumbnailURL,
     handleSubmit,
     handleFileChange,
     handleInputChange,
@@ -30,12 +29,12 @@ const CreatePostPage = () => {
   }, [categories]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
+  const [selectedPlace, setSelectedPlace] = useState<PlaceDetail | null>(null);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  const handleSearchPlace = (place: Place) => {
+  const handleSearchPlace = (place: PlaceDetail) => {
     setSelectedPlace(place);
     updateLocation(place.id, place.y, place.x, place.address_name);
     closeModal();
@@ -132,7 +131,7 @@ const CreatePostPage = () => {
             <div className="flex flex-col justify-between">
               <label htmlFor="file-upload" className="cursor-pointer">
                 <img
-                  src={thumbnailURL || 'image/upload_image.webp'}
+                  src={formData.thumbnail || 'image/upload_image.webp'}
                   alt="Thumbnail"
                   className="w-[280px] h-[178.48px] object-cover rounded-3xl"
                 />

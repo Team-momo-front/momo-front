@@ -88,8 +88,8 @@ const Header = () => {
             <div className="relative menu dropdown-content">
               <ul className="absolute -right-10 bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
                 {hasNotification ? (
-                  data.map((notification, index) => (
-                    <li className="group" key={index}>
+                  data.map(notification => (
+                    <li key={notification.id} className="group">
                       <a className="text-xs group-hover:font-bold">
                         {notification.content}
                         <button

@@ -1,21 +1,9 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-
-interface FormData {
-  title: string;
-  locatinoId: number | null;
-  latitude: number | null;
-  longitude: number | null;
-  address: string;
-  meetingDateTime: string;
-  maxCount: number;
-  category: string[];
-  content: string;
-  thumbnail: File | null;
-}
+import { useState } from 'react';
+import { CreateMeetingRequest } from '../api/meeting';
+import { useCreateMeeting } from './useCreateMeeting';
 
 const useCreatePostForm = () => {
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<CreateMeetingRequest>({
     title: '',
     locatinoId: null,
     latitude: null,
@@ -25,44 +13,22 @@ const useCreatePostForm = () => {
     maxCount: 0,
     category: [],
     content: '',
-    thumbnail: null,
+    thumbnail: undefined,
   });
 
-  const [thumbnailURL, setThumbnailURL] = useState<string | null>(null);
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (formData.thumbnail) {
-      const objectURL = URL.createObjectURL(formData.thumbnail);
-      setThumbnailURL(objectURL);
-      return () => {
-        if (objectURL) {
-          URL.revokeObjectURL(objectURL);
-        }
-      };
-    } else {
-      setThumbnailURL(null);
-    }
-  }, [formData.thumbnail]);
+  const { mutate: createMeeting } = useCreateMeeting();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const postData = {
-      ...formData,
-      thumbnail: formData.thumbnail
-        ? URL.createObjectURL(formData.thumbnail)
-        : undefined,
-    };
-    console.log(postData); // TODO: 서버에 POST
-    navigate('/');
+    createMeeting(formData);
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files ? e.target.files[0] : null;
-    if (file) {
-      setFormData(prev => ({ ...prev, thumbnail: file }));
-    }
+    const file = e.target.files ? e.target.files[0] : undefined;
+    setFormData(prev => ({
+      ...prev,
+      thumbnail: file ? URL.createObjectURL(file) : undefined,
+    }));
   };
 
   const handleInputChange = (
@@ -94,7 +60,6 @@ const useCreatePostForm = () => {
   return {
     formData,
     setFormData,
-    thumbnailURL,
     handleSubmit,
     handleFileChange,
     handleInputChange,

@@ -3,20 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import Categories from '../components/Categories';
 import PostCard from '../components/PostCard';
 import SearchBar from '../components/SearchBar/SearchBar';
+import useSearchMeetings from '../hooks/useSearchMeetings';
 import { useToggleCategory } from '../hooks/useToggleCategory';
-import { posts } from '../mocks/posts';
 import { Post } from '../types/Post';
 
-const sortedPosts = [...posts].sort((a, b) => {
-  const dateA = new Date(a.meetingDate).getTime();
-  const dateB = new Date(b.meetingDate).getTime();
-  return dateA - dateB;
-});
-
 const ListPage = () => {
+  const { data } = useSearchMeetings({});
   const [searchFilter, setSearchFilter] = useState<string>('location');
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [filteredPosts, setFilteredPosts] = useState<Post[]>(sortedPosts);
+  const [filteredPosts, setFilteredPosts] = useState<Post[]>(data.meetings);
 
   const { categories: selectedCategories, toggleCategory } =
     useToggleCategory();
@@ -46,6 +41,9 @@ const ListPage = () => {
     });
     setFilteredPosts(filtered);
   };
+
+  if (filteredPosts.length === 0)
+    return <div className="px-16 py-10">게시물이 없습니다.</div>;
 
   return (
     <div className="px-16 py-10">
