@@ -9,7 +9,6 @@ import { Post } from '../types/Post';
 
 const ListPage = () => {
   const { data } = useSearchMeetings({});
-  console.log(data);
   const [searchFilter, setSearchFilter] = useState<string>('location');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [filteredPosts, setFilteredPosts] = useState<Post[]>(data.meetings);
