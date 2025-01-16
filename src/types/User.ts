@@ -11,5 +11,3 @@ export interface User {
   userId: string;
   status: string;
 }
-
-export type UserLoginType = 'emailUser' | 'kakaoUser' | null;

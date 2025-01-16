@@ -1,18 +1,7 @@
 import { atom } from 'recoil';
-import { User, UserLoginType } from '../types/User';
+import { User } from '../types/User';
 import { ActiveState } from '../types/Post';
 import { Chat } from '../types/Chat';
-
-// 로그인
-export const accessTokenState = atom<string | null>({
-  key: 'accessTokenState',
-  default: null,
-});
-
-export const userLoginTypeState = atom<UserLoginType>({
-  key: 'userLoginTypeState',
-  default: null,
-});
 
 // 마이페이지 & 유저
 export const isFormInvalidFormState = atom<boolean>({

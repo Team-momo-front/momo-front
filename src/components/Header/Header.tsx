@@ -4,15 +4,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../assets/svg/logo.svg';
 import { notifications } from '../../mocks/notifications';
 import { Notification } from '../../types/Notification';
-import { useRecoilState } from 'recoil';
-import { accessTokenState, userLoginTypeState } from '../../states/recoilState';
 import axios from 'axios';
 
 const Header = () => {
-  const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
-  const [userLoginType, setUserLoginType] = useRecoilState(userLoginTypeState);
-
   const navigate = useNavigate();
+  const userLoginType = localStorage.getItem('loginUserType');
+  const accessToken = localStorage.getItem('accessToken');
 
   const handleNavigateMypage = () => {
     navigate('/mypage/my-info');
@@ -32,8 +29,6 @@ const Header = () => {
         );
         console.log('로그아웃 성공:', response.data);
 
-        setAccessToken(null);
-        setUserLoginType(null);
         navigate('/');
       } else if (userLoginType === 'kakaoUser') {
         const response = await axios.delete('/api/v1/kakao/logout', {
@@ -43,8 +38,6 @@ const Header = () => {
         });
         console.log('로그아웃 성공:', response.data);
 
-        setAccessToken(null);
-        setUserLoginType(null);
         navigate('/');
       }
     } catch (err) {
