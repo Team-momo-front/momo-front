@@ -106,8 +106,9 @@ const ListPage = () => {
         </div>
       ) : (
         <div className="w-full text-center items-center mt-20 flex mt-40 w-full flex-col items-center justify-center">
-          {isError && '에러가 발생했습니다.'}
-          {isLoading ? (
+          {isError ? (
+            '에러가 발생했습니다.'
+          ) : isLoading ? (
             <AiOutlineLoading3Quarters
               className="animate-spin"
               size={48}
