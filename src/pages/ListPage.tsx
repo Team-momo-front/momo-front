@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import Categories from '../components/Categories';
 import PostCard from '../components/PostCard';
@@ -6,9 +7,7 @@ import SearchBar from '../components/SearchBar/SearchBar';
 import { useDebounce } from '../hooks/useDebounce';
 import useSearchMeetings from '../hooks/useSearchMeetings';
 import { useToggleCategory } from '../hooks/useToggleCategory';
-// import { posts } from '../mocks/posts';
 import { Post } from '../types/Post';
-import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 
 const ListPage = () => {
   const { data, isLoading, isError } = useSearchMeetings({});
