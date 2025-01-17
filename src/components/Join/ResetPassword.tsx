@@ -1,23 +1,36 @@
 import { useState } from 'react';
 import Input from '../Input';
-import { Link } from 'react-router-dom';
+import axiosInstance from '../../api/axiosInstance';
+import { AxiosError } from 'axios';
 
 const ResetPassword = () => {
   const [email, setEmail] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  const handleResetPassword = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleResetPassword = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('제출완료', email);
-    setError(null);
 
-    setSuccess(
-      '입력하신 이메일로 비밀번호 재설정 링크가 발송되었습니다. 메일을 확인해주세요.'
-    );
+    try {
+      await axiosInstance.post('/api/v1/users/password/change/link-send', {
+        email: email,
+      });
 
-    // error test
-    // setError('입력하신 이메일로 가입된 계정이 없습니다.');
+      setError(null);
+
+      setSuccess(
+        '입력하신 이메일로 비밀번호 재설정 링크가 발송되었습니다. 메일을 확인해주세요.'
+      );
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        // TODO: 오류 코드 확인 필요
+        setError('입력하신 이메일로 가입된 계정이 없습니다.');
+      }
+    }
+  };
+
+  const handleConfirmBtn = () => {
+    setSuccess(null);
   };
 
   return (
@@ -61,9 +74,12 @@ const ResetPassword = () => {
             </svg>
             <p className="w-full font-bold text-sm text-center">{success}</p>
             <div>
-              <Link to="/login" className="w-full">
-                <button className="btn btn-sm btn-primary">확인</button>
-              </Link>
+              <button
+                className="btn btn-sm btn-primary"
+                onClick={handleConfirmBtn}
+              >
+                확인
+              </button>
             </div>
           </div>
         )}
