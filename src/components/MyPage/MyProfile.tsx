@@ -1,7 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-// import { users } from '../../mocks/users';
-// import { User } from '../../types/User';
 import InfoForm from './InfoForm';
 import ProfileImageUpload from '../ProfileImageUpload';
 import {
@@ -9,41 +7,44 @@ import {
   initialUserDataState,
   updatedUserDataState,
 } from '../../states/recoilState';
-import axiosInstance from '../../api/axiosInstance';
 import ProfileRedirect from './ProfileRedirect';
+import useFetchUserProfile from '../../hooks/useFetchUserProfile';
 
-const MyProfil = () => {
-  // TODO: 서버에서 데이터 받아 전역상태관리 필요
+const MyProfile = () => {
+  // 서버로부터 유저 프로필데이터 받아오기
+  const { data, isLoading } = useFetchUserProfile();
+
   const [initialUserData, setInitialUserData] =
     useRecoilState(initialUserDataState);
   const [updatedUserData, setUpdatedUserData] =
     useRecoilState(updatedUserDataState);
-
   const [isModified, setIsModified] = useState(false);
   const [isCanceled, setIsCanceled] = useState(false);
-
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [profileImageURL, setProfileImageURL] = useState<string | null>(
-    initialUserData.profileImage ?? null
+    initialUserData.profileImageUrl ?? null
+  );
+  const [hasProfile, setHasProfile] = useState<string | null>(
+    localStorage.getItem('hasProfile')
   );
 
   const isInvalidUserForm = useRecoilValue(isFormInvalidFormState);
-  const hasProfile = localStorage.getItem('hasProfile');
 
-  // TODO: 서버에서 유저 데이터 받아서 초기값 셋팅
   useEffect(() => {
-    const fetchUserData = async () => {
-      const response = await axiosInstance.get('/api/v1/users/me');
-      console.log(response.data);
-    };
-    fetchUserData();
-  }, []);
+    if (data) {
+      const processedData = {
+        ...data,
+        mbti: data.mbti === 'NONE' ? '' : data.mbti,
+      };
 
-  // useEffect(() => {
-  //   setInitialUserData(users[1]);
-  //   setUpdatedUserData(users[1]);
-  //   setProfileImageURL(users[1].profileImage ?? null);
-  // }, []);
+      localStorage.setItem('hasProfile', 'true');
+      setHasProfile(localStorage.getItem('hasProfile'));
+
+      setInitialUserData(processedData);
+      setUpdatedUserData(processedData);
+      setProfileImageURL(data.profileImageUrl ?? null);
+    }
+  }, [data, setInitialUserData, setUpdatedUserData]);
 
   const handleSubmit = () => {
     // TODO: 서버로 userData 전송
@@ -55,7 +56,7 @@ const MyProfil = () => {
 
   const handleCancel = () => {
     setUpdatedUserData(initialUserData);
-    setProfileImageURL(initialUserData.profileImage ?? null);
+    setProfileImageURL(initialUserData.profileImageUrl ?? null);
     setProfileImage(null);
     setIsModified(false);
     setIsCanceled(true);
@@ -71,6 +72,14 @@ const MyProfil = () => {
       }));
     }
   }, []);
+
+  if (isLoading) {
+    return (
+      <div className="w-full h-[450px] flex justify-center items-center font-bold text-3xl">
+        Loading...
+      </div>
+    );
+  }
 
   return hasProfile === 'true' ? (
     <div className="w-full">
@@ -88,11 +97,12 @@ const MyProfil = () => {
         ) : (
           <img
             src={
-              initialUserData.profileImage || '/image/upload_profile_image.webp'
+              initialUserData.profileImageUrl ||
+              '/image/upload_profile_image.webp'
             }
             alt="user profile image"
             className={`w-[150px] h-[150px] object-cover rounded-full mb-[30px] ${
-              initialUserData.profileImage &&
+              initialUserData.profileImageUrl &&
               'bg-white p-[5px] border-[1px] border-gray-600'
             }`}
           />
@@ -139,4 +149,4 @@ const MyProfil = () => {
   );
 };
 
-export default MyProfil;
+export default MyProfile;

@@ -11,3 +11,15 @@ export interface User {
   userId: string;
   status: string;
 }
+
+export interface UserProfile {
+  birth: string;
+  email: string;
+  gender: string;
+  introduction?: string;
+  mbti?: string;
+  nickname: string;
+  oauthProvider: string;
+  phone: string;
+  profileImageUrl: string;
+}
