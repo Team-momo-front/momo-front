@@ -4,7 +4,7 @@ import Layout from '../components/Layout/Layout';
 import AccountDeletion from '../components/MyPage/AccountDeletion';
 import ChangePassword from '../components/MyPage/ChangePassword';
 import MyMeetings from '../components/MyPage/MyMeetings';
-import MyInfo from '../components/MyPage/MyProfile';
+import MyProfile from '../components/MyPage/MyProfile';
 import CreatePostPage from '../pages/CreatePostPage';
 import CreateProfilePage from '../pages/CreateProfilePage';
 import PostDetailPage from '../pages/DetailPage';
@@ -38,7 +38,7 @@ const Router = () => {
           <Route path="/kakao/callback" element={<KakaoLogin />} />
           {/* 마이페이지 */}
           <Route path="/mypage" element={<MyPage />}>
-            <Route path="my-info" element={<MyInfo />} />
+            <Route path="my-profile" element={<MyProfile />} />
             <Route path="my-meetings" element={<MyMeetings />} />
             <Route path="change-password" element={<ChangePassword />} />
             <Route path="account-deletion" element={<AccountDeletion />} />
