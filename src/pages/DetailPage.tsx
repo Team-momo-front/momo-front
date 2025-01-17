@@ -13,9 +13,9 @@ const PostDetailPage = () => {
   const isHost = false; // TODO : 사용자 === 작성자
 
   return isHost ? (
-    <ApplyMeetingPage meeting={meeting} />
-  ) : (
     <PostEditPage meeting={meeting} />
+  ) : (
+    <ApplyMeetingPage meeting={meeting} />
   );
 };
 
