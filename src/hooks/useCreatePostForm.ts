@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { CreateMeetingRequest } from '../api/meeting';
+import type { CreateMeetingRequest } from '../types/Meeting';
 import { useCreateMeeting } from './useCreateMeeting';
 
 const useCreatePostForm = () => {
   const [formData, setFormData] = useState<CreateMeetingRequest>({
     title: '',
-    locatinoId: null,
-    latitude: null,
-    longitude: null,
+    locationId: 0,
+    latitude: 0,
+    longitude: 0,
     address: '',
     meetingDateTime: '',
     maxCount: 0,

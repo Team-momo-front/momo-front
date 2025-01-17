@@ -41,20 +41,3 @@ export type ParticipantStatus =
   | '모집 취소';
 
 export type ActiveState = 'isHosted' | 'isParticipated';
-
-export interface CreatedMeeting {
-  userId: number;
-  meetingId: number;
-  meetingStatus: 'RECRUITING' | 'CLOSED';
-  title: string;
-  locationId: number;
-  latitude: number;
-  longitude: number;
-  address: string;
-  meetingDateTime: string;
-  maxCount: number;
-  approvedCount: number;
-  category: string[];
-  content: string;
-  thumbnailUrl: string;
-}
