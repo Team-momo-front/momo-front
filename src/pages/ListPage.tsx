@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import Categories from '../components/Categories';
 import PostCard from '../components/PostCard';
@@ -6,12 +7,11 @@ import SearchBar from '../components/SearchBar/SearchBar';
 import { useDebounce } from '../hooks/useDebounce';
 import useSearchMeetings from '../hooks/useSearchMeetings';
 import { useToggleCategory } from '../hooks/useToggleCategory';
-// import { posts } from '../mocks/posts';
 import { Post } from '../types/Post';
 
 const ListPage = () => {
-  const { data } = useSearchMeetings({});
-  const posts: Post[] = data.meetings;
+  const { data, isLoading, isError } = useSearchMeetings({});
+  const posts: Post[] = data?.meetings || [];
   const [searchFilter, setSearchFilter] = useState<string>('location');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [filteredPosts, setFilteredPosts] = useState<Post[]>(posts);
@@ -93,16 +93,32 @@ const ListPage = () => {
           밥친구 구하기
         </button>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-start mt-[26px]">
-        {filteredPosts.map((post, index) => (
-          <div key={index} className="w-full">
-            <PostCard
-              post={post}
-              onClick={() => handleNavigateToDetail(post.id)}
+      {posts.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-start mt-[26px]">
+          {filteredPosts.map((post, index) => (
+            <div key={index} className="w-full">
+              <PostCard
+                post={post}
+                onClick={() => handleNavigateToDetail(post.id)}
+              />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="w-full text-center items-center mt-20 flex mt-40 w-full flex-col items-center justify-center">
+          {isError ? (
+            '에러가 발생했습니다.'
+          ) : isLoading ? (
+            <AiOutlineLoading3Quarters
+              className="animate-spin"
+              size={48}
+              color="gray"
             />
-          </div>
-        ))}
-      </div>
+          ) : (
+            '게시물이 없습니다.'
+          )}
+        </div>
+      )}
     </div>
   );
 };
