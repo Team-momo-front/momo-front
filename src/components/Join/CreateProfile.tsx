@@ -14,6 +14,11 @@ type profileForm = {
   mbti: string;
 };
 
+enum Gender {
+  MALE = 'MALE',
+  FEMALE = 'FEMALE',
+}
+
 const CreateProfile = () => {
   const [profileForm, setProfileForm] = useState<profileForm>({
     gender: '',
@@ -33,11 +38,9 @@ const CreateProfile = () => {
     }));
   };
 
-  const [selectedGender, setSelectedGender] = useState<
-    'male' | 'female' | null
-  >(null);
+  const [selectedGender, setSelectedGender] = useState<Gender | null>(null);
 
-  const toggleGenderButton = (gender: 'male' | 'female') => {
+  const toggleGenderButton = (gender: Gender) => {
     setSelectedGender(gender);
     setProfileForm(prev => ({ ...prev, gender }));
   };
@@ -46,6 +49,7 @@ const CreateProfile = () => {
   const maxDay = today.toISOString().slice(0, 10);
 
   const [profileImage, setProfileImage] = useState<File | null>(null);
+  // TODO: verifyEmailCode 컴포넌트로 이동 필요
   // const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const { mbtiError, validateMBTI } = useMBTIValidation();
 
@@ -59,13 +63,24 @@ const CreateProfile = () => {
   );
 
   const formData = new FormData();
-  formData.append('gender', profileForm.gender);
-  formData.append('birth', profileForm.birth);
-  formData.append('introduction', profileForm.introduction);
+
+  const requestData: Record<string, string> = {};
+
+  requestData.gender = profileForm.gender;
+  requestData.birth = profileForm.birth;
+
+  if (profileForm.introduction) {
+    requestData.introduction = profileForm.introduction;
+  }
 
   if (profileForm.mbti) {
-    formData.append('mbti', profileForm.mbti);
+    requestData.mbti = profileForm.mbti;
   }
+
+  formData.append(
+    'request',
+    new Blob([JSON.stringify(requestData)], { type: 'application/json' })
+  );
 
   if (profileImage) {
     formData.append('profileImage', profileImage);
@@ -73,7 +88,6 @@ const CreateProfile = () => {
 
   const handleProfileSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData);
 
     try {
       const response = await axiosInstance.post('/api/v1/profiles', formData);
@@ -122,18 +136,18 @@ const CreateProfile = () => {
             <button
               type="button"
               className={`btn w-32 ${
-                selectedGender === 'male' ? 'btn-primary' : 'btn-second'
+                selectedGender === Gender.MALE ? 'btn-primary' : 'btn-second'
               }`}
-              onClick={() => toggleGenderButton('male')}
+              onClick={() => toggleGenderButton(Gender.MALE)}
             >
               남성
             </button>
             <button
               type="button"
               className={`btn w-32 ${
-                selectedGender === 'female' ? 'btn-primary' : 'btn-second'
+                selectedGender === Gender.FEMALE ? 'btn-primary' : 'btn-second'
               }`}
-              onClick={() => toggleGenderButton('female')}
+              onClick={() => toggleGenderButton(Gender.FEMALE)}
             >
               여성
             </button>
