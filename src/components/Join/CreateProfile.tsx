@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import axios, { AxiosError } from 'axios';
+// import { Link } from 'react-router-dom';
+import { AxiosError } from 'axios';
 import JoinField from './JoinField.tsx';
 import { useMBTIValidation } from '../../hooks/useMBTIValidation.ts';
-import { GiPartyPopper } from 'react-icons/gi';
+// import { GiPartyPopper } from 'react-icons/gi';
 import ProfileImageUpload from '../ProfileImageUpload.tsx';
+import axiosInstance from '../../api/axiosInstance.ts';
 
 type profileForm = {
   gender: string;
@@ -45,7 +46,7 @@ const CreateProfile = () => {
   const maxDay = today.toISOString().slice(0, 10);
 
   const [profileImage, setProfileImage] = useState<File | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  // const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const { mbtiError, validateMBTI } = useMBTIValidation();
 
   const isDisabled =
@@ -72,25 +73,17 @@ const CreateProfile = () => {
 
   const handleProfileSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log(formData);
 
     try {
-      const response = await axios.post(
-        'http://54.180.112.35:8080/api/v1/profiles',
-        formData,
-        {
-          headers: {
-            // Authorization: `Bearer ${accessToken}`,
-            Authorization: `Bearer ${null}`,
-            'Content-Type': 'multipart/form-data',
-          },
-        }
-      );
+      const response = await axiosInstance.post('/api/v1/profiles', formData);
 
       console.log(response.data);
 
-      if (response.status === 201) {
-        setIsModalOpen(true);
-      }
+      // TODO: verifyEmailCode 컴포넌트로 이동 필요
+      // if (response.status === 201) {
+      //   setIsModalOpen(true);
+      // }
     } catch (err) {
       if (err instanceof AxiosError) {
         if (err.response && err.response.status === 409) {
@@ -194,7 +187,7 @@ const CreateProfile = () => {
           disabled={isDisabled}
           className={`btn ${isDisabled ? 'btn-disabled' : 'btn-primary'}`}
         >
-          회원가입 완료하기
+          프로필 생성하기
         </button>
         <p className="font-bold text-sm text-gray-500">
           *표시된 항목은 필수 입력 항목입니다.
@@ -207,7 +200,8 @@ const CreateProfile = () => {
         )}
       </form>
 
-      {isModalOpen && (
+      {/* TODO: verifyEmailCode 컴포넌트로 이동 필요 */}
+      {/* {isModalOpen && (
         <dialog id="my_modal_5" className="modal modal-open sm:modal-middle ">
           <div className="modal-box flex flex-col items-center gap-4">
             <GiPartyPopper className="py-3 w-[100px] h-[100px] fill-primary" />
@@ -221,7 +215,7 @@ const CreateProfile = () => {
             </Link>
           </div>
         </dialog>
-      )}
+      )} */}
     </div>
   );
 };
