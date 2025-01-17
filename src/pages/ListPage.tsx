@@ -1,49 +1,71 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Categories from '../components/Categories';
 import PostCard from '../components/PostCard';
 import SearchBar from '../components/SearchBar/SearchBar';
+import { useDebounce } from '../hooks/useDebounce';
 import useSearchMeetings from '../hooks/useSearchMeetings';
 import { useToggleCategory } from '../hooks/useToggleCategory';
+// import { posts } from '../mocks/posts';
 import { Post } from '../types/Post';
 
 const ListPage = () => {
   const { data } = useSearchMeetings({});
+  const posts: Post[] = data.meetings;
   const [searchFilter, setSearchFilter] = useState<string>('location');
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [filteredPosts, setFilteredPosts] = useState<Post[]>(data.meetings);
-
+  const [filteredPosts, setFilteredPosts] = useState<Post[]>(posts);
   const { categories: selectedCategories, toggleCategory } =
     useToggleCategory();
-
+  const debouncedSelectedCategories = useDebounce(selectedCategories, 300);
   const navigate = useNavigate();
 
+  const filterPosts = (
+    targetCategories: string[],
+    query: string,
+    filter: string
+  ) => {
+    return posts.filter(post => {
+      const matchesCategory =
+        targetCategories.length === 0 ||
+        targetCategories.some(category => post.categories.includes(category));
+      const matchesSearch =
+        !query ||
+        (filter === 'location' && post.location.includes(query)) ||
+        (filter === 'title' && post.title.includes(query)) ||
+        (filter === 'content' && post.content.includes(query));
+
+      return matchesCategory && matchesSearch;
+    });
+  };
+
+  useEffect(() => {
+    setFilteredPosts(
+      filterPosts(debouncedSelectedCategories, searchQuery, searchFilter)
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedSelectedCategories]);
+
+  const handleSearch = () => {
+    setFilteredPosts(
+      filterPosts(debouncedSelectedCategories, searchQuery, searchFilter)
+    );
+  };
+
   const handleCreatePost = () => {
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+      if (confirm('로그인 하시겠습니까?')) {
+        navigate('/login');
+      }
+      return;
+    }
     navigate('/create');
   };
 
   const handleNavigateToDetail = (id: string) => {
     navigate(`/post/${id}`);
   };
-
-  // TODO: 타입스크립트로 하라고 하셔요
-  const handleSearch = () => {
-    const filtered = filteredPosts.filter(post => {
-      const matchesCategory =
-        selectedCategories.length === 0 ||
-        selectedCategories.some(category => post.categories.includes(category));
-      const matchesSearch =
-        !searchQuery ||
-        (searchFilter === 'location' && post.location.includes(searchQuery)) ||
-        (searchFilter === 'title' && post.title.includes(searchQuery)) ||
-        (searchFilter === 'content' && post.content.includes(searchQuery));
-      return matchesCategory && matchesSearch;
-    });
-    setFilteredPosts(filtered);
-  };
-
-  if (filteredPosts.length === 0)
-    return <div className="px-16 py-10">게시물이 없습니다.</div>;
 
   return (
     <div className="px-16 py-10">
