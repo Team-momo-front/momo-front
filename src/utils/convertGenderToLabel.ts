@@ -1,8 +1,8 @@
 export const convertGenderToLabel = (gender: string): string => {
   switch (gender) {
-    case 'male':
+    case 'MALE':
       return '남성';
-    case 'female':
+    case 'FEMALE':
       return '여성';
     default:
       return '';

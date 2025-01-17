@@ -17,7 +17,7 @@ interface UserInfoProps {
   isCanceled: boolean;
 }
 
-const UserInfo: React.FC<UserInfoProps> = ({ isModified, isCanceled }) => {
+const InfoForm: React.FC<UserInfoProps> = ({ isModified, isCanceled }) => {
   const [initialUserData] = useRecoilState(initialUserDataState);
   const [updatedUserData, setUpdatedUserData] =
     useRecoilState(updatedUserDataState);
@@ -84,9 +84,9 @@ const UserInfo: React.FC<UserInfoProps> = ({ isModified, isCanceled }) => {
           name="phoneNumber"
           label="휴대폰 번호"
           type="tel"
-          placeholder={updatedUserData.phoneNumber}
+          placeholder={updatedUserData.phone}
           disabled={!isModified}
-          value={updatedUserData.phoneNumber}
+          value={updatedUserData.phone}
           onChange={e =>
             handleChange('phoneNumber', formatPhoneNumber(e.target.value))
           }
@@ -159,4 +159,4 @@ const UserInfo: React.FC<UserInfoProps> = ({ isModified, isCanceled }) => {
   );
 };
 
-export default UserInfo;
+export default InfoForm;
