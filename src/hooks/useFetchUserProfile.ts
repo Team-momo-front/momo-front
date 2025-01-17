@@ -10,7 +10,7 @@ const fetchUserProfile = async (): Promise<UserProfile> => {
 
 const useFetchUserProfile = () => {
   return useQuery<UserProfile, AxiosError>({
-    queryKey: ['userData'],
+    queryKey: ['UserProfile'],
     queryFn: fetchUserProfile,
   });
 };
