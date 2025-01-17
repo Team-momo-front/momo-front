@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { getMyMeetings, getMyMeetingsRequest } from '../api/meeting';
+import { getMyMeetings } from '../api/meeting';
+import type { getMyMeetingsRequest } from '../types/Meeting';
 
 const useGetMyMeetings = (params: getMyMeetingsRequest) => {
   return useQuery({

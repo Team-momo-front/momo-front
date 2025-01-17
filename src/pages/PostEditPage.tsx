@@ -11,7 +11,7 @@ const PostEditPage = ({ meeting }: { meeting: CreateMeetingResponse }) => {
   const id = meeting.id;
   const { mutate: editMeeting } = useEditMeeting();
   const [isEditMode, setIsEditMode] = useState(false);
-  const [editData, setEditData] = useState<CreateMeetingRequest | undefined>();
+  const [editData, setEditData] = useState<CreateMeetingRequest>();
 
   useEffect(() => {
     if (meeting) {
