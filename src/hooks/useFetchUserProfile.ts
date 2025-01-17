@@ -12,6 +12,7 @@ const useFetchUserProfile = () => {
   return useQuery<UserProfile, AxiosError>({
     queryKey: ['UserProfile'],
     queryFn: fetchUserProfile,
+    retry: false,
   });
 };
 
