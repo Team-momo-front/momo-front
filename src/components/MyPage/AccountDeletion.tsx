@@ -1,19 +1,50 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useMutation } from '@tanstack/react-query';
+import axiosInstance from '../../api/axiosInstance';
+import { AxiosError } from 'axios';
 
+const deleteAccount = async () => {
+  const response = await axiosInstance.delete('/api/v1/users');
+  return response.data;
+};
 const AccountDeletion = () => {
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const navigate = useNavigate();
 
-  const handleDeleteAccount = () => {
+  const { mutate, isPending } = useMutation({
+    mutationFn: deleteAccount,
+    onSuccess: () => {
+      alert('회원 탈퇴가 완료되었습니다.');
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('loginUserType');
+      localStorage.removeItem('hasProfile');
+      navigate('/');
+    },
+    onError: error => {
+      if (error instanceof AxiosError) {
+        console.log(error);
+      }
+    },
+  });
+
+  const handleDeleteAccount = async () => {
     try {
       if (confirmDelete) {
-        // TODO: 회원 탈퇴 및 로그아웃 요청
-        // TODO: 요청 성공시 회원 탈퇴 완료 alert 보여주기 & 처리 전에는 처리중... 상태 보여주기
+        mutate();
       }
     } catch {
       console.error('error');
     }
   };
+
+  if (isPending) {
+    return (
+      <div className="flex justify-center items-center gap-4 w-[440px]">
+        <span className="loading loading-spinner w-16 text-primary"></span>
+      </div>
+    );
+  }
 
   return (
     <dialog id="my_modal_5" className="modal modal-open">
