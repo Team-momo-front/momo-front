@@ -1,41 +1,24 @@
-import { CreatedMeeting } from '../types/Post';
+import type {
+  CreatedMeeting,
+  CreateMeetingRequest,
+  CreateMeetingResponse,
+  getMyMeetingsRequest,
+  MeetingStatus,
+  SearchMeetingsRequest,
+} from '../types/Meeting';
 import { apiClient } from './apiClient';
-export interface CreateMeetingRequest {
-  title: string;
-  locatinoId: number | null;
-  latitude: number | null;
-  longitude: number | null;
-  address: string;
-  meetingDateTime: string;
-  maxCount: number;
-  category: string[];
-  content: string;
-  thumbnail?: string;
-}
-export interface SearchMeetingsRequest {
-  latitude?: number;
-  longitude?: number;
-  lastId?: number;
-  lastDistance?: number;
-  lastMeetingDateTime?: string;
-  pageSize?: number;
-}
-
-export interface MeetingStatus {
-  status: 'RECRUITING' | 'CLOSED';
-}
-
-export interface getMyMeetingsRequest {
-  lastId?: number;
-  pageSize?: number;
-}
 
 const COMMON_URL = '/api/v1/meetings';
 
-export const createMeeting = async (form: CreateMeetingRequest) =>
+export const createMeeting = async (
+  form: CreateMeetingRequest
+): Promise<CreateMeetingResponse> =>
   apiClient({ url: COMMON_URL, method: 'post', data: form });
 
-export const editMeeting = async (form: CreateMeetingRequest, id: string) =>
+export const editMeeting = async (
+  id: string,
+  form: CreateMeetingRequest
+): Promise<CreateMeetingResponse> =>
   apiClient({ url: `${COMMON_URL}/${id}`, method: 'put', data: form });
 
 export const deleteMeeting = async (id: string) =>
