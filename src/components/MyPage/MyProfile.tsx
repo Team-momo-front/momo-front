@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 // import { users } from '../../mocks/users';
 // import { User } from '../../types/User';
-import UserInfo from './MyInfo';
+import InfoForm from './InfoForm';
 import ProfileImageUpload from '../ProfileImageUpload';
 import {
   isFormInvalidFormState,
@@ -12,7 +12,7 @@ import {
 import axiosInstance from '../../api/axiosInstance';
 import ProfileRedirect from './ProfileRedirect';
 
-const MyInfo = () => {
+const MyProfil = () => {
   // TODO: 서버에서 데이터 받아 전역상태관리 필요
   const [initialUserData, setInitialUserData] =
     useRecoilState(initialUserDataState);
@@ -98,7 +98,7 @@ const MyInfo = () => {
           />
         )}
 
-        <UserInfo isModified={isModified} isCanceled={isCanceled} />
+        <InfoForm isModified={isModified} isCanceled={isCanceled} />
         <div className="w-full flex justify-end my-10">
           {isModified ? (
             <div className="flex gap-4">
@@ -139,4 +139,4 @@ const MyInfo = () => {
   );
 };
 
-export default MyInfo;
+export default MyProfil;

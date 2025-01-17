@@ -17,7 +17,7 @@ interface UserInfoProps {
   isCanceled: boolean;
 }
 
-const UserInfo: React.FC<UserInfoProps> = ({ isModified, isCanceled }) => {
+const InfoForm: React.FC<UserInfoProps> = ({ isModified, isCanceled }) => {
   const [initialUserData] = useRecoilState(initialUserDataState);
   const [updatedUserData, setUpdatedUserData] =
     useRecoilState(updatedUserDataState);
@@ -159,4 +159,4 @@ const UserInfo: React.FC<UserInfoProps> = ({ isModified, isCanceled }) => {
   );
 };
 
-export default UserInfo;
+export default InfoForm;

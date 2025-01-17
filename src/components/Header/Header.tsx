@@ -12,7 +12,7 @@ const Header = () => {
   const accessToken = localStorage.getItem('accessToken');
 
   const handleNavigateMypage = () => {
-    navigate('/mypage/my-info');
+    navigate('/mypage/my-profile');
   };
 
   const handleLogout = async () => {
