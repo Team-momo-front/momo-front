@@ -22,7 +22,6 @@ const LoginForm = () => {
 
       if (response.data && response.data.accessToken) {
         localStorage.setItem('accessToken', response.data.accessToken);
-        localStorage.setItem('loginUserType', 'emailUser');
       }
 
       navigate('/');

@@ -4,11 +4,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../assets/svg/logo.svg';
 import { notifications } from '../../mocks/notifications';
 import { Notification } from '../../types/Notification';
-import axios from 'axios';
+import axiosInstance from '../../api/axiosInstance';
 
 const Header = () => {
   const navigate = useNavigate();
-  const userLoginType = localStorage.getItem('loginUserType');
   const accessToken = localStorage.getItem('accessToken');
 
   const handleNavigateMypage = () => {
@@ -17,33 +16,13 @@ const Header = () => {
 
   const handleLogout = async () => {
     try {
-      if (userLoginType === 'emailUser') {
-        const response = await axios.delete('/api/v1/users/logout', {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-        console.log(response.data);
-        alert(response.data.message);
+      const response = await axiosInstance.delete('/api/v1/users/logout');
+      alert(response.data.message);
 
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('loginUserType');
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('loginUserType');
 
-        navigate('/');
-      } else if (userLoginType === 'kakaoUser') {
-        const response = await axios.delete('/api/v1/kakao/logout', {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-        console.log(response.data);
-        alert(response.data.message);
-
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('loginUserType');
-
-        navigate('/');
-      }
+      navigate('/');
     } catch (err) {
       console.error('로그아웃 실패:', err);
     }
