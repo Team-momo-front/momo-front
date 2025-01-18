@@ -81,6 +81,10 @@ const MyProfile = () => {
     );
   }
 
+  if (hasProfile === 'false') {
+    return <ProfileRedirect />;
+  }
+
   return hasProfile === 'true' ? (
     <div className="w-full">
       <div className="w-[680px] m-auto flex flex-col items-center mt-[30px]">
@@ -143,9 +147,7 @@ const MyProfile = () => {
       </div>
     </div>
   ) : (
-    <>
-      <ProfileRedirect />
-    </>
+    <></>
   );
 };
 

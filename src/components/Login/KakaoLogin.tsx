@@ -15,7 +15,6 @@ const KakaoLogin = () => {
         });
 
         localStorage.setItem('accessToken', response.data.accessToken);
-        localStorage.setItem('loginUserType', 'kakaoUser');
 
         navigate('/');
       } catch (err) {
