@@ -92,7 +92,7 @@ const CreateProfile = () => {
       const response = await axiosInstance.post('/api/v1/profiles', formData);
       console.log(response.data);
 
-      navigate('mypage/my-profile');
+      navigate('/mypage/my-profile');
     } catch (err) {
       if (err instanceof AxiosError) {
         if (err.response && err.response.status === 409) {
