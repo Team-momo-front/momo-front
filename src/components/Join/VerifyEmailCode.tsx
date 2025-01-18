@@ -23,9 +23,7 @@ const VerifyEmailCode = () => {
 
       console.log(response.data);
 
-      alert('이메일 인증 성공! 회원가입이 완료되었습니다. 로그인해주세요.');
       setIsModalOpen(true);
-      navigate('/login');
     } catch (err) {
       if (err instanceof AxiosError) {
         if (err.response && err.response.status === 400) {
