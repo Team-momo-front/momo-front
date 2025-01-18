@@ -1,8 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { RiKakaoTalkFill } from 'react-icons/ri';
 import Input from '../Input';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { useState } from 'react';
+import axiosInstance from '../../api/axiosInstance';
+import { useMutation } from '@tanstack/react-query';
 
 const LoginForm = () => {
   const [email, setEmail] = useState<string>('');
@@ -11,21 +13,22 @@ const LoginForm = () => {
 
   const navigate = useNavigate();
 
-  const handleLoginSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    try {
-      const response = await axios.post('/api/v1/users/login', {
+  const { mutate, isPending } = useMutation({
+    mutationFn: async () => {
+      const response = await axiosInstance.post('/api/v1/users/login', {
         email: email,
         password: password,
       });
-
-      if (response.data && response.data.accessToken) {
-        localStorage.setItem('accessToken', response.data.accessToken);
+      return response.data;
+    },
+    onSuccess: data => {
+      if (data && data.accessToken) {
+        localStorage.setItem('accessToken', data.accessToken);
       }
 
       navigate('/');
-    } catch (err) {
+    },
+    onError: err => {
       if (err instanceof AxiosError) {
         if (err.response && err.response.status === 400) {
           setLoginError(err.response.data.message);
@@ -33,8 +36,15 @@ const LoginForm = () => {
         if (err.response && err.response.status === 404) {
           setLoginError(err.response.data.message);
         }
+      } else {
+        setLoginError('오류가 발생했습니다.');
       }
-    }
+    },
+  });
+
+  const handleLoginSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    mutate();
   };
 
   const handleKakaoLogin = () => {
@@ -44,6 +54,14 @@ const LoginForm = () => {
 
     window.location.href = kakaoLoginUrl;
   };
+
+  if (isPending) {
+    return (
+      <div className="w-full h-screen flex justify-center items-center">
+        <span className="loading loading-spinner w-16 text-gray-600"></span>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full h-screen flex justify-center items-center">
