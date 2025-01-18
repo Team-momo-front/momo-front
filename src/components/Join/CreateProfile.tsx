@@ -6,6 +6,7 @@ import { useMBTIValidation } from '../../hooks/useMBTIValidation.ts';
 // import { GiPartyPopper } from 'react-icons/gi';
 import ProfileImageUpload from '../ProfileImageUpload.tsx';
 import axiosInstance from '../../api/axiosInstance.ts';
+import { useNavigate } from 'react-router-dom';
 
 type profileForm = {
   gender: string;
@@ -86,6 +87,8 @@ const CreateProfile = () => {
     formData.append('profileImage', profileImage);
   }
 
+  const navigate = useNavigate();
+
   const handleProfileSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -98,6 +101,8 @@ const CreateProfile = () => {
       // if (response.status === 201) {
       //   setIsModalOpen(true);
       // }
+
+      navigate('mypage/my-profile');
     } catch (err) {
       if (err instanceof AxiosError) {
         if (err.response && err.response.status === 409) {
@@ -107,6 +112,7 @@ const CreateProfile = () => {
           setCreateProfileError(err.response.data.message);
         }
         setCreateProfileError(err.message);
+        console.log(err);
       }
     }
   };
