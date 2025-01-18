@@ -9,7 +9,7 @@ const VerifyEmailCode = () => {
   const [emailConfirmCodeError, setEmailConfirmCodeError] = useState<
     string | null
   >(null);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(true);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
