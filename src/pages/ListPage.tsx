@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import Categories from '../components/Categories';
+import LoadingSpinner from '../components/LoadingSpinner';
 import PostCard from '../components/PostCard';
 import SearchBar from '../components/SearchBar/SearchBar';
 import { useDebounce } from '../hooks/useDebounce';
@@ -109,11 +109,7 @@ const ListPage = () => {
           {isError ? (
             '에러가 발생했습니다.'
           ) : isLoading ? (
-            <AiOutlineLoading3Quarters
-              className="animate-spin"
-              size={48}
-              color="gray"
-            />
+            <LoadingSpinner />
           ) : (
             '게시물이 없습니다.'
           )}
