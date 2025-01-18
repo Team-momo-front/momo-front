@@ -9,21 +9,6 @@ export const isFormInvalidFormState = atom<boolean>({
   default: false,
 });
 
-export const initialUserDataState = atom<UserProfile>({
-  key: 'initialUserDataState',
-  default: {
-    birth: '',
-    email: '',
-    gender: '',
-    introduction: '',
-    mbti: '',
-    nickname: '',
-    profileImageUrl: '',
-    phone: '',
-    oauthProvider: '',
-  },
-});
-
 export const updatedUserDataState = atom<UserProfile>({
   key: 'updatedUserDataState',
   default: {

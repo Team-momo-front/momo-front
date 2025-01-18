@@ -1,29 +1,21 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import useFetchUserProfile from '../../hooks/useFetchUserProfile';
-import {
-  initialUserDataState,
-  isFormInvalidFormState,
-  updatedUserDataState,
-} from '../../states/recoilState';
+import { isFormInvalidFormState } from '../../states/recoilState';
 import LoadingSpinner from '../LoadingSpinner';
 import ProfileImageUpload from '../ProfileImageUpload';
 import InfoForm from './InfoForm';
 import ProfileRedirect from './ProfileRedirect';
 
 const MyProfile = () => {
-  // 서버로부터 유저 프로필데이터 받아오기
   const { data, isLoading } = useFetchUserProfile();
 
-  const [initialUserData, setInitialUserData] =
-    useRecoilState(initialUserDataState);
-  const [updatedUserData, setUpdatedUserData] =
-    useRecoilState(updatedUserDataState);
   const [isModified, setIsModified] = useState(false);
   const [isCanceled, setIsCanceled] = useState(false);
+
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [profileImageURL, setProfileImageURL] = useState<string | null>(
-    initialUserData.profileImageUrl ?? null
+    data?.profileImageUrl ?? null
   );
   const [hasProfile, setHasProfile] = useState<string | null>(
     localStorage.getItem('hasProfile')
@@ -33,31 +25,17 @@ const MyProfile = () => {
 
   useEffect(() => {
     if (data) {
-      const processedData = {
-        ...data,
-        mbti: data.mbti === 'NONE' ? '' : data.mbti,
-      };
-
-      localStorage.setItem('hasProfile', 'true');
       setHasProfile(localStorage.getItem('hasProfile'));
-
-      setInitialUserData(processedData);
-      setUpdatedUserData(processedData);
-      setProfileImageURL(data.profileImageUrl ?? null);
     }
-  }, [data, setInitialUserData, setUpdatedUserData]);
+  }, [data]);
 
   const handleSubmit = () => {
-    // TODO: 서버로 userData 전송
-    setInitialUserData(updatedUserData);
-    console.log('submit', updatedUserData);
+    // TODO: 프로필 수정 API 호출
     setIsModified(false);
     setIsCanceled(false);
   };
 
   const handleCancel = () => {
-    setUpdatedUserData(initialUserData);
-    setProfileImageURL(initialUserData.profileImageUrl ?? null);
     setProfileImage(null);
     setIsModified(false);
     setIsCanceled(true);
@@ -65,13 +43,6 @@ const MyProfile = () => {
 
   const handleProfileImageChange = useCallback((newImageURL: string | null) => {
     setProfileImageURL(newImageURL);
-
-    if (newImageURL) {
-      setUpdatedUserData(prevData => ({
-        ...prevData,
-        profileImage: newImageURL,
-      }));
-    }
   }, []);
 
   if (isLoading) {
@@ -101,19 +72,22 @@ const MyProfile = () => {
           </div>
         ) : (
           <img
-            src={
-              initialUserData.profileImageUrl ||
-              '/image/upload_profile_image.webp'
-            }
+            src={data?.profileImageUrl || '/image/upload_profile_image.webp'}
             alt="user profile image"
             className={`w-[150px] h-[150px] object-cover rounded-full mb-[30px] ${
-              initialUserData.profileImageUrl &&
+              data?.profileImageUrl &&
               'bg-white p-[5px] border-[1px] border-gray-600'
             }`}
           />
         )}
 
-        <InfoForm isModified={isModified} isCanceled={isCanceled} />
+        {data && (
+          <InfoForm
+            isModified={isModified}
+            isCanceled={isCanceled}
+            profileData={data}
+          />
+        )}
         <div className="w-full flex justify-end my-10">
           {isModified ? (
             <div className="flex gap-4">

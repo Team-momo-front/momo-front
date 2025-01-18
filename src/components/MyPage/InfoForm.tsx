@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { formatPhoneNumber } from '../../utils/formatPhoneNumber';
-import { User } from '../../types/User';
+import { User, UserProfile } from '../../types/User';
 import { useMBTIValidation } from '../../hooks/useMBTIValidation';
 import { validateNickname, validatePhoneNumber } from '../Join/validation';
 import InfoFormField from './InfoFormField';
@@ -8,17 +8,20 @@ import { convertGenderToLabel } from '../../utils/convertGenderToLabel';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import {
   isFormInvalidFormState,
-  initialUserDataState,
   updatedUserDataState,
 } from '../../states/recoilState';
 
 interface UserInfoProps {
   isModified: boolean;
   isCanceled: boolean;
+  profileData: UserProfile;
 }
 
-const InfoForm: React.FC<UserInfoProps> = ({ isModified, isCanceled }) => {
-  const [initialUserData] = useRecoilState(initialUserDataState);
+const InfoForm: React.FC<UserInfoProps> = ({
+  isModified,
+  isCanceled,
+  profileData,
+}) => {
   const [updatedUserData, setUpdatedUserData] =
     useRecoilState(updatedUserDataState);
   const setIsInvalidUserForm = useSetRecoilState(isFormInvalidFormState);
@@ -38,7 +41,7 @@ const InfoForm: React.FC<UserInfoProps> = ({ isModified, isCanceled }) => {
     setNicknameError(null);
     setPhoneNumberError(null);
     setMbtiError(null);
-    setUpdatedUserData(initialUserData);
+    setUpdatedUserData(profileData);
   }, [isCanceled]);
 
   useEffect(() => {
