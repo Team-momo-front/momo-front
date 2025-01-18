@@ -5,6 +5,7 @@ import logo from '../../assets/svg/logo.svg';
 import { notifications } from '../../mocks/notifications';
 import { Notification } from '../../types/Notification';
 import axiosInstance from '../../api/axiosInstance';
+import { useMutation } from '@tanstack/react-query';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -14,18 +15,28 @@ const Header = () => {
     navigate('/mypage/my-profile');
   };
 
-  const handleLogout = async () => {
-    try {
-      const response = await axiosInstance.delete('/api/v1/users/logout');
-      alert(response.data.message);
+  const logout = async () => {
+    const response = await axiosInstance.delete('/api/v1/users/logout');
+    return response.data;
+  };
 
+  const { mutate, isPending } = useMutation({
+    mutationFn: logout,
+    onSuccess: data => {
       localStorage.removeItem('accessToken');
       localStorage.removeItem('loginUserType');
 
       navigate('/');
-    } catch (err) {
+      alert(data.message);
+    },
+    onError: err => {
+      alert(err.message);
       console.error('로그아웃 실패:', err);
-    }
+    },
+  });
+
+  const handleLogout = async () => {
+    mutate();
   };
 
   // TODO : 서버데이터 사용
@@ -41,6 +52,14 @@ const Header = () => {
   };
 
   const hasNotification = data.length > 0;
+
+  if (isPending) {
+    return (
+      <div className="w-full h-screen flex justify-center items-center">
+        <span className="loading loading-spinner w-16 text-gray-600"></span>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full h-[62px] border-b-[1px] border-gray-100 grid grid-cols-3 items-center">

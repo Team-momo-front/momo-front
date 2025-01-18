@@ -84,7 +84,6 @@ const VerifyEmailCode = () => {
       {isModalOpen && (
         <dialog id="my_modal_5" className="modal modal-open sm:modal-middle ">
           <div className="modal-box flex flex-col items-center gap-2">
-            {/* <GiPartyPopper className="py-3 w-[100px] h-[100px] fill-primary" /> */}
             <p className="py-3 font-bold">
               축하합니다! 회원가입이 완료되었습니다!
             </p>
