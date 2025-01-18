@@ -93,7 +93,7 @@ const RedirectResetPassword = () => {
             type="button"
             onClick={fetchAccessToken}
             disabled={!password || !passwordConfirm}
-            className="btn btn-primary"
+            className="btn btn-block font-bold text-[16px] btn-primary border-none"
           >
             비밀번호 재설정
           </button>
