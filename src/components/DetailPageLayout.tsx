@@ -84,7 +84,7 @@ const DetailPageLayout = ({
                 />
               </Map>
             </div>
-            <div className="flex justify-end mt-auto ml-auto mt-10">
+            <div className="flex justify-end ml-auto mt-10">
               <button
                 type="button"
                 className="btn btn-primary"
