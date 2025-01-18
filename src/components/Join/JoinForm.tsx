@@ -101,6 +101,8 @@ const JoinForm = () => {
         if (err.response && err.response.status === 400) {
           setJoinError(err.response.data.message);
         }
+      } else {
+        setJoinError('오류가 발생했습니다.');
       }
     },
   });
