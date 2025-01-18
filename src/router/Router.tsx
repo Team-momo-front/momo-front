@@ -29,18 +29,33 @@ const Router = () => {
           {/* 메인페이지 - 모집글 리스트 */}
           <Route path="/" element={<ListPage />} />
           <Route path="/post/:id" element={<PostDetailPage />} />
-          <Route path="/create" element={<CreatePostPage />} />
+          <Route
+            path="/create"
+            element={
+              <ProtectedRoute>
+                <CreatePostPage />
+              </ProtectedRoute>
+            }
+          />
           {/* 로그인 & 회원가입 */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/join" element={<JoinPage />} />
           <Route path="/verify-email-code" element={<VerifyEmailCode />} />
-          <Route path="/create-profile" element={<CreateProfilePage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route
             path="/reset-password/callback"
             element={<RedirectResetPassword />}
           />
           <Route path="/kakao/callback" element={<KakaoLogin />} />
+          {/* 프로필 생성 */}
+          <Route
+            path="/create-profile"
+            element={
+              <ProtectedRoute>
+                <CreateProfilePage />
+              </ProtectedRoute>
+            }
+          />
           {/* 마이페이지 */}
           <Route
             path="/mypage"
