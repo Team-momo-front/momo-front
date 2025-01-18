@@ -2,7 +2,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Route, Routes } from 'react-router-dom';
 import Layout from '../components/Layout/Layout';
 import AccountDeletion from '../components/MyPage/AccountDeletion';
-import ChangePassword from '../components/MyPage/ChangePassword';
 import MyMeetings from '../components/MyPage/MyMeetings';
 import MyProfile from '../components/MyPage/MyProfile';
 import CreatePostPage from '../pages/CreatePostPage';
@@ -45,7 +44,6 @@ const Router = () => {
           <Route path="/mypage" element={<MyPage />}>
             <Route path="my-profile" element={<MyProfile />} />
             <Route path="my-meetings" element={<MyMeetings />} />
-            <Route path="change-password" element={<ChangePassword />} />
             <Route path="account-deletion" element={<AccountDeletion />} />
           </Route>
           {/* 주최한 모임 -> 신청자 보기 페이지 */}
