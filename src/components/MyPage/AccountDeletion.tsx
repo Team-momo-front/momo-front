@@ -76,7 +76,7 @@ const AccountDeletion = () => {
               탈퇴하기
             </button>
           </Link>
-          <Link to="/mypage/my-info">
+          <Link to="/mypage/my-profile">
             <button type="button" className="btn btn-second">
               취소하기
             </button>
