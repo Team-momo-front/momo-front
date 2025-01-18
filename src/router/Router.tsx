@@ -15,7 +15,7 @@ import MyPage from '../pages/MyPage';
 import ResetPasswordPage from '../pages/ResetPasswordPage';
 import UserProfilePage from '../pages/UserProfilePage';
 import ViewParticipantPage from '../pages/ViewParticipantPage';
-import ResetPasswordCallback from '../components/Join/ResetPasswordCallback';
+import RedirectResetPassword from '../components/Join/RedirectResetPassword';
 
 const queryClient = new QueryClient();
 import VerifyEmailCode from '../components/Join/VerifyEmailCode';
@@ -38,7 +38,7 @@ const Router = () => {
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route
             path="/reset-password/callback"
-            element={<ResetPasswordCallback />}
+            element={<RedirectResetPassword />}
           />
           <Route path="/kakao/callback" element={<KakaoLogin />} />
           {/* 마이페이지 */}

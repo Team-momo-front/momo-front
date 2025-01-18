@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../api/axiosInstance';
-import JoinField from '../Join/JoinField';
+import JoinField from './JoinField';
 import {
   handleValidation,
   validatePassword,
@@ -10,7 +10,7 @@ import {
 } from './validation';
 import { passwordErrorMessages } from '../../types/Errors';
 
-const ResetPasswordCallback = () => {
+const RedirectResetPassword = () => {
   const navigate = useNavigate();
   const [password, setPassword] = useState<string>('');
   const [passwordConfirm, setPasswordConfirm] = useState<string>('');
@@ -103,4 +103,4 @@ const ResetPasswordCallback = () => {
   );
 };
 
-export default ResetPasswordCallback;
+export default RedirectResetPassword;
