@@ -19,6 +19,7 @@ import RedirectResetPassword from '../components/Join/RedirectResetPassword';
 const queryClient = new QueryClient();
 import VerifyEmailCode from '../components/Join/VerifyEmailCode';
 import KakaoLogin from '../components/Login/KakaoLogin';
+import ProtectedRoute from '../components/ProtectedRoute/ProtectedRoute';
 
 const Router = () => {
   return (
@@ -41,23 +42,49 @@ const Router = () => {
           />
           <Route path="/kakao/callback" element={<KakaoLogin />} />
           {/* 마이페이지 */}
-          <Route path="/mypage" element={<MyPage />}>
+          <Route
+            path="/mypage"
+            element={
+              <ProtectedRoute>
+                <MyPage />
+              </ProtectedRoute>
+            }
+          >
             <Route path="my-profile" element={<MyProfile />} />
             <Route path="my-meetings" element={<MyMeetings />} />
             <Route path="account-deletion" element={<AccountDeletion />} />
           </Route>
           {/* 주최한 모임 -> 신청자 보기 페이지 */}
-          <Route path="/view-applicant/:id" element={<ViewParticipantPage />} />
+
+          <Route
+            path="/view-applicant/:id"
+            element={
+              <ProtectedRoute>
+                <ViewParticipantPage />
+              </ProtectedRoute>
+            }
+          />
+
           {/* 주최한 모임 -> 신청자 보기 페이지 -> 신청자 프로필 보기 */}
+
           <Route
             path="/view-applicant/profile/:userId"
-            element={<UserProfilePage />}
+            element={
+              <ProtectedRoute>
+                <UserProfilePage />
+              </ProtectedRoute>
+            }
           />
         </Route>
         {/* 채팅 유저 프로필 보기 */}
+
         <Route
           path="/chat/profile/:roomId/:userId"
-          element={<UserProfilePage />}
+          element={
+            <ProtectedRoute>
+              <UserProfilePage />
+            </ProtectedRoute>
+          }
         />
       </Routes>
     </QueryClientProvider>
