@@ -59,7 +59,6 @@ const CreatePostPage = () => {
               <FormField
                 label="모임 날짜"
                 type="datetime-local"
-                size="60"
                 value={formData.meetingDateTime}
                 name="meetingDateTime"
                 onChange={handleInputChange}
@@ -69,7 +68,6 @@ const CreatePostPage = () => {
               <FormField
                 label="모임 인원"
                 type="number"
-                size="24"
                 value={formData.maxCount === 0 ? '' : formData.maxCount}
                 name="maxCount"
                 onChange={handleInputChange}
@@ -117,8 +115,8 @@ const CreatePostPage = () => {
                   <span className="label-text font-bold">내용</span>
                 </div>
                 <textarea
-                  className="textarea textarea-bordered max-w-sm text-sm"
-                  rows={4}
+                  className="textarea textarea-bordered max-w-sm text-sm resize-none"
+                  rows={10}
                   value={formData.content}
                   name="content"
                   onChange={handleInputChange}
@@ -128,7 +126,7 @@ const CreatePostPage = () => {
                 />
               </label>
             </div>
-            <div className="flex flex-col justify-between">
+            <div className="flex flex-col justify-between items-center">
               <label htmlFor="file-upload" className="cursor-pointer">
                 <img
                   src={formData.thumbnail || 'image/upload_image.webp'}
@@ -150,7 +148,7 @@ const CreatePostPage = () => {
                       lat: parseFloat(selectedPlace.y),
                       lng: parseFloat(selectedPlace.x),
                     }}
-                    className="w-[280px] h-[280px]"
+                    className="w-[320px] h-[320px]"
                     level={5}
                   >
                     <MapMarker
@@ -162,7 +160,7 @@ const CreatePostPage = () => {
                   </Map>
                 </div>
               )}
-              <div className="flex justify-end mt-auto">
+              <div className="flex justify-end mt-auto ml-auto">
                 <button type="submit" className="btn btn-primary">
                   업로드
                 </button>
