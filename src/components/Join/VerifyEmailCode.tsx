@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { Link } from 'react-router-dom';
 import JoinField from './JoinField';
 import axiosInstance from '../../api/axiosInstance';
@@ -13,20 +12,18 @@ const VerifyEmailCode = () => {
   >(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  const confirmEmailCode = async () => {
+  const confirmEmailCode = async (code: string) => {
     const response = await axiosInstance.post(
       '/api/v1/users/signup/verify',
       null,
       {
         params: {
-          code: emailConfirmCode,
+          code: code,
         },
       }
     );
     return response.data;
   };
-
-  // const navigate = useNavigate();
 
   const { mutate, isPending } = useMutation({
     mutationFn: confirmEmailCode,
@@ -35,18 +32,20 @@ const VerifyEmailCode = () => {
     },
     onError: err => {
       if (err instanceof AxiosError) {
-        // 인증코드 불일치
-        if (err.response && err.response.status === 400) {
-          setEmailConfirmCodeError(err.response.data.message);
-        } else {
-          setEmailConfirmCodeError('서버와의 연결에 문제가 발생했습니다.');
+        if (err.response) {
+          // 인증코드 불일치
+          if (err.response.status === 400) {
+            setEmailConfirmCodeError(err.response.data.message);
+          } else {
+            setEmailConfirmCodeError(err.response.data.message);
+          }
         }
       }
     },
   });
 
   const handleEmailConfirmCodeValidation = () => {
-    mutate();
+    mutate(emailConfirmCode);
   };
 
   return (
