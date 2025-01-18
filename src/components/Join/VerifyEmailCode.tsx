@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios, { AxiosError } from 'axios';
+import { Link } from 'react-router-dom';
 import JoinField from './JoinField';
 
 const VerifyEmailCode = () => {
@@ -8,6 +9,7 @@ const VerifyEmailCode = () => {
   const [emailConfirmCodeError, setEmailConfirmCodeError] = useState<
     string | null
   >(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -22,6 +24,7 @@ const VerifyEmailCode = () => {
       console.log(response.data);
 
       alert('이메일 인증 성공! 회원가입이 완료되었습니다. 로그인해주세요.');
+      setIsModalOpen(true);
       navigate('/login');
     } catch (err) {
       if (err instanceof AxiosError) {
@@ -60,6 +63,22 @@ const VerifyEmailCode = () => {
           </button>
         </div>
       </div>
+
+      {isModalOpen && (
+        <dialog id="my_modal_5" className="modal modal-open sm:modal-middle ">
+          <div className="modal-box flex flex-col items-center gap-2">
+            {/* <GiPartyPopper className="py-3 w-[100px] h-[100px] fill-primary" /> */}
+            <p className="py-3 font-bold">
+              축하합니다! 회원가입이 완료되었습니다!
+            </p>
+            <Link to="/login">
+              <button type="button" className="btn btn-primary">
+                로그인 하러 가기
+              </button>
+            </Link>
+          </div>
+        </dialog>
+      )}
     </div>
   );
 };

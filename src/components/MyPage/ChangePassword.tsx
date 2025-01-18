@@ -7,6 +7,8 @@ import {
   validatePasswordConfirm,
 } from '../Join/validation';
 import { passwordErrorMessages } from '../../types/Errors';
+import axiosInstance from '../../api/axiosInstance';
+import { AxiosError } from 'axios';
 
 const ChangePassword = () => {
   const [password, setPassword] = useState<string>('');
@@ -18,24 +20,35 @@ const ChangePassword = () => {
     passwordConfirmError: null,
   });
 
-  const handleChangePassword = (e: React.FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
-
-    // TODO: 비밀번호 변경 요청
-
-    setErrors({
-      passwordError: null,
-      passwordConfirmError: null,
-    });
-    setValidationErrors();
-    setIsModalOpen(true);
-  };
-
   const setValidationErrors = () => {
     setErrors({
       passwordError: validatePassword(password),
       passwordConfirmError: validatePasswordConfirm(password, passwordConfirm),
     });
+  };
+
+  const token = localStorage.getItem('token');
+
+  const handleChangePassword = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      await axiosInstance.post('/api/v1/users/password/change', {
+        token: token,
+        newPassword: password,
+      });
+
+      setErrors({
+        passwordError: null,
+        passwordConfirmError: null,
+      });
+      setValidationErrors();
+      setIsModalOpen(true);
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        console.log(err.message);
+      }
+    }
   };
 
   return (

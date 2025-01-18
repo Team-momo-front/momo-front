@@ -41,7 +41,7 @@ const AccountDeletion = () => {
   if (isPending) {
     return (
       <div className="flex justify-center items-center gap-4 w-[440px]">
-        <span className="loading loading-spinner w-16 text-primary"></span>
+        <span className="loading loading-spinner w-16 text-gray-600"></span>
       </div>
     );
   }

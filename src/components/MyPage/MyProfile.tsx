@@ -76,7 +76,7 @@ const MyProfile = () => {
   if (isLoading) {
     return (
       <div className="w-full h-[450px] flex justify-center items-center font-bold text-3xl">
-        Loading...
+        <span className="loading loading-spinner w-14 text-gray-600"></span>
       </div>
     );
   }
