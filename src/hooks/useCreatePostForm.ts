@@ -39,14 +39,14 @@ const useCreatePostForm = () => {
   };
 
   const updateLocation = (
-    locatinoId: string,
+    locationId: string,
     latitude: string,
     longitude: string,
     address: string
   ) => {
     setFormData(prev => ({
       ...prev,
-      locatinoId: Number(locatinoId),
+      locationId: Number(locationId),
       latitude: Number(latitude),
       longitude: Number(longitude),
       address,
