@@ -1,8 +1,9 @@
+import { useMutation } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useMutation } from '@tanstack/react-query';
 import axiosInstance from '../../api/axiosInstance';
-import { AxiosError } from 'axios';
+import LoadingSpinner from '../LoadingSpinner';
 
 const deleteAccount = async () => {
   const response = await axiosInstance.delete('/api/v1/users');
@@ -41,7 +42,7 @@ const AccountDeletion = () => {
   if (isPending) {
     return (
       <div className="flex justify-center items-center gap-4 w-[440px]">
-        <span className="loading loading-spinner w-16 text-gray-600"></span>
+        <LoadingSpinner />
       </div>
     );
   }

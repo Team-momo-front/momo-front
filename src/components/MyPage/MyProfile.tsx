@@ -1,14 +1,15 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import InfoForm from './InfoForm';
-import ProfileImageUpload from '../ProfileImageUpload';
+import useFetchUserProfile from '../../hooks/useFetchUserProfile';
 import {
-  isFormInvalidFormState,
   initialUserDataState,
+  isFormInvalidFormState,
   updatedUserDataState,
 } from '../../states/recoilState';
+import LoadingSpinner from '../LoadingSpinner';
+import ProfileImageUpload from '../ProfileImageUpload';
+import InfoForm from './InfoForm';
 import ProfileRedirect from './ProfileRedirect';
-import useFetchUserProfile from '../../hooks/useFetchUserProfile';
 
 const MyProfile = () => {
   // 서버로부터 유저 프로필데이터 받아오기
@@ -76,7 +77,7 @@ const MyProfile = () => {
   if (isLoading) {
     return (
       <div className="w-full h-[450px] flex justify-center items-center font-bold text-3xl">
-        <span className="loading loading-spinner w-14 text-gray-600"></span>
+        <LoadingSpinner />
       </div>
     );
   }
