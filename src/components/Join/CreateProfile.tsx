@@ -1,9 +1,7 @@
 import { useState } from 'react';
-// import { Link } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import JoinField from './JoinField.tsx';
 import { useMBTIValidation } from '../../hooks/useMBTIValidation.ts';
-// import { GiPartyPopper } from 'react-icons/gi';
 import ProfileImageUpload from '../ProfileImageUpload.tsx';
 import axiosInstance from '../../api/axiosInstance.ts';
 import { useNavigate } from 'react-router-dom';
@@ -50,8 +48,6 @@ const CreateProfile = () => {
   const maxDay = today.toISOString().slice(0, 10);
 
   const [profileImage, setProfileImage] = useState<File | null>(null);
-  // TODO: verifyEmailCode 컴포넌트로 이동 필요
-  // const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const { mbtiError, validateMBTI } = useMBTIValidation();
 
   const isDisabled =
@@ -94,13 +90,7 @@ const CreateProfile = () => {
 
     try {
       const response = await axiosInstance.post('/api/v1/profiles', formData);
-
       console.log(response.data);
-
-      // TODO: verifyEmailCode 컴포넌트로 이동 필요
-      // if (response.status === 201) {
-      //   setIsModalOpen(true);
-      // }
 
       navigate('mypage/my-profile');
     } catch (err) {
@@ -219,23 +209,6 @@ const CreateProfile = () => {
           </p>
         )}
       </form>
-
-      {/* TODO: verifyEmailCode 컴포넌트로 이동 필요 */}
-      {/* {isModalOpen && (
-        <dialog id="my_modal_5" className="modal modal-open sm:modal-middle ">
-          <div className="modal-box flex flex-col items-center gap-4">
-            <GiPartyPopper className="py-3 w-[100px] h-[100px] fill-primary" />
-            <p className="py-3 font-bold">
-              축하합니다! 회원가입이 완료되었습니다!
-            </p>
-            <Link to="/login">
-              <button type="button" className="btn btn-primary">
-                로그인 하러 가기
-              </button>
-            </Link>
-          </div>
-        </dialog>
-      )} */}
     </div>
   );
 };
