@@ -88,7 +88,7 @@ const MyProfile = () => {
 
   if (isError) {
     return (
-      <div className="w-full h-[450px] flex justify-center items-center font-bold text-gray-600">
+      <div className="w-full h-[450px] flex justify-center items-center">
         에러가 발생했습니다.
       </div>
     );
