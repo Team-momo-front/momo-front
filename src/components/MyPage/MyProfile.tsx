@@ -12,7 +12,7 @@ import ProfileRedirect from './ProfileRedirect';
 import useEditProfile from '../../hooks/useEditProfile';
 
 const MyProfile = () => {
-  const { data, isLoading, refetch } = useFetchUserProfile();
+  const { data, isLoading, isError, refetch } = useFetchUserProfile();
   const [isModified, setIsModified] = useState(false);
   const [isCanceled, setIsCanceled] = useState(false);
   const [profileImage, setProfileImage] = useState<File | null>(null);
@@ -82,6 +82,14 @@ const MyProfile = () => {
     return (
       <div className="w-full h-[450px] flex justify-center items-center font-bold text-3xl">
         <LoadingSpinner />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="w-full h-[450px] flex justify-center items-center font-bold text-gray-600">
+        에러가 발생했습니다.
       </div>
     );
   }
