@@ -7,6 +7,8 @@ const useEditProfile = () => {
 
   const editProfile = async (profileData: UpdatedUserProfile) => {
     const response = await axiosInstance.put('/api/v1/users/me', {
+      // TODO: profileImage를 stinrg Type이 아닌 FormData 형식으로 변경
+      // api 수정 후 요청값에 맞게 수정 필요
       ...profileData,
     });
     return response.data;
