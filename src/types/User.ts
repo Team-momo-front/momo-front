@@ -23,3 +23,10 @@ export interface UserProfile {
   phone: string;
   profileImageUrl: string;
 }
+
+export interface Participants {
+  userId: number;
+  nickname: string;
+  profileImage: string;
+  participationStatus: string;
+}
