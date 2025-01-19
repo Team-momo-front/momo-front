@@ -33,7 +33,6 @@ const MyProfile = () => {
 
   const { mutate, isPending } = useEditProfile();
 
-  // TODO: 서버 DB 업데이트 이슈 수정 후 테스트 필요
   const handleSubmit = (e: React.MouseEvent) => {
     e.preventDefault();
 

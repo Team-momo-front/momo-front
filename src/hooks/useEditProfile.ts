@@ -7,7 +7,7 @@ const useEditProfile = () => {
 
   const editProfile = async (profileData: UpdatedUserProfile) => {
     const response = await axiosInstance.put('/api/v1/users/me', {
-      profileData,
+      ...profileData,
     });
     return response.data;
   };
