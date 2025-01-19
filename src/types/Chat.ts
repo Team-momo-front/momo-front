@@ -1,7 +1,7 @@
 export interface Chat {
   roomId: number;
   meetingId: number;
-  meetingThumbnailUrl: string;
+  meetingThumbnail: string;
   meetingTitle: string;
   lastMessage: string;
   hostId: string;
