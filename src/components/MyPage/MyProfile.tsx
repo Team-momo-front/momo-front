@@ -1,51 +1,85 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import useFetchUserProfile from '../../hooks/useFetchUserProfile';
-import { isFormInvalidFormState } from '../../states/recoilState';
+import {
+  isFormInvalidFormState,
+  updatedUserDataState,
+} from '../../states/recoilState';
 import LoadingSpinner from '../LoadingSpinner';
 import ProfileImageUpload from '../ProfileImageUpload';
 import InfoForm from './InfoForm';
 import ProfileRedirect from './ProfileRedirect';
+import useEditProfile from '../../hooks/useEditProfile';
 
 const MyProfile = () => {
-  const { data, isLoading } = useFetchUserProfile();
-
+  const { data, isLoading, refetch } = useFetchUserProfile();
   const [isModified, setIsModified] = useState(false);
   const [isCanceled, setIsCanceled] = useState(false);
-
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [profileImageURL, setProfileImageURL] = useState<string | null>(
     data?.profileImageUrl ?? null
   );
-  const [hasProfile, setHasProfile] = useState<string | null>(
-    localStorage.getItem('hasProfile')
-  );
-
   const isInvalidUserForm = useRecoilValue(isFormInvalidFormState);
+  const [updatedUserData, setUpdatedUserData] =
+    useRecoilState(updatedUserDataState);
 
   useEffect(() => {
     if (data) {
-      setHasProfile(localStorage.getItem('hasProfile'));
+      setProfileImageURL(data.profileImageUrl);
     }
   }, [data]);
 
-  const handleSubmit = () => {
-    // TODO: 프로필 수정 API 호출
+  const hasProfile = localStorage.getItem('hasProfile');
+
+  const { mutate, isPending } = useEditProfile();
+
+  // TODO: 서버 DB 업데이트 이슈 수정 후 테스트 필요
+  const handleSubmit = (e: React.MouseEvent) => {
+    e.preventDefault();
+
+    mutate(updatedUserData, {
+      onSuccess: async data => {
+        console.log(data);
+        await refetch();
+      },
+      onError: error => {
+        console.log(error);
+        alert('오류 발생: 프로필 수정에 실패하였습니다.');
+      },
+    });
     setIsModified(false);
     setIsCanceled(false);
+    setUpdatedUserData({});
   };
 
   const handleCancel = () => {
     setProfileImage(null);
     setIsModified(false);
     setIsCanceled(true);
+
+    if (data) {
+      setProfileImageURL(data.profileImageUrl);
+    }
+    setUpdatedUserData({});
   };
 
   const handleProfileImageChange = useCallback((newImageURL: string | null) => {
     setProfileImageURL(newImageURL);
+
+    if (newImageURL) {
+      setUpdatedUserData(prevData => ({
+        ...prevData,
+        profileImageUrl: newImageURL,
+      }));
+    }
   }, []);
 
-  if (isLoading) {
+  // TODO: 백엔드 오류 코드 오류 수정 후 서버 재배포 예정, TEST 필요
+  if (hasProfile === 'false') {
+    return <ProfileRedirect />;
+  }
+
+  if (isLoading || isPending) {
     return (
       <div className="w-full h-[450px] flex justify-center items-center font-bold text-3xl">
         <LoadingSpinner />
@@ -53,11 +87,7 @@ const MyProfile = () => {
     );
   }
 
-  if (hasProfile === 'false') {
-    return <ProfileRedirect />;
-  }
-
-  return hasProfile === 'true' ? (
+  return hasProfile === 'true' && data ? (
     <div className="w-full">
       <div className="w-[680px] m-auto flex flex-col items-center mt-[30px]">
         {isModified ? (
@@ -81,13 +111,12 @@ const MyProfile = () => {
           />
         )}
 
-        {data && (
-          <InfoForm
-            isModified={isModified}
-            isCanceled={isCanceled}
-            profileData={data}
-          />
-        )}
+        <InfoForm
+          isModified={isModified}
+          isCanceled={isCanceled}
+          profileData={data}
+        />
+
         <div className="w-full flex justify-end my-10">
           {isModified ? (
             <div className="flex gap-4">
@@ -100,7 +129,7 @@ const MyProfile = () => {
               </button>
               <button
                 type="submit"
-                onClick={handleSubmit}
+                onClick={e => handleSubmit(e)}
                 className="btn btn-primary disabled:border-none"
                 disabled={!!isInvalidUserForm}
               >

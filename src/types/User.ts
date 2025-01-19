@@ -20,6 +20,14 @@ export interface UserProfile {
   mbti?: string;
   nickname: string;
   oauthProvider: string;
-  phone: string;
+  phone?: string;
   profileImageUrl: string;
 }
+
+export type UpdatedUserProfile = {
+  introduction?: string;
+  mbti?: string;
+  nickname?: string;
+  phone?: string;
+  profileImageUrl?: string;
+};

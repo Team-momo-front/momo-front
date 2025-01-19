@@ -89,9 +89,9 @@ const CreateProfile = () => {
     e.preventDefault();
 
     try {
-      const response = await axiosInstance.post('/api/v1/profiles', formData);
-      console.log(response.data);
+      await axiosInstance.post('/api/v1/profiles', formData);
 
+      localStorage.setItem('hasProfile', 'true');
       navigate('/mypage/my-profile');
     } catch (err) {
       if (err instanceof AxiosError) {
