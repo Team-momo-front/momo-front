@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../api/axiosInstance';
 import { useMutation } from '@tanstack/react-query';
+import LoadingSpinner from '../LoadingSpinner';
 
 const KakaoLogin = () => {
   const navigate = useNavigate();
@@ -18,6 +19,9 @@ const KakaoLogin = () => {
     },
     onSuccess: data => {
       localStorage.setItem('accessToken', data.accessToken);
+      localStorage.setItem('userId', data.userId);
+      localStorage.setItem('loginType', 'kakao');
+      console.log(data);
       navigate('/');
     },
     onError: () => {
@@ -35,7 +39,7 @@ const KakaoLogin = () => {
   if (isPending) {
     return (
       <div className="w-full h-screen flex justify-center items-center">
-        <span className="loading loading-spinner w-16 text-gray-600"></span>
+        <LoadingSpinner />
       </div>
     );
   }

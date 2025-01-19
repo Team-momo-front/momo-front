@@ -24,7 +24,9 @@ const Header = () => {
     mutationFn: logout,
     onSuccess: data => {
       localStorage.removeItem('accessToken');
-      localStorage.removeItem('loginUserType');
+      localStorage.removeItem('hasProfile');
+      localStorage.removeItem('loginType');
+      localStorage.removeItem('userId');
 
       navigate('/');
       alert(data.message);
