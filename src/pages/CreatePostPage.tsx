@@ -30,6 +30,7 @@ const categoryValueToKey = Object.keys(CategoryList).reduce((acc, key) => {
 
 const CreatePostPage = () => {
   const {
+    thumbnailUrl,
     formData,
     handleSubmit,
     handleFileChange,
@@ -150,7 +151,7 @@ const CreatePostPage = () => {
             <div className="flex flex-col justify-between items-center">
               <label htmlFor="file-upload" className="cursor-pointer">
                 <img
-                  src={formData.thumbnail || 'image/upload_image.webp'}
+                  src={thumbnailUrl || 'image/upload_image.webp'}
                   alt="Thumbnail"
                   className="w-[280px] h-[178.48px] object-cover rounded-3xl"
                 />
@@ -158,7 +159,7 @@ const CreatePostPage = () => {
                   id="file-upload"
                   type="file"
                   className="hidden"
-                  accept="image/*"
+                  accept=".jpg,.jpeg,.png"
                   onChange={handleFileChange}
                 />
               </label>
