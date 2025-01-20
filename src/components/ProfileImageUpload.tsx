@@ -89,7 +89,7 @@ const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
             id="file-upload"
             type="file"
             className="hidden "
-            accept="image/*"
+            accept=".jpg,.jpeg,.png"
             disabled={!!profileURL || !!profileImage}
             onChange={handleFileChange}
           />
