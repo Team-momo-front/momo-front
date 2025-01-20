@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+// import { useGetParticipants } from '../../hooks/useGetParticipants';
+import { users } from '../../mocks/users';
 import { Post } from '../../types/Post';
 import { User } from '../../types/User';
-import { users } from '../../mocks/users';
-import { useNavigate } from 'react-router-dom';
 
 const ParticipantList = ({
   post,
@@ -11,11 +12,19 @@ const ParticipantList = ({
   post: Post;
   isFinished: boolean;
 }) => {
+  // TODO : renderUserList 리팩토링 필요
+  // const { data: users, isLoading, isError } = useGetParticipants(post.id || '');
+
+  // const pendingUsers =
+  //   users?.filter(user => user.participationStatus === 'pending') || [];
+
+  // const approvedUsers =
+  //   users?.filter(user => user.participationStatus === 'approved') || [];
+
   const [participants, setParticipants] = useState(users);
 
   useEffect(() => {
     if (post.participatedUserId) {
-      // TODO: User Token으로 서버와 통신해 참가자 목록 받아오기
       const filteredParticipants = users.filter(user =>
         post.participatedUserId?.includes(user.userId)
       );
