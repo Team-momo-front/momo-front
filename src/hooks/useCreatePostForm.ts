@@ -20,7 +20,7 @@ const useCreatePostForm = () => {
     'image/upload_image.webp'
   );
 
-  const { mutate: createMeeting } = useCreateMeeting();
+  const { mutate: createMeeting, isPending } = useCreateMeeting();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -89,6 +89,7 @@ const useCreatePostForm = () => {
     handleInputChange,
     updateLocation,
     updateCategories,
+    isPending,
   };
 };
 
