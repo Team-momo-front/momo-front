@@ -13,22 +13,45 @@ const useCreatePostForm = () => {
     maxCount: 0,
     category: [],
     content: '',
-    thumbnail: undefined,
   });
 
-  const { mutate: createMeeting } = useCreateMeeting();
+  const [thumbnail, setThumbnail] = useState<File | null>(null);
+  const [thumbnailUrl, setThumbnailUrl] = useState<string>(
+    'image/upload_image.webp'
+  );
+
+  const { mutate: createMeeting, isPending } = useCreateMeeting();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    createMeeting(formData);
+
+    const postFormData = new FormData();
+    postFormData.append(
+      'request',
+      new Blob([JSON.stringify(formData)], { type: 'application/json' })
+    );
+
+    if (thumbnail) {
+      postFormData.append('thumbnail', thumbnail);
+    } else {
+      const defaultThumbnailImage = new File(
+        ['/images/default_profile_image.png'],
+        'default_profile_image.png',
+        { type: 'image/png' }
+      );
+      postFormData.append('profileImage', defaultThumbnailImage);
+    }
+
+    createMeeting(postFormData);
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files ? e.target.files[0] : undefined;
-    setFormData(prev => ({
-      ...prev,
-      thumbnail: file ? URL.createObjectURL(file) : undefined,
-    }));
+    const file = e.target.files ? e.target.files[0] : null;
+    if (file) {
+      setThumbnail(file);
+      const fileUrl = URL.createObjectURL(file);
+      setThumbnailUrl(fileUrl);
+    }
   };
 
   const handleInputChange = (
@@ -58,6 +81,7 @@ const useCreatePostForm = () => {
   };
 
   return {
+    thumbnailUrl,
     formData,
     setFormData,
     handleSubmit,
@@ -65,6 +89,7 @@ const useCreatePostForm = () => {
     handleInputChange,
     updateLocation,
     updateCategories,
+    isPending,
   };
 };
 

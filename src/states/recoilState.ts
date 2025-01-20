@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { UserProfile } from '../types/User';
+import { UpdatedUserProfile } from '../types/User';
 import { ActiveState } from '../types/Post';
 import { Chat } from '../types/Chat';
 
@@ -9,19 +9,9 @@ export const isFormInvalidFormState = atom<boolean>({
   default: false,
 });
 
-export const updatedUserDataState = atom<UserProfile>({
+export const updatedUserDataState = atom<UpdatedUserProfile>({
   key: 'updatedUserDataState',
-  default: {
-    birth: '',
-    email: '',
-    gender: '',
-    introduction: '',
-    mbti: '',
-    nickname: '',
-    profileImageUrl: '',
-    phone: '',
-    oauthProvider: '',
-  },
+  default: {},
 });
 
 export const isActiveState = atom<ActiveState>({
