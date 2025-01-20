@@ -1,14 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import { UserProfile } from '../types/User';
+import { AxiosError } from 'axios';
 import fetchUserProfile from '../api/fetchUserProfile';
 
-const useFetchUserProfile = () => {
-  return useQuery<UserProfile, AxiosError>({
+const useFetchUserProfileImage = () => {
+  return useQuery<UserProfile, AxiosError, string>({
     queryKey: ['UserProfile'],
     queryFn: fetchUserProfile,
+    select: data => data.profileImageUrl,
     retry: false,
   });
 };
 
-export default useFetchUserProfile;
+export default useFetchUserProfileImage;
