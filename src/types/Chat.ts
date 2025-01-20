@@ -5,19 +5,19 @@ export interface Chat {
   meetingTitle: string;
   lastMessage: string;
   hostId: string;
-  unreadMessagesCount: number | null;
+  unreadMessagesCount: number;
   readerId: string[];
 }
 
 export interface ChatRoomResponse {
   roomId: number;
   meetingId: number;
-  meetingThumbnail: string;
+  meetingThumbnailUrl: string;
   meetingTitle: string;
   lastMessage: string;
   hostId: number;
   readerId: number[];
-  unreadMessagesCount: number | null;
+  unreadMessagesCount: number;
 }
 
 export interface ChatHistoryResponse {
