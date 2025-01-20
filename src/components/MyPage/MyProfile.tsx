@@ -12,7 +12,13 @@ import ProfileRedirect from './ProfileRedirect';
 import useEditProfile from '../../hooks/useEditProfile';
 
 const MyProfile = () => {
-  const { data, isLoading, isError, refetch } = useFetchUserProfile();
+  const { data, isLoading, isError, refetch, error } = useFetchUserProfile();
+  if (error) {
+    if (error.response && error.response.status === 403) {
+      localStorage.setItem('hasProfile', 'false');
+    }
+  }
+
   const [isModified, setIsModified] = useState(false);
   const [isCanceled, setIsCanceled] = useState(false);
   const [profileImage, setProfileImage] = useState<File | null>(null);
