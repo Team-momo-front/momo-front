@@ -38,6 +38,7 @@ axiosInstance.interceptors.response.use(
       localStorage.removeItem('loginType');
       localStorage.removeItem('hasProfile');
       localStorage.removeItem('userId');
+      window.location.href = '/';
     }
     return Promise.reject(error);
   }
