@@ -27,19 +27,21 @@ const ChatList: React.FC<ChatListProps> = ({ chats, onChatClick }) => {
           {chats.map(chat => (
             <li
               key={chat.roomId}
-              className="flex justify-between items-center cursor-pointer hover:translate-x-1 duration-300 ease-in-out"
+              className="flex justify-between items-center cursor-pointer hover:translate-x-1 duration-300 ease-in-out gap-2"
               onClick={() => onChatClick(chat)}
             >
-              <img
-                src={
-                  chat.meetingThumbnailUrl ||
-                  '/image/default_profile_image_test.webp'
-                }
-                alt="Chatting Room Thumbnail"
-                className="w-10 h-10 rounded-full border-[1px] border-gray-400 bg-white p-1 mr-2"
-              />
+              <div className="w-10 h-10">
+                <img
+                  src={
+                    chat.meetingThumbnailUrl ||
+                    '/image/default_profile_image_test.webp'
+                  }
+                  alt="Chatting Room Thumbnail"
+                  className="rounded-full border-[1px] border-gray-400 bg-white p-[1px] mr-2 w-full h-full object-cover"
+                />
+              </div>
               <div className="flex flex-1 gap-2">
-                <span className="font-bold text-sm overflow-hidden text-ellipsis whitespace-nowrap w-[210px]">
+                <span className="font-bold text-sm overflow-hidden text-ellipsis whitespace-nowrap w-[180px]">
                   {chat.meetingTitle}
                 </span>
               </div>
