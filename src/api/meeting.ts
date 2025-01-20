@@ -11,9 +11,13 @@ import { apiClient } from './apiClient';
 const COMMON_URL = '/api/v1/meetings';
 
 export const createMeeting = async (
-  form: CreateMeetingRequest
+  form: FormData
 ): Promise<CreateMeetingResponse> =>
-  apiClient({ url: COMMON_URL, method: 'post', data: form });
+  apiClient({
+    url: COMMON_URL,
+    method: 'post',
+    data: form,
+  });
 
 export const editMeeting = async (
   id: string,

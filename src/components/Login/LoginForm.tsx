@@ -5,6 +5,7 @@ import { AxiosError } from 'axios';
 import { useState } from 'react';
 import axiosInstance from '../../api/axiosInstance';
 import { useMutation } from '@tanstack/react-query';
+import LoadingSpinner from '../LoadingSpinner';
 
 const LoginForm = () => {
   const [email, setEmail] = useState<string>('');
@@ -26,6 +27,7 @@ const LoginForm = () => {
         localStorage.setItem('accessToken', data.accessToken);
       }
 
+      localStorage.setItem('loginType', 'email');
       navigate('/');
     },
     onError: err => {
@@ -58,7 +60,7 @@ const LoginForm = () => {
   if (isPending) {
     return (
       <div className="w-full h-screen flex justify-center items-center">
-        <span className="loading loading-spinner w-16 text-gray-600"></span>
+        <LoadingSpinner />
       </div>
     );
   }

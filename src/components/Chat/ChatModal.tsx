@@ -1,4 +1,4 @@
-import { chats } from '../../mocks/chats';
+// import { chats } from '../../mocks/chats';
 import { Chat } from '../../types/Chat';
 import ChatList from './ChatList';
 import ChatRoom from './ChatRoom';
@@ -10,8 +10,12 @@ import {
   isViewParticipantListOpenState,
   selectedChatState,
 } from '../../states/recoilState';
+import useSearchChatRooms from '../../hooks/useSearchChatRooms';
+import LoadingSpinner from '../LoadingSpinner';
 
 const ChatModal = () => {
+  const { data, isLoading } = useSearchChatRooms();
+
   const [isChatRoomOpen, setIsChatRoomOpen] =
     useRecoilState(isChatRoomOpenState);
   const [isChatListOpen, setIsChatListOpen] =
@@ -42,8 +46,8 @@ const ChatModal = () => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 animate-fadeIn">
       <div className="bg-white p-6 rounded-[40px] shadow-lg w-80 h-[75vh] animate-displayUp">
-        {isChatListOpen && (
-          <ChatList chats={chats} onChatClick={openChatRoom} />
+        {isChatListOpen && data && (
+          <ChatList chats={data} onChatClick={openChatRoom} />
         )}
 
         {isChatRoomOpen && (
@@ -59,6 +63,12 @@ const ChatModal = () => {
             chat={selectedChat}
             handleBackBtn={openChatRoom}
           />
+        )}
+
+        {isLoading && (
+          <div className="w-full h-full flex items-center justify-center">
+            <LoadingSpinner />
+          </div>
         )}
       </div>
     </div>

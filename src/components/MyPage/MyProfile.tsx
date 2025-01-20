@@ -26,6 +26,7 @@ const MyProfile = () => {
   useEffect(() => {
     if (data) {
       setProfileImageURL(data.profileImageUrl);
+      localStorage.setItem('hasProfile', 'true');
     }
   }, [data]);
 
@@ -37,8 +38,7 @@ const MyProfile = () => {
     e.preventDefault();
 
     mutate(updatedUserData, {
-      onSuccess: async data => {
-        console.log(data);
+      onSuccess: async () => {
         await refetch();
       },
       onError: error => {
@@ -68,12 +68,11 @@ const MyProfile = () => {
     if (newImageURL) {
       setUpdatedUserData(prevData => ({
         ...prevData,
-        profileImageUrl: newImageURL,
+        profileImage: newImageURL,
       }));
     }
   }, []);
 
-  // TODO: 백엔드 오류 코드 오류 수정 후 서버 재배포 예정, TEST 필요
   if (hasProfile === 'false') {
     return <ProfileRedirect />;
   }
@@ -102,19 +101,23 @@ const MyProfile = () => {
             <ProfileImageUpload
               profileImage={profileImage}
               setProfileImage={setProfileImage}
-              defaultImage="/image/default_profile_image.webp"
+              defaultImage="/image/default_profile_image.png"
               profileURL={profileImageURL}
               onProfileImageChange={handleProfileImageChange}
             />
           </div>
         ) : (
           <img
-            src={data?.profileImageUrl || '/image/upload_profile_image.webp'}
+            src={data?.profileImageUrl || '/image/upload_profile_image.png'}
             alt="user profile image"
             className={`w-[150px] h-[150px] object-cover rounded-full mb-[30px] ${
               data?.profileImageUrl &&
               'bg-white p-[5px] border-[1px] border-gray-600'
             }`}
+            // 기본 이미지 에러 핸들링을 위해 추가
+            onError={e => {
+              e.currentTarget.src = '/image/default_profile_image.png';
+            }}
           />
         )}
 
