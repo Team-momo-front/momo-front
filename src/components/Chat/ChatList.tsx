@@ -1,10 +1,10 @@
 import { useSetRecoilState } from 'recoil';
 import { isChatModalOpenState } from '../../states/recoilState';
-import { Chat } from '../../types/Chat';
+import { ChatRoomResponse } from '../../types/Chat';
 
 interface ChatListProps {
-  chats: Chat[];
-  onChatClick: (chat: Chat) => void;
+  chats: ChatRoomResponse[];
+  onChatClick: (chat: ChatRoomResponse) => void;
 }
 
 const ChatList: React.FC<ChatListProps> = ({ chats, onChatClick }) => {
@@ -31,7 +31,7 @@ const ChatList: React.FC<ChatListProps> = ({ chats, onChatClick }) => {
               onClick={() => onChatClick(chat)}
             >
               <img
-                src={chat.meetingThumbnailUrl}
+                src={chat.meetingThumbnail}
                 alt="Chatting Room Thumbnail"
                 className="w-10 h-10 rounded-full border-[1px] border-black bg-white p-1 mr-2"
               />
