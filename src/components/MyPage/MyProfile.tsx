@@ -101,14 +101,14 @@ const MyProfile = () => {
             <ProfileImageUpload
               profileImage={profileImage}
               setProfileImage={setProfileImage}
-              defaultImage="/image/default_profile_image.webp"
+              defaultImage="/image/default_profile_image.png"
               profileURL={profileImageURL}
               onProfileImageChange={handleProfileImageChange}
             />
           </div>
         ) : (
           <img
-            src={data?.profileImageUrl || '/image/upload_profile_image.webp'}
+            src={data?.profileImageUrl || '/image/upload_profile_image.png'}
             alt="user profile image"
             className={`w-[150px] h-[150px] object-cover rounded-full mb-[30px] ${
               data?.profileImageUrl &&
@@ -116,7 +116,7 @@ const MyProfile = () => {
             }`}
             // 기본 이미지 에러 핸들링을 위해 추가
             onError={e => {
-              e.currentTarget.src = '/image/default_profile_image.webp';
+              e.currentTarget.src = '/image/default_profile_image.png';
             }}
           />
         )}
