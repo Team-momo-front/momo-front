@@ -114,7 +114,7 @@ const MyProfile = () => {
           </div>
         ) : (
           <img
-            src={data?.profileImageUrl || '/image/upload_profile_image.png'}
+            src={data?.profileImageUrl || '/image/upload_profile_image.webp'}
             alt="user profile image"
             className={`w-[150px] h-[150px] object-cover rounded-full mb-[30px] ${
               data?.profileImageUrl &&
