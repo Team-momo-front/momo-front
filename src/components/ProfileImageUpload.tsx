@@ -19,7 +19,7 @@ const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
     profileURL ?? null
   );
 
-  const uploadProfileImage = '../../public/image/upload_profile_image.webp';
+  const uploadProfileImage = '/image/upload_profile_image.webp';
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
@@ -80,13 +80,16 @@ const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
           className={`w-[150px] h-[150px] object-cover rounded-full ${
             updatedProfileURL && 'bg-white p-[5px] border-gray-600 border-[1px]'
           }`}
+          onError={e => {
+            e.currentTarget.src = '/image/default_profile_image.webp';
+          }}
         />
         {(!profileImage || !profileURL) && (
           <input
             id="file-upload"
             type="file"
             className="hidden "
-            accept="image/*"
+            accept=".jpg,.jpeg,.png"
             disabled={!!profileURL || !!profileImage}
             onChange={handleFileChange}
           />
@@ -113,7 +116,7 @@ const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
                 id="file-update"
                 type="file"
                 className="hidden "
-                accept="image/*"
+                accept=".jpg,.jpeg,.png"
                 onChange={handleFileChange}
               />
             </label>

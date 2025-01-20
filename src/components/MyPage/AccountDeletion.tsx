@@ -18,8 +18,9 @@ const AccountDeletion = () => {
     onSuccess: () => {
       alert('회원 탈퇴가 완료되었습니다.');
       localStorage.removeItem('accessToken');
-      localStorage.removeItem('loginUserType');
+      localStorage.removeItem('loginType');
       localStorage.removeItem('hasProfile');
+      localStorage.removeItem('userId');
       navigate('/');
     },
     onError: error => {
