@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { formatPhoneNumber } from '../../utils/formatPhoneNumber';
-import { User } from '../../types/User';
+import { UserProfile } from '../../types/User';
 import { useMBTIValidation } from '../../hooks/useMBTIValidation';
 import { validateNickname, validatePhoneNumber } from '../Join/validation';
 import InfoFormField from './InfoFormField';
@@ -8,22 +8,24 @@ import { convertGenderToLabel } from '../../utils/convertGenderToLabel';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import {
   isFormInvalidFormState,
-  initialUserDataState,
   updatedUserDataState,
 } from '../../states/recoilState';
 
 interface UserInfoProps {
   isModified: boolean;
   isCanceled: boolean;
+  profileData: UserProfile;
 }
 
-const InfoForm: React.FC<UserInfoProps> = ({ isModified, isCanceled }) => {
-  const [initialUserData] = useRecoilState(initialUserDataState);
+const InfoForm: React.FC<UserInfoProps> = ({
+  isModified,
+  isCanceled,
+  profileData,
+}) => {
   const [updatedUserData, setUpdatedUserData] =
     useRecoilState(updatedUserDataState);
-  const setIsInvalidUserForm = useSetRecoilState(isFormInvalidFormState);
 
-  const handleChange = (field: keyof User, value: string) => {
+  const handleChange = (field: keyof UserProfile, value: string) => {
     setUpdatedUserData(prev => ({
       ...prev,
       [field]: value,
@@ -34,18 +36,19 @@ const InfoForm: React.FC<UserInfoProps> = ({ isModified, isCanceled }) => {
   const [nicknameError, setNicknameError] = useState<string | null>(null);
   const [phoneNumberError, setPhoneNumberError] = useState<string | null>(null);
 
+  const setIsInvalidUserForm = useSetRecoilState(isFormInvalidFormState);
+
   useEffect(() => {
     setNicknameError(null);
     setPhoneNumberError(null);
     setMbtiError(null);
-    setUpdatedUserData(initialUserData);
   }, [isCanceled]);
 
   useEffect(() => {
     if (
       nicknameError ||
       phoneNumberError ||
-      (updatedUserData.mbti !== '' && mbtiError)
+      (profileData.mbti !== '' && mbtiError)
     ) {
       setIsInvalidUserForm(true);
     } else {
@@ -62,7 +65,7 @@ const InfoForm: React.FC<UserInfoProps> = ({ isModified, isCanceled }) => {
           type="text"
           disabled={!isModified}
           required
-          value={updatedUserData.nickname}
+          value={isModified ? updatedUserData.nickname : profileData.nickname}
           onChange={e => handleChange('nickname', e.target.value)}
           onBlur={e => {
             setNicknameError(validateNickname(e.target.value));
@@ -75,20 +78,20 @@ const InfoForm: React.FC<UserInfoProps> = ({ isModified, isCanceled }) => {
           name="email"
           label="이메일"
           type="text"
-          placeholder={updatedUserData.email}
+          placeholder={profileData.email}
           disabled
           isModified={isModified}
         />
 
         <InfoFormField
-          name="phoneNumber"
+          name="phone"
           label="휴대폰 번호"
           type="tel"
-          placeholder={updatedUserData.phone}
+          placeholder={profileData.phone}
           disabled={!isModified}
-          value={updatedUserData.phone}
+          value={isModified ? updatedUserData.phone : profileData.phone}
           onChange={e =>
-            handleChange('phoneNumber', formatPhoneNumber(e.target.value))
+            handleChange('phone', formatPhoneNumber(e.target.value))
           }
           onBlur={e => {
             if (!e.target.value) {
@@ -109,7 +112,11 @@ const InfoForm: React.FC<UserInfoProps> = ({ isModified, isCanceled }) => {
               </span>
             </div>
             <textarea
-              value={updatedUserData.introduction}
+              value={
+                isModified
+                  ? updatedUserData.introduction
+                  : profileData.introduction
+              }
               className={
                 isModified
                   ? 'textarea textarea-bordered w-full h-24 py-4 placeholder-gray-500 font-bold text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary resize-none'
@@ -128,7 +135,7 @@ const InfoForm: React.FC<UserInfoProps> = ({ isModified, isCanceled }) => {
           name="gender"
           label="성별"
           type="text"
-          placeholder={convertGenderToLabel(updatedUserData.gender)}
+          placeholder={convertGenderToLabel(profileData.gender)}
           disabled
           isModified={isModified}
         />
@@ -137,7 +144,7 @@ const InfoForm: React.FC<UserInfoProps> = ({ isModified, isCanceled }) => {
           name="birth"
           label="생년 월일"
           type="text"
-          placeholder={updatedUserData.birth}
+          placeholder={profileData.birth}
           disabled
           isModified={isModified}
         />
@@ -147,7 +154,7 @@ const InfoForm: React.FC<UserInfoProps> = ({ isModified, isCanceled }) => {
           label="MBTI"
           type="text"
           disabled={!isModified}
-          value={updatedUserData.mbti}
+          value={isModified ? updatedUserData.mbti : profileData.mbti}
           onChange={e => handleChange('mbti', e.target.value.toUpperCase())}
           onBlur={e => validateMBTI(e.target.value)}
           isModified={isModified}

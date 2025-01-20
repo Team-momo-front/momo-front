@@ -5,11 +5,14 @@ import useDeleteMeeting from '../hooks/useDeleteMeeting';
 
 import { useCloseMeeting } from '../hooks/useCloseMeeting';
 import { posts } from '../mocks/posts';
+import { useCreateChatroom } from '../hooks/useCreateChatroom';
 
 const ViewParticipantPage = () => {
   const { id } = useParams<{ id: string }>();
+  const meetingId = Number(id);
   const { mutate: deleteMeeting } = useDeleteMeeting();
-  const { mutate: closeMeeting } = useCloseMeeting();
+  const { mutate: closeMeeting, isSuccess } = useCloseMeeting();
+  const { mutate: createChatroom } = useCreateChatroom();
   const selectedPost = posts.find(post => post.id === id) || null;
   const isFinished = selectedPost?.status === '모집 완료';
 
@@ -26,6 +29,12 @@ const ViewParticipantPage = () => {
       deleteMeeting(id);
     }
   };
+
+  // 모집완료 요청 성공시 채팅룸 생성
+  // TODO: 서버 오류 고친 후 테스트 필요
+  if (isSuccess) {
+    createChatroom(meetingId);
+  }
 
   return (
     <div className="h-[calc(100vh-62px)] flex justify-center items-center overflow-auto">

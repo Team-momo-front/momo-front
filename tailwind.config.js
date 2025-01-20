@@ -34,7 +34,7 @@ export default {
           '100%': { opacity: 1 },
         },
         displayUp: {
-          '0%': { transform: 'translateY(100%)' },
+          '0%': { transform: 'translateY(20px)' },
           '100%': { transform: 'translateY(0)' },
         },
         displayLeft: {
