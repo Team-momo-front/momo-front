@@ -24,7 +24,9 @@ const Header = () => {
     mutationFn: logout,
     onSuccess: data => {
       localStorage.removeItem('accessToken');
-      localStorage.removeItem('loginUserType');
+      localStorage.removeItem('hasProfile');
+      localStorage.removeItem('loginType');
+      localStorage.removeItem('userId');
 
       navigate('/');
       alert(data.message);
@@ -114,6 +116,7 @@ const Header = () => {
             </div>
           </div>
           <div className="dropdown dropdown-end dropdown-hover">
+            {/* TODO: 로그인 유저 프로필 이미지 가져오도록 수정 필요 */}
             <img
               src="/image/default_profile_image.webp"
               alt="profile image"

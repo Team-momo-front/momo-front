@@ -15,7 +15,10 @@ const Nav = () => {
         </span>
         <ul className="flex gap-6 mb-4">
           {navItems.map(({ path, label }, index) => (
-            <li key={index} className="font-bold text-[16px]">
+            <li
+              key={index}
+              className="font-bold text-[16px] hover:-translate-y-[2px] duration-150 ease-linear"
+            >
               <NavLink
                 to={path}
                 className={({ isActive }) =>
