@@ -13,9 +13,9 @@ const ChatList: React.FC<ChatListProps> = ({ chats, onChatClick }) => {
   return (
     <>
       <div className="relative w-full font-bold text-xl flex items-center justify-center border-b-[1px] border-gray-300 pb-5 pt-1">
-        <span className="block">채팅</span>
+        <span className="block cursor-default">채팅</span>
         <button
-          className="absolute right-4 text-gray-500 hover:text-gray-800"
+          className="absolute right-1 text-gray-500 hover:text-gray-800"
           onClick={() => setIsChatModalOpen(false)}
           aria-label="닫기"
         >
@@ -31,27 +31,25 @@ const ChatList: React.FC<ChatListProps> = ({ chats, onChatClick }) => {
               onClick={() => onChatClick(chat)}
             >
               <img
-                src={chat.meetingThumbnail}
+                src={
+                  chat.meetingThumbnailUrl ||
+                  '/image/default_profile_image_test.webp'
+                }
                 alt="Chatting Room Thumbnail"
-                className="w-10 h-10 rounded-full border-[1px] border-black bg-white p-1 mr-2"
+                className="w-10 h-10 rounded-full border-[1px] border-gray-400 bg-white p-1 mr-2"
               />
-              <div className="flex flex-1">
-                <div>
-                  <span className="font-bold text-[16px]">
-                    {chat.meetingTitle}
-                  </span>
-                  <p className="text-sm">{chat.lastMessage}</p>
-                </div>
+              <div className="flex flex-1 gap-2">
+                <span className="font-bold text-sm overflow-hidden text-ellipsis whitespace-nowrap w-[210px]">
+                  {chat.meetingTitle}
+                </span>
               </div>
-              {chat.unreadMessagesCount && (
-                <div className="flex justify-center items-center">
-                  <span className="block bg-primary px-2 py-1 rounded-full font-bold text-xs">
-                    {chat.unreadMessagesCount >= 100
-                      ? '99+'
-                      : chat.unreadMessagesCount}
-                  </span>
-                </div>
-              )}
+              <div className="flex justify-center items-center">
+                <span className="block bg-primary px-2 py-1 rounded-full font-bold text-xs">
+                  {chat.unreadMessagesCount >= 100
+                    ? '99+'
+                    : chat.unreadMessagesCount}
+                </span>
+              </div>
             </li>
           ))}
         </ul>
