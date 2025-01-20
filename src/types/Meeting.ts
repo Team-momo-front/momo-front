@@ -8,7 +8,7 @@ export interface CreateMeetingRequest {
   maxCount: number;
   category: string[];
   content: string;
-  thumbnail?: string;
+  thumbnail?: File | null;
 }
 
 export interface CreateMeetingResponse extends CreateMeetingRequest {

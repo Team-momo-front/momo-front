@@ -79,8 +79,21 @@ const CreateProfile = () => {
     new Blob([JSON.stringify(requestData)], { type: 'application/json' })
   );
 
+  // 기존 코드
+  // if (profileImage) {
+  //   formData.append('profileImage', profileImage);
+  // }
+
+  // TODO: 서버에서 null값 반환 수정하면 다시 기존 코드로 돌릴 예정
   if (profileImage) {
     formData.append('profileImage', profileImage);
+  } else {
+    const defaultImage = new File(
+      ['/images/default_profile_image.png'],
+      'default_profile_image.png',
+      { type: 'image/png' }
+    );
+    formData.append('profileImage', defaultImage);
   }
 
   const navigate = useNavigate();
