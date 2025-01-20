@@ -70,7 +70,6 @@ const Router = () => {
             <Route path="account-deletion" element={<AccountDeletion />} />
           </Route>
           {/* 주최한 모임 -> 신청자 보기 페이지 */}
-
           <Route
             path="/view-applicant/:id"
             element={
