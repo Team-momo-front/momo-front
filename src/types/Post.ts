@@ -1,20 +1,23 @@
 export interface Post {
-  id: string;
-  title: string;
-  meetingDate: string;
-  location: string;
-  participationCount: number;
+  address: string;
   approvedCount: number;
-  categories: string[];
+  authorId: number;
+  category: string[];
   content: string;
+  distance: number | null;
+  id: string;
+  latitude: number;
+  locationId: number;
+  longitude: number;
+  maxCount: number;
+  meetingDateTime: string;
   thumbnail?: string;
-  place_name: string;
-  lat: number;
-  lng: number;
-  hostedUserId?: string;
+  title: string;
+  // mockData 테스트용
   participatedUserId?: string[];
   status: HostStatus;
   participationStatus?: ParticipantStatus;
+  hostedUserId?: string; // authorId와 동일
 }
 
 export type PlaceDetail = {
