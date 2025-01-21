@@ -1,3 +1,5 @@
+import { Post } from './Post';
+
 export interface CreateMeetingRequest {
   title: string;
   locationId: number;
@@ -17,7 +19,7 @@ export interface CreateMeetingResponse extends CreateMeetingRequest {
   meetingStatus: string;
 }
 
-export interface CreatedMeeting extends CreateMeetingRequest {
+export interface CreatedMeeting extends Post {
   userId: number;
   meetingId: number;
   meetingStatus: 'RECRUITING' | 'CLOSED';

@@ -39,8 +39,10 @@ const PostCard: React.FC<PostCardProps> = ({
     <div
       className={`w-full aspect-[300/370] px-4 py-6 border shadow-md 
       transform transition-all duration-300 ease-in-out 
-      hover:translate-y-[4px] hover:shadow-lg cursor-pointer space-y-2 bg-white ㅎㅁ ${
-        isHosted || isParticipated ? 'pb-[70px] min-h-[420px]' : 'min-h-[370px]'
+      hover:translate-y-[4px] hover:shadow-lg cursor-pointer space-y-2 bg-white ${
+        isHosted || isParticipated
+          ? 'pb-[70px] aspect-[420/300] min-h-[420px] max-w-[300px]'
+          : 'min-h-[370px]'
       }`}
       onClick={onClick}
     >

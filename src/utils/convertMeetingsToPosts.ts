@@ -1,4 +1,5 @@
-import { CreatedMeeting, Post } from '../types/Post';
+import { CreatedMeeting } from './../types/Meeting';
+import { Post } from '../types/Post';
 
 const convertMeetingsToPosts = (meetings: CreatedMeeting[]): Post[] => {
   return meetings.map(meeting => {
@@ -11,7 +12,7 @@ const convertMeetingsToPosts = (meetings: CreatedMeeting[]): Post[] => {
       approvedCount: meeting.approvedCount,
       categories: meeting.category,
       content: meeting.content,
-      thumbnail: meeting.thumbnailUrl || undefined,
+      thumbnail: meeting.thumbnail || undefined,
       place_name: meeting.address,
       lat: meeting.latitude,
       lng: meeting.longitude,
