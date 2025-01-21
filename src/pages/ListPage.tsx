@@ -63,7 +63,7 @@ const ListPage = () => {
     navigate('/create');
   };
 
-  const handleNavigateToDetail = (id: string) => {
+  const handleNavigateToDetail = (id: number) => {
     navigate(`/post/${id}`);
   };
 

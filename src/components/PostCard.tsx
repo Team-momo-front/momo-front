@@ -5,9 +5,10 @@ import { Post } from '../types/Post';
 import { formatDate } from '../utils/formatDate';
 import { getStatusAndColorByRole } from '../utils/getStatusAndColorByRole';
 import PostCardBtn from './PostCardBtn';
+import { CreatedMeeting, ParticipantsResponse } from '../types/Meeting';
 
 interface PostCardProps {
-  post: Post;
+  post: Post | ParticipantsResponse | CreatedMeeting;
   isHosted?: boolean;
   isParticipated?: boolean;
   onClick?: () => void;
@@ -26,21 +27,24 @@ const PostCard: React.FC<PostCardProps> = ({
 
   let status, color;
 
+  const postStatus = post.participationStatus
+    ? post.participationStatus
+    : post.meetingStatus;
+
   if (isHosted) {
-    ({ status, color } = getStatusAndColorByRole(post.status, 'isHosted'));
-  } else if (isParticipated && post.participationStatus) {
-    ({ status, color } = getStatusAndColorByRole(
-      post.participationStatus,
-      'isParticipated'
-    ));
+    ({ status, color } = getStatusAndColorByRole(postStatus, 'isHosted'));
+  } else if (isParticipated) {
+    ({ status, color } = getStatusAndColorByRole(postStatus, 'isParticipated'));
   }
 
   return (
     <div
       className={`w-full aspect-[300/370] px-4 py-6 border shadow-md 
       transform transition-all duration-300 ease-in-out 
-      hover:translate-y-[4px] hover:shadow-lg cursor-pointer space-y-2 bg-white ㅎㅁ ${
-        isHosted || isParticipated ? 'pb-[70px] min-h-[420px]' : 'min-h-[370px]'
+      hover:translate-y-[4px] hover:shadow-lg cursor-pointer space-y-2 bg-white ${
+        isHosted || isParticipated
+          ? 'pb-[70px] aspect-[420/300] min-h-[420px] max-w-[300px]'
+          : 'min-h-[370px]'
       }`}
       onClick={onClick}
     >
@@ -97,10 +101,10 @@ const PostCard: React.FC<PostCardProps> = ({
 
       {!isViewApplicantPage && (
         <PostCardBtn
-          post={post}
+          post={post as ParticipantsResponse | CreatedMeeting}
           isHosted={isHosted}
           isParticipated={isParticipated}
-          status={status}
+          status={postStatus}
         />
       )}
     </div>
