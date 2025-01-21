@@ -1,22 +1,24 @@
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import Categories from '../components/Categories';
-import type { CreateMeetingResponse } from '../types/Meeting';
 import FormField from '../components/FormField';
 import { formatDate } from '../utils/formatDate';
+import { Post } from '../types/Post';
 
 const DetailPageLayout = ({
   meeting,
   buttonLabel,
   onClick,
 }: {
-  meeting: CreateMeetingResponse;
+  meeting: Post;
   buttonLabel: string;
   onClick: () => void;
 }) => {
   return (
     <div className="flex justify-center px-16 py-10">
       <div className="w-full max-w-5xl px-14">
-        <h1 className="text-2xl font-bold mb-6 text-center">{meeting.title}</h1>
+        <h1 className="text-2xl font-bold mb-6 text-center mb-10">
+          {meeting.title}
+        </h1>
         <div className="flex gap-x-8 justify-center">
           <div className="space-y-4">
             <FormField

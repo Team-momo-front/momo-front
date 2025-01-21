@@ -5,17 +5,14 @@ import DetailPageLayout from '../components/DetailPageLayout';
 import FormField from '../components/FormField';
 import KakaoMapModal from '../components/modals/KakaoMapModal';
 import useEditMeeting from '../hooks/useEditMeeting';
-import type {
-  CreateMeetingRequest,
-  CreateMeetingResponse,
-} from '../types/Meeting';
-import type { PlaceDetail } from '../types/Post';
+import type { CreateMeetingRequest } from '../types/Meeting';
+import type { PlaceDetail, Post } from '../types/Post';
 import {
   getLocalDateTime,
   getOneYearLaterDateTime,
 } from '../utils/getLocalDateTime';
 
-const PostEditPage = ({ meeting }: { meeting: CreateMeetingResponse }) => {
+const PostEditPage = ({ meeting }: { meeting: Post }) => {
   const id = meeting.id;
   const { mutate: editMeeting } = useEditMeeting();
   const [isEditMode, setIsEditMode] = useState(false);
@@ -35,7 +32,6 @@ const PostEditPage = ({ meeting }: { meeting: CreateMeetingResponse }) => {
         maxCount: meeting.maxCount,
         category: meeting.category,
         content: meeting.content,
-        thumbnail: meeting.thumbnail,
       });
     }
   }, [meeting]);

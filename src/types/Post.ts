@@ -5,7 +5,7 @@ export interface Post {
   category: string[];
   content: string;
   distance: number | null;
-  id: string;
+  id: number;
   latitude: number;
   locationId: number;
   longitude: number;
@@ -17,6 +17,7 @@ export interface Post {
   participatedUserId?: string[];
   status: HostStatus;
   participationStatus?: ParticipantStatus;
+  meetingStatus: 'RECRUITING' | 'CLOSED';
   hostedUserId?: string; // authorId와 동일
 }
 

@@ -1,7 +1,7 @@
 import DetailPageLayout from '../components/DetailPageLayout';
-import type { CreateMeetingResponse } from '../types/Meeting';
+import { Post } from '../types/Post';
 
-const ApplyMeetingPage = ({ meeting }: { meeting: CreateMeetingResponse }) => {
+const ApplyMeetingPage = ({ meeting }: { meeting: Post }) => {
   const hasApplied = false; // TODO
   const handleClick = () => {};
 
