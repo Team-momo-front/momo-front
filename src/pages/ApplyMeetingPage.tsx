@@ -8,7 +8,7 @@ const ApplyMeetingPage = ({ meeting }: { meeting: Post }) => {
   const handleClick = () => {};
 
   const handleParticipate = () => {
-    participateMeeting(meeting.id);
+    participateMeeting();
   };
 
   return (

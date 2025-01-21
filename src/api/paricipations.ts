@@ -14,14 +14,6 @@ export const getParticipatedMeetings = async (
   });
 };
 
-// 모임 참여 신청
-export const participateMeeting = async (meetingId: number) => {
-  apiClient({
-    url: `${COMMON_URL}/${meetingId}`,
-    method: 'post',
-  });
-};
-
 // 참여 승인
 export const approveParticipation = async (participationId: number) => {
   apiClient({
