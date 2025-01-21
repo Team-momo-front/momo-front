@@ -6,10 +6,13 @@ import { notifications } from '../../mocks/notifications';
 import { Notification } from '../../types/Notification';
 import axiosInstance from '../../api/axiosInstance';
 import { useMutation } from '@tanstack/react-query';
-import useFetchUserProfileImage from '../../hooks/useFetchUSerProfileImage';
+import useFetchUserProfile from '../../hooks/useFetchUserProfile';
 
 const Header = () => {
-  const { data: profileImageUrl } = useFetchUserProfileImage();
+  const { data: profileImageUrl } = useFetchUserProfile({
+    select: data => data.profileImageUrl,
+  });
+
   const navigate = useNavigate();
   const accessToken = localStorage.getItem('accessToken');
 
@@ -123,10 +126,6 @@ const Header = () => {
               src={profileImageUrl || '/image/default_profile_image.png'}
               alt="profile image"
               className="w-[30px] h-[30px] object-cover p-[1px] border border-gray-600 rounded-full cursor-pointer"
-              // 기본 이미지 에러 핸들링을 위해 추가
-              onError={e => {
-                e.currentTarget.src = '/image/default_profile_image.png';
-              }}
             />
             <ul
               tabIndex={0}
