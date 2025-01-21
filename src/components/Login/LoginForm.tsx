@@ -114,7 +114,7 @@ const LoginForm = () => {
         </div>
 
         {loginError && (
-          <p className="w-[538px] mb-2 font-bold text-[12px] text-error">
+          <p className="w-[538px] mb-2 font-bold text-[12px] text-error text-center">
             {loginError}
           </p>
         )}
