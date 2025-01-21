@@ -5,9 +5,10 @@ import { Post } from '../types/Post';
 import { formatDate } from '../utils/formatDate';
 import { getStatusAndColorByRole } from '../utils/getStatusAndColorByRole';
 import PostCardBtn from './PostCardBtn';
+import { CreatedMeeting, ParticipantsResponse } from '../types/Meeting';
 
 interface PostCardProps {
-  post: Post;
+  post: Post | ParticipantsResponse | CreatedMeeting;
   isHosted?: boolean;
   isParticipated?: boolean;
   onClick?: () => void;
@@ -22,17 +23,18 @@ const PostCard: React.FC<PostCardProps> = ({
   const location = useLocation();
   const isViewApplicantPage = location.pathname.includes('/view-applicant');
 
-  const hasThumbnail = post.thumbnail !== undefined;
+  const hasThumbnail = post.thumbnail ? true : false;
 
   let status, color;
 
+  const postStatus = post.participationStatus
+    ? post.participationStatus
+    : post.meetingStatus;
+
   if (isHosted) {
-    ({ status, color } = getStatusAndColorByRole(post.status, 'isHosted'));
-  } else if (isParticipated && post.participationStatus) {
-    ({ status, color } = getStatusAndColorByRole(
-      post.participationStatus,
-      'isParticipated'
-    ));
+    ({ status, color } = getStatusAndColorByRole(postStatus, 'isHosted'));
+  } else if (isParticipated) {
+    ({ status, color } = getStatusAndColorByRole(postStatus, 'isParticipated'));
   }
 
   return (
@@ -40,20 +42,18 @@ const PostCard: React.FC<PostCardProps> = ({
       className={`w-full aspect-[300/370] px-4 py-6 border shadow-md 
       transform transition-all duration-300 ease-in-out 
       hover:translate-y-[4px] hover:shadow-lg cursor-pointer space-y-2 bg-white ${
-        isHosted || isParticipated ? 'pb-[70px] min-h-[420px]' : 'min-h-[370px]'
+        isHosted || isParticipated
+          ? 'pb-[70px] aspect-[420/300] min-h-[420px] max-w-[300px]'
+          : 'min-h-[370px]'
       }`}
       onClick={onClick}
     >
       <img
-        src={
-          hasThumbnail
-            ? '/image/thumbnail_example.webp' // TODO : post.thumbnail
-            : '/image/thumbnail_default.webp'
-        }
+        src={hasThumbnail ? post.thumbnail : '/image/thumbnail_default.webp'}
         alt={post.title}
         className="w-full h-1/2 rounded-lg object-cover"
       />
-      <div className="px-2 space-y-1">
+      <div className="px-2 space-y-1 flex flex-col gap-1">
         <div className="flex items-center justify-between gap-1">
           <h2 className="text-lg font-extrabold truncate">{post.title}</h2>
           {isHosted && (
@@ -75,19 +75,19 @@ const PostCard: React.FC<PostCardProps> = ({
         <div className="flex justify-between items-center">
           <p className="text-sm flex items-center gap-x-1">
             <FaCalendar className="w-4 h-4" />
-            {formatDate(post.meetingDate)}
+            {formatDate(post.meetingDateTime)}
           </p>
           <p className="text-base font-extrabold flex items-center">
             <FaPerson className="w-4 h-4" />
-            {`${post.approvedCount}/${post.participationCount}`}
+            {`${post.approvedCount}/${post.maxCount}`}
           </p>
         </div>
         <p className="text-sm flex items-center gap-x-1">
           <FaMapMarkerAlt className="w-3.5 h-4" />
-          {post.location}
+          {post.address}
         </p>
         <div className="flex flex-wrap gap-x-1">
-          {post.categories.map((category, index) => (
+          {post.category.map((category, index) => (
             <span
               key={index}
               className="text-xs font-bold bg-primary w-fit rounded-full px-1.5 py-[2px]"
@@ -101,10 +101,10 @@ const PostCard: React.FC<PostCardProps> = ({
 
       {!isViewApplicantPage && (
         <PostCardBtn
-          post={post}
+          post={post as ParticipantsResponse | CreatedMeeting}
           isHosted={isHosted}
           isParticipated={isParticipated}
-          status={status}
+          status={postStatus}
         />
       )}
     </div>

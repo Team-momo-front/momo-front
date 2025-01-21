@@ -6,8 +6,13 @@ import { notifications } from '../../mocks/notifications';
 import { Notification } from '../../types/Notification';
 import axiosInstance from '../../api/axiosInstance';
 import { useMutation } from '@tanstack/react-query';
+import useFetchUserProfile from '../../hooks/useFetchUserProfile';
 
 const Header = () => {
+  const { data: profileImageUrl } = useFetchUserProfile({
+    select: data => data.profileImageUrl,
+  });
+
   const navigate = useNavigate();
   const accessToken = localStorage.getItem('accessToken');
 
@@ -115,10 +120,10 @@ const Header = () => {
               </ul>
             </div>
           </div>
+
           <div className="dropdown dropdown-end dropdown-hover">
-            {/* TODO: 로그인 유저 프로필 이미지 가져오도록 수정 필요 */}
             <img
-              src="/image/default_profile_image.webp"
+              src={profileImageUrl || '/image/default_profile_image.png'}
               alt="profile image"
               className="w-[30px] h-[30px] object-cover p-[1px] border border-gray-600 rounded-full cursor-pointer"
             />

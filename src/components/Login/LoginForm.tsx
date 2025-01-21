@@ -25,6 +25,7 @@ const LoginForm = () => {
     onSuccess: data => {
       if (data && data.accessToken) {
         localStorage.setItem('accessToken', data.accessToken);
+        localStorage.setItem('userId', data.userId);
       }
 
       localStorage.setItem('loginType', 'email');
@@ -113,7 +114,7 @@ const LoginForm = () => {
         </div>
 
         {loginError && (
-          <p className="w-[538px] mb-2 font-bold text-[12px] text-error">
+          <p className="w-[538px] mb-2 font-bold text-[12px] text-error text-center">
             {loginError}
           </p>
         )}
