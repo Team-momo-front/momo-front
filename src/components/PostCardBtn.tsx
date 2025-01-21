@@ -1,12 +1,12 @@
 import { useNavigate } from 'react-router-dom';
-import { Post, RenderingStatus } from '../types/Post';
+import { Post } from '../types/Post';
 import { ParticipantsResponse } from '../types/Meeting';
 
 interface PostCardBtnProps {
   post: Post | ParticipantsResponse;
   isHosted?: boolean;
   isParticipated?: boolean;
-  status?: RenderingStatus;
+  status?: string;
 }
 const PostCardBtn: React.FC<PostCardBtnProps> = ({
   post,
@@ -31,7 +31,7 @@ const PostCardBtn: React.FC<PostCardBtnProps> = ({
   const isAvailableDelete =
     status === '승인 거부' || status === '모집 취소' || status === '모집 완료';
 
-  const isAvailableViewPost = status === '모집 중..';
+  const isAvailableViewPost = status === 'RECRUITING';
 
   return (
     <>

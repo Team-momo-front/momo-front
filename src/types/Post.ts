@@ -11,12 +11,12 @@ export interface Post {
   longitude: number;
   maxCount: number;
   meetingDateTime: string;
-  meetingStatus: 'RECRUITING' | 'CLOSED';
+  meetingStatus: HostStatus;
   thumbnail?: string;
   title: string;
   // mockData 테스트용
   participatedUserId?: string[];
-  status: HostStatus;
+  // status: HostStatus;
   participationStatus?: ParticipantStatus;
   hostedUserId?: string; // authorId와 동일
 }
