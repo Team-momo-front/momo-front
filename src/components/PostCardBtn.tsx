@@ -1,9 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-import { Post } from '../types/Post';
-import { ParticipantsResponse } from '../types/Meeting';
+import { CreatedMeeting, ParticipantsResponse } from '../types/Meeting';
 
 interface PostCardBtnProps {
-  post: Post | ParticipantsResponse;
+  post: CreatedMeeting | ParticipantsResponse;
   isHosted?: boolean;
   isParticipated?: boolean;
   status?: string;
@@ -17,11 +16,11 @@ const PostCardBtn: React.FC<PostCardBtnProps> = ({
   const navigate = useNavigate();
 
   const handleGoToPostBtnClick = () => {
-    navigate(`/post/${post.id}`);
+    navigate(`/post/${post.meetingId}`);
   };
 
   const handleAdminBtnClick = () => {
-    navigate(`/view-applicant/${post.id}`);
+    navigate(`/view-applicant/${post.meetingId}`);
   };
 
   const handleDeleteBtnClick = () => {

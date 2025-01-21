@@ -101,7 +101,7 @@ const PostCard: React.FC<PostCardProps> = ({
 
       {!isViewApplicantPage && (
         <PostCardBtn
-          post={post}
+          post={post as ParticipantsResponse | CreatedMeeting}
           isHosted={isHosted}
           isParticipated={isParticipated}
           status={postStatus}
