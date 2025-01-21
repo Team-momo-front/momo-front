@@ -5,9 +5,10 @@ import { Post } from '../types/Post';
 import { formatDate } from '../utils/formatDate';
 import { getStatusAndColorByRole } from '../utils/getStatusAndColorByRole';
 import PostCardBtn from './PostCardBtn';
+import { CreatedMeeting, ParticipantsResponse } from '../types/Meeting';
 
 interface PostCardProps {
-  post: Post;
+  post: Post | ParticipantsResponse | CreatedMeeting;
   isHosted?: boolean;
   isParticipated?: boolean;
   onClick?: () => void;
@@ -26,13 +27,14 @@ const PostCard: React.FC<PostCardProps> = ({
 
   let status, color;
 
+  const postStatus = post.participationStatus
+    ? post.participationStatus
+    : post.meetingStatus;
+
   if (isHosted) {
-    ({ status, color } = getStatusAndColorByRole(post.status, 'isHosted'));
-  } else if (isParticipated && post.participationStatus) {
-    ({ status, color } = getStatusAndColorByRole(
-      post.participationStatus,
-      'isParticipated'
-    ));
+    ({ status, color } = getStatusAndColorByRole(postStatus, 'isHosted'));
+  } else if (isParticipated) {
+    ({ status, color } = getStatusAndColorByRole(postStatus, 'isParticipated'));
   }
 
   return (
@@ -99,10 +101,10 @@ const PostCard: React.FC<PostCardProps> = ({
 
       {!isViewApplicantPage && (
         <PostCardBtn
-          post={post}
+          post={post as ParticipantsResponse | CreatedMeeting}
           isHosted={isHosted}
           isParticipated={isParticipated}
-          status={status}
+          status={postStatus}
         />
       )}
     </div>

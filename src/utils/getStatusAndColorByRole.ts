@@ -1,7 +1,12 @@
-import { HostStatus, ParticipantStatus, ActiveState } from '../types/Post';
+import {
+  HostStatus,
+  ParticipantStatus,
+  ActiveState,
+  RenderingStatus,
+} from '../types/Post';
 
 type StatusWithColor = {
-  status: HostStatus | ParticipantStatus;
+  status: RenderingStatus;
   color: string;
 };
 
@@ -10,7 +15,7 @@ export const getStatusAndColorByRole = (
   isActiveState: ActiveState
 ): StatusWithColor => {
   if (isActiveState === 'isHosted') {
-    if (status === '모집 완료') {
+    if (status === 'CLOSED') {
       return { status: '모집 완료', color: 'bg-primary' };
     }
     return { status: '모집 중..', color: 'bg-gray-400' };
@@ -18,15 +23,15 @@ export const getStatusAndColorByRole = (
 
   if (isActiveState === 'isParticipated') {
     switch (status) {
-      case '승인 대기':
+      case 'PENDING':
         return { status: '승인 대기', color: 'bg-gray-400' };
-      case '승인 완료':
+      case 'APPROVED':
         return { status: '승인 완료', color: 'bg-primary' };
-      case '승인 거부':
+      case 'REJECTED':
         return { status: '승인 거부', color: 'bg-error' };
-      case '모집 완료':
+      case 'CLOSED':
         return { status: '모집 완료', color: 'bg-error' };
-      case '모집 취소':
+      case 'CANCELED':
         return { status: '모집 취소', color: 'bg-error' };
       default:
         throw new Error(`알 수 없는 상태: ${status}`);

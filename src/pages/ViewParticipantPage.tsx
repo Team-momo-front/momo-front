@@ -1,22 +1,29 @@
-import { useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import ParticipantList from '../components/MyPage/ParticipantList';
 import PostCard from '../components/PostCard';
 import useDeleteMeeting from '../hooks/useDeleteMeeting';
-
 import { useCloseMeeting } from '../hooks/useCloseMeeting';
-import { posts } from '../mocks/posts';
 import { useCreateChatroom } from '../hooks/useCreateChatroom';
+import useSearchMeetings from '../hooks/useSearchMeetings';
+import { Post } from '../types/Post';
 
 const ViewParticipantPage = () => {
+  const { data } = useSearchMeetings({});
   const { id } = useParams<{ id: string }>();
   const meetingId = Number(id);
   const { mutate: deleteMeeting } = useDeleteMeeting();
   const { mutate: closeMeeting, isSuccess } = useCloseMeeting();
   const { mutate: createChatroom } = useCreateChatroom();
-  const selectedPost = posts.find(post => post.id === id) || null;
-  const isFinished = selectedPost?.status === '모집 완료';
+  const posts: Post[] = data?.meetings || [];
+  const meeting = posts.find(meeting => meeting.id === Number(id));
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  if (id === undefined) return;
+  const queryParams = new URLSearchParams(location.search);
+  const status = queryParams.get('status');
+  const isFinished = status === 'CLOSED';
+
+  if (meeting === undefined || id === undefined) return;
 
   const handleCloseMeeting = () => {
     if (confirm('모집을 완료하시겠습니까?')) {
@@ -36,37 +43,45 @@ const ViewParticipantPage = () => {
     createChatroom(meetingId);
   }
 
-  return (
-    <div className="h-[calc(100vh-62px)] flex justify-center items-center overflow-auto">
-      <div className="w-full mt-[300px] flex flex-col justify-center items-center gap-14 md:mt-0 md:gap-20 md:flex-row md:items-start">
-        {selectedPost && (
-          <>
-            <div className="w-[340px]">
-              <PostCard post={selectedPost} isHosted={true} />
-              {!isFinished && (
-                <div className="w-full flex items-center gap-3 mt-4">
-                  <button
-                    type="button"
-                    className="btn btn-primary flex-1 transform transition-all duration-300 ease-in-out hover:translate-y-[-4px]"
-                    onClick={handleCloseMeeting}
-                  >
-                    모집 완료
-                  </button>
+  const handleClickCard = () => {
+    navigate(`/post/${meetingId}`);
+  };
 
-                  <button
-                    type="button"
-                    className="btn btn-second flex-1 transform transition-all duration-300 ease-in-out hover:translate-y-[-4px]"
-                    onClick={handleDeleteMeeting}
-                  >
-                    모집 취소
-                  </button>
-                </div>
-              )}
+  return (
+    <div className="w-full flex flex-col justify-center items-center gap-14 md:mt-0 md:gap-20 md:flex-row md:items-start">
+      {posts && (
+        <>
+          <div className="w-[340px] pt-20">
+            <div className="w-full flex justify-center items-center">
+              <PostCard
+                post={meeting}
+                isHosted={true}
+                onClick={handleClickCard}
+              />
             </div>
-            <ParticipantList post={selectedPost} isFinished={isFinished} />
-          </>
-        )}
-      </div>
+            {!isFinished && (
+              <div className="w-full flex items-center gap-3 mt-4">
+                <button
+                  type="button"
+                  className="btn btn-primary flex-1 transform transition-all duration-300 ease-in-out hover:translate-y-[-4px]"
+                  onClick={handleCloseMeeting}
+                >
+                  모집 완료
+                </button>
+
+                <button
+                  type="button"
+                  className="btn btn-second flex-1 transform transition-all duration-300 ease-in-out hover:translate-y-[-4px]"
+                  onClick={handleDeleteMeeting}
+                >
+                  모집 취소
+                </button>
+              </div>
+            )}
+          </div>
+          <ParticipantList post={meeting} isFinished={isFinished} />
+        </>
+      )}
     </div>
   );
 };
