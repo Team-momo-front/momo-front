@@ -1,12 +1,12 @@
 import { useNavigate } from 'react-router-dom';
-import { Post } from '../types/Post';
-import { HostStatus, ParticipantStatus } from '../types/Post';
+import { Post, RenderingStatus } from '../types/Post';
+import { ParticipantsResponse } from '../types/Meeting';
 
 interface PostCardBtnProps {
-  post: Post;
+  post: Post | ParticipantsResponse;
   isHosted?: boolean;
   isParticipated?: boolean;
-  status?: HostStatus | ParticipantStatus;
+  status?: RenderingStatus;
 }
 const PostCardBtn: React.FC<PostCardBtnProps> = ({
   post,

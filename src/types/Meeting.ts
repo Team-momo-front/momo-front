@@ -71,3 +71,9 @@ export interface ParticipantsResponse {
   content: string;
   thumbnail: string;
 }
+
+export interface GetParticipatedMeetingsResponse {
+  appliedMeetings: ParticipantsResponse[];
+  lastId?: number;
+  hasNext?: boolean;
+}

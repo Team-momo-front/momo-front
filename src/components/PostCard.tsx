@@ -5,9 +5,16 @@ import { Post } from '../types/Post';
 import { formatDate } from '../utils/formatDate';
 import { getStatusAndColorByRole } from '../utils/getStatusAndColorByRole';
 import PostCardBtn from './PostCardBtn';
+import { ParticipantsResponse } from '../types/Meeting';
+
+function isParticipantsResponse(
+  post: Post | ParticipantsResponse
+): post is ParticipantsResponse {
+  return (post as ParticipantsResponse).participationStatus !== undefined;
+}
 
 interface PostCardProps {
-  post: Post;
+  post: Post | ParticipantsResponse;
   isHosted?: boolean;
   isParticipated?: boolean;
   onClick?: () => void;
@@ -26,9 +33,9 @@ const PostCard: React.FC<PostCardProps> = ({
 
   let status, color;
 
-  if (isHosted) {
+  if (isHosted && 'status' in post) {
     ({ status, color } = getStatusAndColorByRole(post.status, 'isHosted'));
-  } else if (isParticipated && post.participationStatus) {
+  } else if (isParticipated && isParticipantsResponse(post)) {
     ({ status, color } = getStatusAndColorByRole(
       post.participationStatus,
       'isParticipated'

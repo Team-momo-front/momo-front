@@ -36,12 +36,21 @@ export type Place = Pick<
   'id' | 'place_name' | 'address_name' | 'x' | 'y'
 >;
 
-export type HostStatus = '모집 중..' | '모집 완료';
+export type HostStatus = 'RECRUITING' | 'CLOSED';
+
 export type ParticipantStatus =
+  | 'PENDING'
+  | 'APPROVED'
+  | 'REJECTED'
+  | 'CLOSED'
+  | 'CANCELED';
+
+export type RenderingStatus =
+  | '모집 완료'
+  | '모집 중..'
   | '승인 대기'
   | '승인 완료'
   | '승인 거부'
-  | '모집 완료'
   | '모집 취소';
 
 export type ActiveState = 'isHosted' | 'isParticipated';
