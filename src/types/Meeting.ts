@@ -1,13 +1,15 @@
+import { Post } from './Post';
+
 export interface CreateMeetingRequest {
+  address: string;
+  category: string[];
+  content: string;
   title: string;
   locationId: number;
   latitude: number;
   longitude: number;
-  address: string;
   meetingDateTime: string;
   maxCount: number;
-  category: string[];
-  content: string;
   thumbnail?: File | null;
 }
 
@@ -17,7 +19,7 @@ export interface CreateMeetingResponse extends CreateMeetingRequest {
   meetingStatus: string;
 }
 
-export interface CreatedMeeting extends CreateMeetingRequest {
+export interface CreatedMeeting extends Post {
   userId: number;
   meetingId: number;
   meetingStatus: 'RECRUITING' | 'CLOSED';
@@ -40,4 +42,38 @@ export interface MeetingStatus {
 export interface getMyMeetingsRequest {
   lastId?: number;
   pageSize?: number;
+}
+
+export interface getParticipatedMeetingsRequest {
+  lastId?: number;
+  pageSize?: number;
+}
+
+export interface ParticipantsResponse {
+  id: number;
+  meetingId: number;
+  authorId: number;
+  participationStatus:
+    | 'PENDING'
+    | 'APPROVED'
+    | 'REJECTED'
+    | 'CLOSED'
+    | 'CANCELED';
+  title: string;
+  locationId: string;
+  latitude: number;
+  longitude: number;
+  address: string;
+  meetingDateTime: string;
+  maxCount: number;
+  approvedCount: number;
+  category: string[];
+  content: string;
+  thumbnail: string;
+}
+
+export interface GetParticipatedMeetingsResponse {
+  appliedMeetings: ParticipantsResponse[];
+  lastId?: number;
+  hasNext?: boolean;
 }
