@@ -1,5 +1,4 @@
 import type {
-  CreatedMeeting,
   CreateMeetingRequest,
   CreateMeetingResponse,
   getMyMeetingsRequest,
@@ -37,7 +36,5 @@ export const setMeetingStatus = async (id: string, data: MeetingStatus) =>
 export const getParticipants = async (id: string) =>
   apiClient({ url: `${COMMON_URL}/${id}/participants`, method: 'get' });
 
-export const getMyMeetings = async (
-  params: getMyMeetingsRequest
-): Promise<CreatedMeeting[]> =>
+export const getMyMeetings = async (params: getMyMeetingsRequest) =>
   apiClient({ url: `${COMMON_URL}/created`, method: 'get', params });

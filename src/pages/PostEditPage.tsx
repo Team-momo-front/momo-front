@@ -5,23 +5,21 @@ import DetailPageLayout from '../components/DetailPageLayout';
 import FormField from '../components/FormField';
 import KakaoMapModal from '../components/modals/KakaoMapModal';
 import useEditMeeting from '../hooks/useEditMeeting';
-import type {
-  CreateMeetingRequest,
-  CreateMeetingResponse,
-} from '../types/Meeting';
-import type { PlaceDetail } from '../types/Post';
+import type { CreateMeetingRequest } from '../types/Meeting';
+import type { PlaceDetail, Post } from '../types/Post';
 import {
   getLocalDateTime,
   getOneYearLaterDateTime,
 } from '../utils/getLocalDateTime';
 
-const PostEditPage = ({ meeting }: { meeting: CreateMeetingResponse }) => {
+const PostEditPage = ({ meeting }: { meeting: Post }) => {
   const id = meeting.id;
   const { mutate: editMeeting } = useEditMeeting();
   const [isEditMode, setIsEditMode] = useState(false);
   const [editData, setEditData] = useState<CreateMeetingRequest>();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPlace, setSelectedPlace] = useState<PlaceDetail | null>(null);
+  const token = localStorage.getItem('accessToken');
 
   useEffect(() => {
     if (meeting) {
@@ -35,7 +33,6 @@ const PostEditPage = ({ meeting }: { meeting: CreateMeetingResponse }) => {
         maxCount: meeting.maxCount,
         category: meeting.category,
         content: meeting.content,
-        thumbnail: meeting.thumbnail,
       });
     }
   }, [meeting]);
@@ -96,6 +93,7 @@ const PostEditPage = ({ meeting }: { meeting: CreateMeetingResponse }) => {
             content: updated.content,
           });
           setIsEditMode(false);
+          console.log(editData);
         },
         onError: () => {
           alert('수정 중 오류가 발생했습니다.');
@@ -251,22 +249,24 @@ const PostEditPage = ({ meeting }: { meeting: CreateMeetingResponse }) => {
                   />
                 </Map>
               </div>
-              <div className="flex justify-end mt-auto gap-x-2">
-                <button
-                  type="button"
-                  className="btn btn-ghost"
-                  onClick={handleCancel}
-                >
-                  취소
-                </button>
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  onClick={handleSave}
-                >
-                  저장
-                </button>
-              </div>
+              {token && (
+                <div className="flex justify-end mt-auto gap-x-2">
+                  <button
+                    type="button"
+                    className="btn btn-ghost"
+                    onClick={handleCancel}
+                  >
+                    취소
+                  </button>
+                  <button
+                    type="submit"
+                    className="btn btn-primary"
+                    onClick={handleSave}
+                  >
+                    저장
+                  </button>
+                </div>
+              )}
             </div>
           </form>
         </div>

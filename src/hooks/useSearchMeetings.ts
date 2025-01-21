@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { searchMeetings, SearchMeetingsRequest } from '../api/meeting';
+import { searchMeetings } from '../api/meeting';
+import { SearchMeetingsRequest } from '../types/Meeting';
 
 const useSearchMeetings = (params: SearchMeetingsRequest) => {
   return useQuery({

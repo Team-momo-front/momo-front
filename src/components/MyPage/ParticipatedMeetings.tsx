@@ -1,28 +1,20 @@
-import { useState, useEffect } from 'react';
 import PostCard from '../PostCard';
-import { posts } from '../../mocks/posts';
 import { useRecoilValue } from 'recoil';
 import { isActiveState } from '../../states/recoilState';
+import useGetMyParticipatedMeetings from '../../hooks/useGetMyParticipatedMeetings';
 
 const ParticipatedMeetings = () => {
-  const [filteredPosts, setFilteredPosts] = useState(posts);
+  const { data } = useGetMyParticipatedMeetings({});
   const isActive = useRecoilValue(isActiveState);
 
-  // TODO: User Token으로 서버와 통신해 주최한 모임 받아오기
-  // 현재는 목데이터 사용
-  const participatedUserId = 'user_512';
+  if (data === undefined) return;
 
-  useEffect(() => {
-    const participatedPost = posts.filter(post => {
-      return post.participatedUserId?.includes(participatedUserId);
-    });
-    setFilteredPosts(participatedPost);
-  }, []);
+  const posts = data.appliedMeetings;
 
   return (
     <div className="px-16 py-1">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 justify-items-start mt-[26px]">
-        {filteredPosts.map((post, index) => (
+        {posts.map((post, index) => (
           <div key={index} className="w-full">
             <PostCard
               post={post}

@@ -28,10 +28,10 @@ const ListPage = () => {
     return posts.filter(post => {
       const matchesCategory =
         targetCategories.length === 0 ||
-        targetCategories.some(category => post.categories.includes(category));
+        targetCategories.some(category => post.category.includes(category));
       const matchesSearch =
         !query ||
-        (filter === 'location' && post.location.includes(query)) ||
+        (filter === 'location' && post.address.includes(query)) ||
         (filter === 'title' && post.title.includes(query)) ||
         (filter === 'content' && post.content.includes(query));
 
@@ -44,7 +44,7 @@ const ListPage = () => {
       filterPosts(debouncedSelectedCategories, searchQuery, searchFilter)
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedSelectedCategories]);
+  }, [data, debouncedSelectedCategories]);
 
   const handleSearch = () => {
     setFilteredPosts(
@@ -63,7 +63,7 @@ const ListPage = () => {
     navigate('/create');
   };
 
-  const handleNavigateToDetail = (id: string) => {
+  const handleNavigateToDetail = (id: number) => {
     navigate(`/post/${id}`);
   };
 
@@ -105,7 +105,7 @@ const ListPage = () => {
           ))}
         </div>
       ) : (
-        <div className="w-full text-center items-center mt-20 flex mt-40 w-full flex-col items-center justify-center">
+        <div className="w-full text-center items-center flex flex-col justify-center mt-40">
           {isError ? (
             '에러가 발생했습니다.'
           ) : isLoading ? (
