@@ -25,6 +25,7 @@ const LoginForm = () => {
     onSuccess: data => {
       if (data && data.accessToken) {
         localStorage.setItem('accessToken', data.accessToken);
+        localStorage.setItem('userId', data.userId);
       }
 
       localStorage.setItem('loginType', 'email');

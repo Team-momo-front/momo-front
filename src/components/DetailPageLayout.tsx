@@ -13,6 +13,8 @@ const DetailPageLayout = ({
   buttonLabel: string;
   onClick: () => void;
 }) => {
+  const token = localStorage.getItem('accessToken');
+
   return (
     <div className="flex justify-center px-16 py-10">
       <div className="w-full max-w-5xl px-14">
@@ -86,15 +88,17 @@ const DetailPageLayout = ({
                 />
               </Map>
             </div>
-            <div className="flex justify-end ml-auto mt-10">
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={onClick}
-              >
-                {buttonLabel}
-              </button>
-            </div>
+            {token && (
+              <div className="flex justify-end ml-auto mt-10">
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={onClick}
+                >
+                  {buttonLabel}
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

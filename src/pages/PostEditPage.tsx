@@ -19,6 +19,7 @@ const PostEditPage = ({ meeting }: { meeting: Post }) => {
   const [editData, setEditData] = useState<CreateMeetingRequest>();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPlace, setSelectedPlace] = useState<PlaceDetail | null>(null);
+  const token = localStorage.getItem('accessToken');
 
   useEffect(() => {
     if (meeting) {
@@ -247,22 +248,24 @@ const PostEditPage = ({ meeting }: { meeting: Post }) => {
                   />
                 </Map>
               </div>
-              <div className="flex justify-end mt-auto gap-x-2">
-                <button
-                  type="button"
-                  className="btn btn-ghost"
-                  onClick={handleCancel}
-                >
-                  취소
-                </button>
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  onClick={handleSave}
-                >
-                  저장
-                </button>
-              </div>
+              {token && (
+                <div className="flex justify-end mt-auto gap-x-2">
+                  <button
+                    type="button"
+                    className="btn btn-ghost"
+                    onClick={handleCancel}
+                  >
+                    취소
+                  </button>
+                  <button
+                    type="submit"
+                    className="btn btn-primary"
+                    onClick={handleSave}
+                  >
+                    저장
+                  </button>
+                </div>
+              )}
             </div>
           </form>
         </div>

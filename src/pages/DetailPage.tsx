@@ -12,7 +12,8 @@ const PostDetailPage = () => {
   const meeting = posts.find(meeting => meeting.id === Number(id));
 
   if (meeting === undefined) return;
-  const isHost = meeting.authorId;
+  const hostId = localStorage.getItem('userId');
+  const isHost = Number(hostId) === meeting.authorId ? true : false;
 
   return isHost ? (
     <PostEditPage meeting={meeting} />
