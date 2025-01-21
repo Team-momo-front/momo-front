@@ -1,15 +1,15 @@
 import { Post } from './Post';
 
 export interface CreateMeetingRequest {
+  address: string;
+  category: string[];
+  content: string;
   title: string;
   locationId: number;
   latitude: number;
   longitude: number;
-  address: string;
   meetingDateTime: string;
   maxCount: number;
-  category: string[];
-  content: string;
   thumbnail?: File | null;
 }
 
