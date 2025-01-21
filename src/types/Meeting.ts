@@ -19,12 +19,6 @@ export interface CreateMeetingResponse extends CreateMeetingRequest {
   meetingStatus: string;
 }
 
-export interface Meeting extends CreateMeetingResponse {
-  id: number;
-  authorId: number;
-  distance: number | null;
-}
-
 export interface CreatedMeeting extends Post {
   userId: number;
   meetingId: number;
