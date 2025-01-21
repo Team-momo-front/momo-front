@@ -20,7 +20,7 @@ const PostCardBtn: React.FC<PostCardBtnProps> = ({
   };
 
   const handleAdminBtnClick = () => {
-    navigate(`/view-applicant/${post.meetingId}`);
+    navigate(`/view-applicant/${post.meetingId}?status=${status}`);
   };
 
   const handleDeleteBtnClick = () => {
