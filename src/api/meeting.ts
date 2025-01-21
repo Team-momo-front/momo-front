@@ -1,5 +1,4 @@
 import type {
-  CreatedMeeting,
   CreateMeetingRequest,
   CreateMeetingResponse,
   getMyMeetingsRequest,

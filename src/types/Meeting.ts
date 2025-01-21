@@ -43,3 +43,31 @@ export interface getMyMeetingsRequest {
   lastId?: number;
   pageSize?: number;
 }
+
+export interface getParticipatedMeetingsRequest {
+  lastId: string;
+  pageSize: number;
+}
+
+export interface ParticipantsResponse {
+  id: number;
+  meetingId: number;
+  authorId: number;
+  participationStatus:
+    | 'PENDING'
+    | 'APPROVED'
+    | 'REJECTED'
+    | 'CLOSED'
+    | 'CANCELED';
+  title: string;
+  locationId: string;
+  latitude: number;
+  longitude: number;
+  address: string;
+  meetingDateTime: string;
+  maxCount: number;
+  approvedCount: number;
+  category: string[];
+  content: string;
+  thumbnail: string;
+}
