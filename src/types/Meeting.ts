@@ -45,8 +45,8 @@ export interface getMyMeetingsRequest {
 }
 
 export interface getParticipatedMeetingsRequest {
-  lastId: string;
-  pageSize: number;
+  lastId?: number;
+  pageSize?: number;
 }
 
 export interface ParticipantsResponse {
