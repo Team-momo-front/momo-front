@@ -1,4 +1,7 @@
-import { getParticipatedMeetingsRequest } from '../types/Meeting';
+import {
+  getParticipatedMeetingsRequest,
+  GetParticipatedMeetingsResponse,
+} from '../types/Meeting';
 import { apiClient } from './apiClient';
 
 const COMMON_URL = '/api/v1/participations';
@@ -6,8 +9,8 @@ const COMMON_URL = '/api/v1/participations';
 // 참여 신청한 모임 목록 조회
 export const getParticipatedMeetings = async (
   params: getParticipatedMeetingsRequest
-) => {
-  apiClient({
+): Promise<GetParticipatedMeetingsResponse> => {
+  return apiClient<GetParticipatedMeetingsResponse>({
     url: COMMON_URL,
     method: 'get',
     params,
@@ -16,7 +19,7 @@ export const getParticipatedMeetings = async (
 
 // 참여 승인
 export const approveParticipation = async (participationId: number) => {
-  apiClient({
+  return apiClient({
     url: `${COMMON_URL}/${{ participationId }}/approve`,
     method: 'patch',
   });
@@ -24,7 +27,7 @@ export const approveParticipation = async (participationId: number) => {
 
 // 참여 거절
 export const rejectParticipation = async (participationId: number) => {
-  apiClient({
+  return apiClient({
     url: `${COMMON_URL}/${{ participationId }}/reject`,
     method: 'patch',
   });
@@ -32,7 +35,7 @@ export const rejectParticipation = async (participationId: number) => {
 
 // 모임 참여 삭제 & 취소
 export const deleteParticipation = async (participationId: number) => {
-  apiClient({
+  return apiClient({
     url: `${COMMON_URL}/${{ participationId }}`,
     method: 'delete',
   });

@@ -84,7 +84,7 @@ const ParticipantList = ({
   );
 
   return (
-    <div className="min-w-[340px] md:min-w-96 flex flex-col gap-3 h-full">
+    <div className="min-w-[340px] md:min-w-96 flex flex-col gap-3 h-full pt-10">
       {!isFinished && renderUserList(pendingUsers, '참여 신청')}
       {renderUserList(approvedUsers, '참여 확정')}
     </div>
