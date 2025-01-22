@@ -7,6 +7,10 @@ const ChatFloatingBtn = () => {
   const [isChatModalOpen, setIsChatModalOpen] =
     useRecoilState(isChatModalOpenState);
 
+  // 로그인 유저만 보이도록 구현
+  const token = localStorage.getItem('accessToken');
+  if (!token) return;
+
   return (
     <>
       <button

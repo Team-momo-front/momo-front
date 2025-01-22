@@ -1,5 +1,5 @@
 // import { chats } from '../../mocks/chats';
-import { Chat } from '../../types/Chat';
+import { ChatRoomResponse } from '../../types/Chat';
 import ChatList from './ChatList';
 import ChatRoom from './ChatRoom';
 import ChatParticipantList from './ChatParticipantList';
@@ -12,9 +12,11 @@ import {
 } from '../../states/recoilState';
 import useSearchChatRooms from '../../hooks/useSearchChatRooms';
 import LoadingSpinner from '../LoadingSpinner';
+import { AxiosError } from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const ChatModal = () => {
-  const { data, isLoading } = useSearchChatRooms();
+  const { data, isLoading, error } = useSearchChatRooms();
 
   const [isChatRoomOpen, setIsChatRoomOpen] =
     useRecoilState(isChatRoomOpenState);
@@ -23,8 +25,9 @@ const ChatModal = () => {
   const [isViewParticipantListOpen, setIsViewParticipantListOpen] =
     useRecoilState(isViewParticipantListOpenState);
   const [selectedChat, setSelectedChat] = useRecoilState(selectedChatState);
+  const navigate = useNavigate();
 
-  const openChatRoom = (chat: Chat) => {
+  const openChatRoom = (chat: ChatRoomResponse) => {
     setSelectedChat(chat);
     setIsViewParticipantListOpen(false);
     setIsChatListOpen(false);
@@ -42,6 +45,14 @@ const ChatModal = () => {
     setIsChatListOpen(false);
     setIsViewParticipantListOpen(true);
   };
+
+  console.log(error);
+  if (error) {
+    if (error instanceof AxiosError && error.response?.status === 403) {
+      setIsChatRoomOpen(false);
+      navigate('/login');
+    }
+  }
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 animate-fadeIn">

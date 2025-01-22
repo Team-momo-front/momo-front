@@ -5,7 +5,7 @@ const useSearchChatRooms = () => {
   return useQuery({
     queryKey: ['search-chatrooms'],
     queryFn: searchChatRooms,
-    // retry: false,
+    retry: false,
   });
 };
 
