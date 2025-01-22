@@ -6,10 +6,10 @@ import { notifications } from '../../mocks/notifications';
 import { Notification } from '../../types/Notification';
 import axiosInstance from '../../api/axiosInstance';
 import { useMutation } from '@tanstack/react-query';
-import useFetchUserProfile from '../../hooks/useFetchUserProfile';
+import { useFetchUSerProfileImage } from '../../hooks/useFetchUSerProfileImage';
 
 const Header = () => {
-  const { data: profileImageUrl } = useFetchUserProfile({
+  const { data: profileImageUrl } = useFetchUSerProfileImage({
     select: data => data.profileImageUrl,
   });
 

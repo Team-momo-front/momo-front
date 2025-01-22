@@ -3,15 +3,10 @@ import { AxiosError } from 'axios';
 import { UserProfile } from '../types/User';
 import fetchUserProfile from '../api/fetchUserProfile';
 
-interface UseFetchUserProfileOptions {
-  select?: (data: UserProfile) => string;
-}
-
-const useFetchUserProfile = (options?: UseFetchUserProfileOptions) => {
-  return useQuery<UserProfile, AxiosError, string>({
+const useFetchUserProfile = () => {
+  return useQuery<UserProfile, AxiosError>({
     queryKey: ['UserProfile'],
     queryFn: fetchUserProfile,
-    select: options?.select,
     retry: false,
   });
 };
