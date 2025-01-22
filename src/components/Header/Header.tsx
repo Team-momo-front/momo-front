@@ -126,6 +126,10 @@ const Header = () => {
               src={profileImageUrl || '/image/default_profile_image.png'}
               alt="profile image"
               className="w-[30px] h-[30px] object-cover p-[1px] border border-gray-600 rounded-full cursor-pointer"
+              // 에러 처리 추가
+              onError={e => {
+                e.currentTarget.src = '/image/default_profile_image.png';
+              }}
             />
             <ul
               tabIndex={0}
