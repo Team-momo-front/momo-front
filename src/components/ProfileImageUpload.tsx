@@ -18,9 +18,7 @@ const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
   const [updatedProfileURL, setUpdatedProfileURL] = useState<string | null>(
     profileURL ?? null
   );
-
   const uploadProfileImage = '/image/upload_profile_image.webp';
-
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
