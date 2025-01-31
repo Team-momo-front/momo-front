@@ -88,8 +88,6 @@ const PostEditPage = ({
   const handleSave = () => {
     if (!id || !editData) return;
 
-    console.log({ editData });
-
     const formData = new FormData();
 
     if (editData.category) {
@@ -127,7 +125,6 @@ const PostEditPage = ({
             content: updated.content,
           });
           setIsEditMode(false);
-          console.log(editData);
         },
         onError: () => {
           alert('수정 중 오류가 발생했습니다.');
