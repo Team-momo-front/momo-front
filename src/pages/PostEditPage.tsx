@@ -287,13 +287,6 @@ const PostEditPage = ({
                   onChange={handleFileChange}
                 />
               </label>
-              {/* <div>
-                <img
-                  src={meeting.thumbnail || 'image/upload_image.webp'}
-                  alt="Thumbnail"
-                  className="w-[280px] h-[178.48px] object-cover rounded-3xl"
-                />
-              </div> */}
               <div className="mt-4">
                 <Map
                   center={{
