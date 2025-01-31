@@ -30,11 +30,13 @@ const MyProfile = () => {
   const [isModified, setIsModified] = useState(false);
   const [isCanceled, setIsCanceled] = useState(false);
   const isInvalidUserForm = useRecoilValue(isFormInvalidFormState);
+
   // 프로필 이미지 & 프로필 이미지 주소
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [profileImageURL, setProfileImageURL] = useState<string | null>(
     profileData?.profileImageUrl ?? null
   );
+
   // 업데이트 데이터
   const [updatedUserData, setUpdatedUserData] =
     useRecoilState(updatedUserDataState);
@@ -50,7 +52,9 @@ const MyProfile = () => {
   // 프로필 유무에 따라 렌더링 분기하기 위한 변수
   const hasProfile = localStorage.getItem('hasProfile');
 
-  // 프로필 수정
+  // ------------------------------------------------
+  // 프로필 수정 코드
+  // ------------------------------------------------
   const { mutate: editProfile, isPending: editProfileIsPending } =
     useEditProfile();
 
@@ -65,19 +69,16 @@ const MyProfile = () => {
     requestData.introduction = updatedUserData.introduction;
   }
 
-  // formData에 requse 객체로 묶어서 전달
+  // formData에 updateRequest 객체로 묶어서 전달
   formData.append(
-    'request',
+    'updateRequest',
     new Blob([JSON.stringify(requestData)], { type: 'application/json' })
   );
 
   // 프로필 이미지가 있으면 프로필 이미지에 데이터 넣기
-  if (profileImage) {
-    formData.append('profileImage', profileImage);
-    console.log(profileImage);
-  }
+  formData.append('profileImage', profileImage || 'null');
 
-  // 저장 버튼 click 이벤트 함수
+  // 저장 버튼 이벤트 핸들러
   const handleSubmit = (e: React.MouseEvent) => {
     e.preventDefault();
 
@@ -104,6 +105,8 @@ const MyProfile = () => {
         alert('프로필 수정에 실패하였습니다.');
       },
     });
+
+    // 초기화
     setIsModified(false);
     setIsCanceled(false);
     setUpdatedUserData({});
