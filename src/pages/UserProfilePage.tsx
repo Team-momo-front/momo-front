@@ -1,19 +1,27 @@
 import { useLocation, useParams } from 'react-router-dom';
-import { users } from '../mocks/users';
 import { convertGenderToLabel } from '../utils/convertGenderToLabel';
 import { calculateAge } from '../utils/calculateAge';
 import InfoFormField from '../components/MyPage/InfoFormField';
 import UserProfileBtn from '../components/UserProfileBtn';
 import ChatFloatingBtn from '../components/Chat/ChatFloatingBtn';
+import { useGetUserProfile } from '../hooks/useGetUserProfile';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const UserProfilePage = () => {
   const { userId, roomId } = useParams();
   const location = useLocation();
-
   const isChatUserProfilePage = location.pathname.includes('/chat/profile');
 
-  // TODO: 유저 프로필 가져오기 API
-  const selectedUser = users.find(user => user.userId === userId);
+  const { data: userProfile, isLoading } = useGetUserProfile(Number(userId));
+
+  if (isLoading)
+    return (
+      <div className="w-full h-screen flex justify-center items-center">
+        <LoadingSpinner />
+      </div>
+    );
+
+  if (!userProfile) return <div>프로필이 없습니다.</div>;
 
   return (
     <>
@@ -21,11 +29,11 @@ const UserProfilePage = () => {
         <div className="flex flex-col gap-4 items-center">
           <img
             src={
-              selectedUser?.profileImage || '/image/default_profile_image.webp'
+              userProfile.profileImage || '/image/default_profile_image.webp'
             }
             alt="Profile"
             className={`w-[150px] h-[150px] object-cover rounded-full mb-[30px] ${
-              selectedUser?.profileImage &&
+              userProfile.profileImage &&
               'bg-white p-[5px] border-gray-600 border-[1px]'
             }`}
           />
@@ -37,14 +45,18 @@ const UserProfilePage = () => {
                 type="text"
                 disabled
                 required
-                placeholder={selectedUser?.nickname}
+                placeholder={
+                  userProfile.nickname === ''
+                    ? `anony${userId}`
+                    : userProfile.nickname
+                }
               />
               <InfoFormField
                 name="age"
                 label="나이"
                 type="text"
                 placeholder={
-                  selectedUser?.birth && calculateAge(selectedUser?.birth)
+                  userProfile.birth && calculateAge(userProfile.birth)
                 }
                 disabled
               />
@@ -57,7 +69,7 @@ const UserProfilePage = () => {
                     </span>
                   </div>
                   <textarea
-                    value={selectedUser?.introduction}
+                    value={userProfile.introduction}
                     className={
                       'textarea-custom-modified textarea-bordered h-24 py-4 resize-none font-bold placeholder:font-bold'
                     }
@@ -73,20 +85,18 @@ const UserProfilePage = () => {
                 label="성별"
                 type="text"
                 placeholder={
-                  selectedUser?.gender &&
-                  convertGenderToLabel(selectedUser.gender)
+                  userProfile?.gender &&
+                  convertGenderToLabel(userProfile.gender)
                 }
                 disabled
               />
-
               <InfoFormField
                 name="mbti"
                 label="MBTI"
                 type="text"
                 disabled
-                value={selectedUser?.mbti}
+                value={userProfile.mbti}
               />
-
               <div className="flex gap-3 flex-1 items-end justify-end">
                 <UserProfileBtn roomId={Number(roomId)} />
               </div>
