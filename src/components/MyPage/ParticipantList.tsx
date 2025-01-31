@@ -12,11 +12,13 @@ const ParticipantList = ({
 }) => {
   const { data: users } = useGetParticipants(post.id);
 
+  console.log(users);
+
   const pendingUsers =
-    users?.filter(user => user.participationStatus === 'pending') || [];
+    users?.filter(user => user.participationStatus === 'PENDING') || [];
 
   const approvedUsers =
-    users?.filter(user => user.participationStatus === 'approved') || [];
+    users?.filter(user => user.participationStatus === 'APPROVED') || [];
 
   const navigate = useNavigate();
 
@@ -74,7 +76,9 @@ const ParticipantList = ({
                 alt={participant.nickname}
                 className="w-10 h-10 rounded-full p-[1px] bg-white border-gray-600 border-[1px]"
               />
-              <span className="font-bold text-sm">{participant.nickname}</span>
+              <span className="font-bold text-sm">
+                {participant.nickname || `anony${participant.userId}`}
+              </span>
             </li>
           ))
         ) : (
