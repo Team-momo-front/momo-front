@@ -29,7 +29,7 @@ const CreatePostPage = () => {
 
   useEffect(() => {
     const mappedCategories = categories.map(
-      category => categoryValueToKey[category] || category
+      category => categoryValueToKey[category]
     );
     updateCategories(mappedCategories);
   }, [categories]);

@@ -11,6 +11,7 @@ import {
   getLocalDateTime,
   getOneYearLaterDateTime,
 } from '../utils/getLocalDateTime';
+import { categoryValueToKey } from '../utils/categoryValueToKey';
 
 const PostEditPage = ({ meeting }: { meeting: Post }) => {
   const id = meeting.id;
@@ -83,6 +84,15 @@ const PostEditPage = ({ meeting }: { meeting: Post }) => {
     console.log({ editData });
 
     const formData = new FormData();
+
+    if (editData.category) {
+      const mappedCategories = editData.category.map(
+        category => categoryValueToKey[category]
+      );
+
+      editData.category = mappedCategories;
+    }
+
     formData.append(
       'request',
       new Blob([JSON.stringify(editData)], { type: 'application/json' })
