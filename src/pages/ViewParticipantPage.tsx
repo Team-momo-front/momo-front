@@ -52,10 +52,10 @@ const ViewParticipantPage = () => {
               />
             </div>
             {!isFinished && (
-              <div className="w-full flex items-center gap-3 mt-4">
+              <div className="w-full flex items-center gap-3 mt-4 px-5">
                 <button
                   type="button"
-                  className="btn btn-primary flex-1 transform transition-all duration-300 ease-in-out hover:translate-y-[-4px]"
+                  className="btn btn-second flex-1 transform transition-all duration-300 ease-in-out hover:translate-y-[-4px]"
                   onClick={handleCloseMeeting}
                 >
                   모집 완료
