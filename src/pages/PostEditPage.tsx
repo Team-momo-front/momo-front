@@ -103,7 +103,7 @@ const PostEditPage = ({
       new Blob([JSON.stringify(editData)], { type: 'application/json' })
     );
 
-    if (thumbnail) formData.append('thumbnail', thumbnail);
+    if (thumbnail) formData.append('newThumbnail', thumbnail);
 
     editMeeting(
       { id: id.toString(), body: formData },
