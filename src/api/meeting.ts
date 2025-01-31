@@ -1,5 +1,5 @@
 import type {
-  CreateMeetingRequest,
+  // CreateMeetingRequest,
   CreateMeetingResponse,
   getMyMeetingsRequest,
   MeetingStatus,
@@ -20,7 +20,7 @@ export const createMeeting = async (
 
 export const editMeeting = async (
   id: string,
-  form: CreateMeetingRequest
+  form: FormData
 ): Promise<CreateMeetingResponse> =>
   apiClient({ url: `${COMMON_URL}/${id}`, method: 'put', data: form });
 

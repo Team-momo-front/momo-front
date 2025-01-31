@@ -20,6 +20,10 @@ const PostEditPage = ({ meeting }: { meeting: Post }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPlace, setSelectedPlace] = useState<PlaceDetail | null>(null);
   const token = localStorage.getItem('accessToken');
+  const [thumbnail, setThumbnail] = useState<File | null>(null);
+  const [thumbnailUrl, setThumbnailUrl] = useState<string>(
+    '/image/thumbnail_default.webp'
+  );
 
   useEffect(() => {
     if (meeting) {
@@ -75,9 +79,19 @@ const PostEditPage = ({ meeting }: { meeting: Post }) => {
   const handleCancel = () => backToReadOnly();
   const handleSave = () => {
     if (!id || !editData) return;
+
     console.log({ editData });
+
+    const formData = new FormData();
+    formData.append(
+      'request',
+      new Blob([JSON.stringify(editData)], { type: 'application/json' })
+    );
+
+    if (thumbnail) formData.append('thumbnail', thumbnail);
+
     editMeeting(
-      { id: id.toString(), body: editData },
+      { id: id.toString(), body: formData },
       {
         onSuccess: updated => {
           alert('게시물이 정상적으로 수정되었습니다.');
@@ -108,6 +122,15 @@ const PostEditPage = ({ meeting }: { meeting: Post }) => {
     if (!editData) return;
     const { name, value } = e.target;
     setEditData({ ...editData, [name]: value });
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files ? e.target.files[0] : null;
+    if (file) {
+      setThumbnail(file);
+      const fileUrl = URL.createObjectURL(file);
+      setThumbnailUrl(fileUrl);
+    }
   };
 
   const handleSearchPlace = (place: PlaceDetail) => {
@@ -225,13 +248,27 @@ const PostEditPage = ({ meeting }: { meeting: Post }) => {
               </div>
             </div>
             <div className="flex flex-col justify-between">
-              <div>
+              <label htmlFor="file-upload" className="cursor-pointer">
+                <img
+                  src={meeting.thumbnail || thumbnailUrl}
+                  alt="Thumbnail"
+                  className="w-[280px] h-[178.48px] object-cover rounded-3xl"
+                />
+                <input
+                  id="file-upload"
+                  type="file"
+                  className="hidden"
+                  accept=".jpg,.jpeg,.png"
+                  onChange={handleFileChange}
+                />
+              </label>
+              {/* <div>
                 <img
                   src={meeting.thumbnail || 'image/upload_image.webp'}
                   alt="Thumbnail"
                   className="w-[280px] h-[178.48px] object-cover rounded-3xl"
                 />
-              </div>
+              </div> */}
               <div className="mt-4">
                 <Map
                   center={{

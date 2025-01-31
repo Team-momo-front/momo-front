@@ -3,7 +3,6 @@ import ParticipantList from '../components/MyPage/ParticipantList';
 import PostCard from '../components/PostCard';
 import useDeleteMeeting from '../hooks/useDeleteMeeting';
 import { useCloseMeeting } from '../hooks/useCloseMeeting';
-import { useCreateChatroom } from '../hooks/useCreateChatroom';
 import useSearchMeetings from '../hooks/useSearchMeetings';
 import { Post } from '../types/Post';
 
@@ -12,8 +11,7 @@ const ViewParticipantPage = () => {
   const { id } = useParams<{ id: string }>();
   const meetingId = Number(id);
   const { mutate: deleteMeeting } = useDeleteMeeting();
-  const { mutate: closeMeeting, isSuccess } = useCloseMeeting();
-  const { mutate: createChatroom } = useCreateChatroom();
+  const { mutate: closeMeeting } = useCloseMeeting();
   const posts: Post[] = data?.meetings || [];
   const meeting = posts.find(meeting => meeting.id === Number(id));
   const location = useLocation();
@@ -36,12 +34,6 @@ const ViewParticipantPage = () => {
       deleteMeeting(id);
     }
   };
-
-  // 모집완료 요청 성공시 채팅룸 생성
-  // TODO: 서버 오류 고친 후 테스트 필요
-  if (isSuccess) {
-    createChatroom(meetingId);
-  }
 
   const handleClickCard = () => {
     navigate(`/post/${meetingId}`);

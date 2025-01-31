@@ -11,7 +11,7 @@ const useCreatePostForm = () => {
     address: '',
     meetingDateTime: '',
     maxCount: 0,
-    category: [],
+    categories: [],
     content: '',
   });
 
