@@ -12,8 +12,15 @@ import {
   getOneYearLaterDateTime,
 } from '../utils/getLocalDateTime';
 import { categoryValueToKey } from '../utils/categoryValueToKey';
+import { UseQueryResult } from '@tanstack/react-query';
 
-const PostEditPage = ({ meeting }: { meeting: Post }) => {
+const PostEditPage = ({
+  meeting,
+  refetch,
+}: {
+  meeting: Post;
+  refetch: UseQueryResult['refetch'];
+}) => {
   const id = meeting.id;
   const { mutate: editMeeting } = useEditMeeting();
   const [isEditMode, setIsEditMode] = useState(false);
@@ -103,8 +110,11 @@ const PostEditPage = ({ meeting }: { meeting: Post }) => {
     editMeeting(
       { id: id.toString(), body: formData },
       {
-        onSuccess: updated => {
+        onSuccess: async updated => {
+          await refetch();
+
           alert('게시물이 정상적으로 수정되었습니다.');
+
           setEditData({
             title: updated.title,
             locationId: updated.locationId,
