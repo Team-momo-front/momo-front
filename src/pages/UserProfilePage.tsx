@@ -95,7 +95,7 @@ const UserProfilePage = () => {
                 label="MBTI"
                 type="text"
                 disabled
-                value={userProfile.mbti}
+                value={userProfile.mbti === 'NONE' ? '' : userProfile.mbti}
               />
               <div className="flex gap-3 flex-1 items-end justify-end">
                 <UserProfileBtn roomId={Number(roomId)} />
