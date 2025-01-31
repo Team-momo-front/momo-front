@@ -1,4 +1,5 @@
 import DetailPageLayout from '../components/DetailPageLayout';
+import useDeleteParticipation from '../hooks/useDeleteParticipation';
 import useGetMyParticipatedMeetings from '../hooks/useGetMyParticipatedMeetings';
 import useParticipateMeeting from '../hooks/useParticipateMeeting';
 import { Post } from '../types/Post';
@@ -10,8 +11,13 @@ const ApplyMeetingPage = ({ meeting }: { meeting: Post }) => {
   if (appliedMeetingIds?.includes(meeting.id)) hasApplied = true;
 
   const { mutate: participateMeeting } = useParticipateMeeting(meeting.id);
+  const { mutate: cancelParticipation } = useDeleteParticipation(
+    Number(localStorage.getItem('userId'))
+  );
 
-  const handleClick = () => {};
+  const handleCancelParticipation = () => {
+    cancelParticipation();
+  };
 
   const handleParticipate = () => {
     participateMeeting();
@@ -21,7 +27,7 @@ const ApplyMeetingPage = ({ meeting }: { meeting: Post }) => {
     <DetailPageLayout
       meeting={meeting}
       buttonLabel={hasApplied ? '신청취소' : '신청'}
-      onClick={hasApplied ? handleClick : handleParticipate}
+      onClick={hasApplied ? handleCancelParticipation : handleParticipate}
     />
   );
 };
