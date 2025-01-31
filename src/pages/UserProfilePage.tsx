@@ -32,9 +32,8 @@ const UserProfilePage = () => {
               userProfile.profileImage || '/image/default_profile_image.webp'
             }
             alt="Profile"
-            className={`w-[150px] h-[150px] object-cover rounded-full mb-[30px] ${
-              userProfile.profileImage &&
-              'bg-white p-[5px] border-gray-600 border-[1px]'
+            className={`w-[150px] h-[150px] object-cover rounded-full mb-[30px] border-gray-600 border-[1px] ${
+              userProfile.profileImage && 'bg-white p-[5px]'
             }`}
           />
           <div className="flex justify-between gap-10">
