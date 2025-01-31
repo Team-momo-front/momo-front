@@ -1,12 +1,12 @@
 import { useRef, useEffect } from 'react';
-import { Chat } from '../../types/Chat';
+import { ChatRoomResponse } from '../../types/Chat';
 import { IoArrowBack } from 'react-icons/io5';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { chat1 } from '../../mocks/chat1';
 import ChatInput from './ChatInput';
 
 interface ChatRoomProps {
-  chat: Chat | null;
+  chat: ChatRoomResponse | null;
   handleBackBtn: () => void;
   handleViewParticipantList: () => void;
 }

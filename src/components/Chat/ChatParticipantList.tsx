@@ -1,7 +1,7 @@
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { MdLogout } from 'react-icons/md';
 import { chat1ParticipantList } from '../../mocks/chat1';
-import { Chat } from '../../types/Chat';
+import { ChatRoomResponse } from '../../types/Chat';
 import { Link } from 'react-router-dom';
 import ChatAlert from './ChatAlert';
 import { useState } from 'react';
@@ -9,8 +9,8 @@ import { useSetRecoilState } from 'recoil';
 import { isChatModalOpenState } from '../../states/recoilState';
 
 interface ChatParticipantListProps {
-  chat: Chat;
-  handleBackBtn: (chat: Chat) => void;
+  chat: ChatRoomResponse;
+  handleBackBtn: (chat: ChatRoomResponse) => void;
 }
 
 const ChatParticipantList = ({
