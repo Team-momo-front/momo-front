@@ -13,6 +13,7 @@ import {
 } from '../utils/getLocalDateTime';
 import { categoryValueToKey } from '../utils/categoryValueToKey';
 import { UseQueryResult } from '@tanstack/react-query';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const PostEditPage = ({
   meeting,
@@ -22,7 +23,7 @@ const PostEditPage = ({
   refetch: UseQueryResult['refetch'];
 }) => {
   const id = meeting.id;
-  const { mutate: editMeeting } = useEditMeeting();
+  const { mutate: editMeeting, isPending } = useEditMeeting();
   const [isEditMode, setIsEditMode] = useState(false);
   const [editData, setEditData] = useState<CreateMeetingRequest>();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,7 +31,7 @@ const PostEditPage = ({
   const token = localStorage.getItem('accessToken');
   const [thumbnail, setThumbnail] = useState<File | null>(null);
   const [thumbnailUrl, setThumbnailUrl] = useState<string>(
-    '/image/thumbnail_default.webp'
+    meeting.thumbnail || '/image/thumbnail_default.webp'
   );
 
   useEffect(() => {
@@ -183,6 +184,13 @@ const PostEditPage = ({
     );
   }
 
+  if (isPending)
+    return (
+      <div className="w-full h-screen flex justify-center items-center">
+        <LoadingSpinner />
+      </div>
+    );
+
   return (
     <>
       <div className="flex justify-center px-16 py-10">
@@ -267,7 +275,7 @@ const PostEditPage = ({
             <div className="flex flex-col justify-between">
               <label htmlFor="file-upload" className="cursor-pointer">
                 <img
-                  src={meeting.thumbnail || thumbnailUrl}
+                  src={thumbnailUrl || meeting.thumbnail}
                   alt="Thumbnail"
                   className="w-[280px] h-[178.48px] object-cover rounded-3xl"
                 />
