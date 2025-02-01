@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import DetailPageLayout from '../components/DetailPageLayout';
 import useDeleteParticipation from '../hooks/useDeleteParticipation';
 import useGetMyParticipatedMeetings from '../hooks/useGetMyParticipatedMeetings';
@@ -5,14 +6,24 @@ import useParticipateMeeting from '../hooks/useParticipateMeeting';
 import { Post } from '../types/Post';
 
 const ApplyMeetingPage = ({ meeting }: { meeting: Post }) => {
-  const { data } = useGetMyParticipatedMeetings({});
+  const { data, refetch } = useGetMyParticipatedMeetings({});
   const appliedMeetingIds = data?.meetingIds;
-  const hasApplied = !!appliedMeetingIds?.includes(meeting.id);
-
-  const { mutate: participateMeeting } = useParticipateMeeting(meeting.id);
-  const { mutate: cancelParticipation } = useDeleteParticipation(
-    Number(localStorage.getItem('userId'))
+  const participatingIds = data?.participationIds;
+  const [hasApplied, setHasApplied] = useState(
+    !!appliedMeetingIds?.includes(meeting.id)
   );
+
+  let participatingId;
+  if (participatingIds && appliedMeetingIds) {
+    participatingId = participatingIds[appliedMeetingIds.indexOf(meeting.id)];
+  }
+
+  const { mutate: participateMeeting, isSuccess: participateMeetingIsSuccess } =
+    useParticipateMeeting(meeting.id);
+  const {
+    mutate: cancelParticipation,
+    isSuccess: cancelParticipationIsSuccess,
+  } = useDeleteParticipation(Number(participatingId));
 
   const handleCancelParticipation = () => {
     cancelParticipation();
@@ -21,6 +32,12 @@ const ApplyMeetingPage = ({ meeting }: { meeting: Post }) => {
   const handleParticipate = () => {
     participateMeeting();
   };
+
+  if (participateMeetingIsSuccess || cancelParticipationIsSuccess) refetch();
+
+  useEffect(() => {
+    setHasApplied(!!appliedMeetingIds?.includes(meeting.id));
+  }, [appliedMeetingIds]);
 
   return (
     <DetailPageLayout

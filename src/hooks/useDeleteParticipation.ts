@@ -7,6 +7,7 @@ const useDeleteParticipation = (id: number) => {
     mutationFn: () => deleteParticipation(id),
     onSuccess: () => {
       alert('신청이 취소되었습니다.');
+      // window.location.reload();
     },
     onError: error => {
       if (axios.isAxiosError(error)) {
