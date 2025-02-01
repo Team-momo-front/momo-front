@@ -12,7 +12,6 @@ const useParticipateMeeting = (meetingId: number) => {
     },
     onSuccess: () => {
       alert('신청이 완료되었습니다.');
-      // window.location.reload();
     },
     onError: error => {
       if (error instanceof AxiosError) {
