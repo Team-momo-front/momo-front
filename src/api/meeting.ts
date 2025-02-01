@@ -32,7 +32,7 @@ export const searchMeetings = async (params: SearchMeetingsRequest) =>
 export const setMeetingStatus = async (id: string, data: MeetingStatus) =>
   apiClient({ url: `${COMMON_URL}/${id}`, method: 'patch', data });
 
-export const getParticipants = async (id: string) =>
+export const getParticipants = async (id: number) =>
   apiClient({ url: `${COMMON_URL}/${id}/participants`, method: 'get' });
 
 export const getMyMeetings = async (params: getMyMeetingsRequest) =>

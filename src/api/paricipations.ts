@@ -36,7 +36,7 @@ export const rejectParticipation = async (participationId: number) => {
 // 모임 참여 삭제 & 취소
 export const deleteParticipation = async (participationId: number) => {
   return apiClient({
-    url: `${COMMON_URL}/${{ participationId }}`,
+    url: `${COMMON_URL}/${participationId}`,
     method: 'delete',
   });
 };

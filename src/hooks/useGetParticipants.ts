@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getParticipants } from '../api/meeting';
 import type { Participants } from '../types/User';
 
-export function useGetParticipants(id: string) {
+export function useGetParticipants(id: number) {
   return useQuery<Participants[]>({
     queryKey: ['participants', id],
     queryFn: () => getParticipants(id),

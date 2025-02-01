@@ -1,11 +1,22 @@
 import DetailPageLayout from '../components/DetailPageLayout';
+import useDeleteParticipation from '../hooks/useDeleteParticipation';
+import useGetMyParticipatedMeetings from '../hooks/useGetMyParticipatedMeetings';
 import useParticipateMeeting from '../hooks/useParticipateMeeting';
 import { Post } from '../types/Post';
 
 const ApplyMeetingPage = ({ meeting }: { meeting: Post }) => {
-  const hasApplied = false; // TODO: 참여신청한 목록 조회에서 반환하는 meetingId로 처리해야할 것 같습니다.
+  const { data } = useGetMyParticipatedMeetings({});
+  const appliedMeetingIds = data?.meetingIds;
+  const hasApplied = !!appliedMeetingIds?.includes(meeting.id);
+
   const { mutate: participateMeeting } = useParticipateMeeting(meeting.id);
-  const handleClick = () => {};
+  const { mutate: cancelParticipation } = useDeleteParticipation(
+    Number(localStorage.getItem('userId'))
+  );
+
+  const handleCancelParticipation = () => {
+    cancelParticipation();
+  };
 
   const handleParticipate = () => {
     participateMeeting();
@@ -15,7 +26,7 @@ const ApplyMeetingPage = ({ meeting }: { meeting: Post }) => {
     <DetailPageLayout
       meeting={meeting}
       buttonLabel={hasApplied ? '신청취소' : '신청'}
-      onClick={hasApplied ? handleClick : handleParticipate}
+      onClick={hasApplied ? handleCancelParticipation : handleParticipate}
     />
   );
 };
