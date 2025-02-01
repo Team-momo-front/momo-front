@@ -9,6 +9,10 @@ const useGetMyParticipatedMeetings = (
     queryKey: ['get-participated-meetings', params],
     queryFn: () => getParticipatedMeetings(params),
     retry: false,
+    select: data => {
+      const meetingIds = data.appliedMeetings.map(meeting => meeting.meetingId);
+      return { meetingIds, allData: data };
+    },
   });
 };
 

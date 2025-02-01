@@ -45,7 +45,7 @@ const UserProfileBtn = ({ roomId }: { roomId: number }) => {
 
   return (
     <>
-      {isApplicantView && status === 'pending' && (
+      {isApplicantView && status === 'PENDING' && (
         <>
           <button
             type="button"
@@ -56,7 +56,7 @@ const UserProfileBtn = ({ roomId }: { roomId: number }) => {
           </button>
           <button
             type="button"
-            className="btn btn-primary"
+            className="btn btn-second"
             onClick={handleDenyUser}
           >
             거절

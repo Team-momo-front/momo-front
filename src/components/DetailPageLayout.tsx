@@ -18,7 +18,7 @@ const DetailPageLayout = ({
   return (
     <div className="flex justify-center px-16 py-10">
       <div className="w-full max-w-5xl px-14">
-        <h1 className="text-2xl font-bold mb-6 text-center mb-10">
+        <h1 className="text-2xl font-bold text-center mb-10">
           {meeting.title}
         </h1>
         <div className="flex gap-x-8 justify-center">

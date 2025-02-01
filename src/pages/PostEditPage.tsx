@@ -11,15 +11,28 @@ import {
   getLocalDateTime,
   getOneYearLaterDateTime,
 } from '../utils/getLocalDateTime';
+import { categoryValueToKey } from '../utils/categoryValueToKey';
+import { UseQueryResult } from '@tanstack/react-query';
+import LoadingSpinner from '../components/LoadingSpinner';
 
-const PostEditPage = ({ meeting }: { meeting: Post }) => {
+const PostEditPage = ({
+  meeting,
+  refetch,
+}: {
+  meeting: Post;
+  refetch: UseQueryResult['refetch'];
+}) => {
   const id = meeting.id;
-  const { mutate: editMeeting } = useEditMeeting();
+  const { mutate: editMeeting, isPending } = useEditMeeting();
   const [isEditMode, setIsEditMode] = useState(false);
   const [editData, setEditData] = useState<CreateMeetingRequest>();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPlace, setSelectedPlace] = useState<PlaceDetail | null>(null);
   const token = localStorage.getItem('accessToken');
+  const [thumbnail, setThumbnail] = useState<File | null>(null);
+  const [thumbnailUrl, setThumbnailUrl] = useState<string>(
+    meeting.thumbnail || '/image/thumbnail_default.webp'
+  );
 
   useEffect(() => {
     if (meeting) {
@@ -75,12 +88,32 @@ const PostEditPage = ({ meeting }: { meeting: Post }) => {
   const handleCancel = () => backToReadOnly();
   const handleSave = () => {
     if (!id || !editData) return;
-    console.log({ editData });
+
+    const formData = new FormData();
+
+    if (editData.category) {
+      const mappedCategories = editData.category.map(
+        category => categoryValueToKey[category]
+      );
+
+      editData.category = mappedCategories;
+    }
+
+    formData.append(
+      'request',
+      new Blob([JSON.stringify(editData)], { type: 'application/json' })
+    );
+
+    if (thumbnail) formData.append('newThumbnail', thumbnail);
+
     editMeeting(
-      { id: id.toString(), body: editData },
+      { id: id.toString(), body: formData },
       {
-        onSuccess: updated => {
+        onSuccess: async updated => {
+          await refetch();
+
           alert('게시물이 정상적으로 수정되었습니다.');
+
           setEditData({
             title: updated.title,
             locationId: updated.locationId,
@@ -93,7 +126,6 @@ const PostEditPage = ({ meeting }: { meeting: Post }) => {
             content: updated.content,
           });
           setIsEditMode(false);
-          console.log(editData);
         },
         onError: () => {
           alert('수정 중 오류가 발생했습니다.');
@@ -108,6 +140,15 @@ const PostEditPage = ({ meeting }: { meeting: Post }) => {
     if (!editData) return;
     const { name, value } = e.target;
     setEditData({ ...editData, [name]: value });
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files ? e.target.files[0] : null;
+    if (file) {
+      setThumbnail(file);
+      const fileUrl = URL.createObjectURL(file);
+      setThumbnailUrl(fileUrl);
+    }
   };
 
   const handleSearchPlace = (place: PlaceDetail) => {
@@ -142,6 +183,13 @@ const PostEditPage = ({ meeting }: { meeting: Post }) => {
       />
     );
   }
+
+  if (isPending)
+    return (
+      <div className="w-full h-screen flex justify-center items-center">
+        <LoadingSpinner />
+      </div>
+    );
 
   return (
     <>
@@ -225,13 +273,20 @@ const PostEditPage = ({ meeting }: { meeting: Post }) => {
               </div>
             </div>
             <div className="flex flex-col justify-between">
-              <div>
+              <label htmlFor="file-upload" className="cursor-pointer">
                 <img
-                  src={meeting.thumbnail || 'image/upload_image.webp'}
+                  src={thumbnailUrl || meeting.thumbnail}
                   alt="Thumbnail"
                   className="w-[280px] h-[178.48px] object-cover rounded-3xl"
                 />
-              </div>
+                <input
+                  id="file-upload"
+                  type="file"
+                  className="hidden"
+                  accept=".jpg,.jpeg,.png"
+                  onChange={handleFileChange}
+                />
+              </label>
               <div className="mt-4">
                 <Map
                   center={{
