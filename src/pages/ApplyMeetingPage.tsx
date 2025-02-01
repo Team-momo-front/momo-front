@@ -7,8 +7,7 @@ import { Post } from '../types/Post';
 const ApplyMeetingPage = ({ meeting }: { meeting: Post }) => {
   const { data } = useGetMyParticipatedMeetings({});
   const appliedMeetingIds = data?.meetingIds;
-  let hasApplied = false;
-  if (appliedMeetingIds?.includes(meeting.id)) hasApplied = true;
+  const hasApplied = !!appliedMeetingIds?.includes(meeting.id);
 
   const { mutate: participateMeeting } = useParticipateMeeting(meeting.id);
   const { mutate: cancelParticipation } = useDeleteParticipation(
