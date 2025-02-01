@@ -12,8 +12,6 @@ const ParticipantList = ({
 }) => {
   const { data: users } = useGetParticipants(post.id);
 
-  console.log(users);
-
   const pendingUsers =
     users?.filter(user => user.participationStatus === 'PENDING') || [];
 
@@ -23,7 +21,9 @@ const ParticipantList = ({
   const navigate = useNavigate();
 
   const handleGoToProfile = (participantId: number, status: string) => {
-    navigate(`/view-applicant/profile/${participantId}?status=${status}`);
+    navigate(
+      `/view-applicant/profile/${participantId}/${post.id}?status=${status}`
+    );
   };
 
   // 목데이터용 코드
