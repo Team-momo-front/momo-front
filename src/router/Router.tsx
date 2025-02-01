@@ -82,7 +82,7 @@ const Router = () => {
           {/* 주최한 모임 -> 신청자 보기 페이지 -> 신청자 프로필 보기 */}
 
           <Route
-            path="/view-applicant/profile/:userId"
+            path="/view-applicant/profile/:userId/:roomId"
             element={
               <ProtectedRoute>
                 <UserProfilePage />

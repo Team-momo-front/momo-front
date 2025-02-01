@@ -9,7 +9,7 @@ const ParticipatedMeetings = () => {
 
   if (data === undefined) return;
 
-  const posts = data.appliedMeetings;
+  const posts = data.allData.appliedMeetings;
 
   return (
     <div className="px-16 py-1">
