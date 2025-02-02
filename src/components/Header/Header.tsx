@@ -1,12 +1,10 @@
-import { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
 import { FaBell } from 'react-icons/fa6';
 import { Link, useNavigate } from 'react-router-dom';
-import logo from '../../assets/svg/logo.svg';
-import { notifications } from '../../mocks/notifications';
-import { Notification } from '../../types/Notification';
 import axiosInstance from '../../api/axiosInstance';
-import { useMutation } from '@tanstack/react-query';
+import logo from '../../assets/svg/logo.svg';
 import { useFetchUSerProfileImage } from '../../hooks/useFetchUSerProfileImage';
+import useNotifications from '../../hooks/useNotifications';
 
 const Header = () => {
   const { data: profileImageUrl } = useFetchUSerProfileImage({
@@ -46,19 +44,10 @@ const Header = () => {
     mutate();
   };
 
-  // TODO : 서버데이터 사용
-  const [data, setData] = useState<Notification[] | []>(notifications);
+  const { notifications, deleteNotification, deleteAllNotifications } =
+    useNotifications(accessToken);
 
-  const handleDelete = (id: number) => {
-    // TODO : 서버호출
-    setData(prev => prev.filter(notification => notification.id !== id));
-  };
-  const handleDeleteAll = () => {
-    // TODO : 서버호출
-    setData([]);
-  };
-
-  const hasNotification = data.length > 0;
+  const hasNotification = notifications.length > 0;
 
   if (isPending) {
     return (
@@ -93,13 +82,13 @@ const Header = () => {
             <div className="relative menu dropdown-content">
               <ul className="absolute -right-10 bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
                 {hasNotification ? (
-                  data.map(notification => (
+                  notifications.map(notification => (
                     <li key={notification.id} className="group">
                       <a className="text-xs group-hover:font-bold">
                         {notification.content}
                         <button
                           className="ml-auto hover:font-bold hover:text-primary"
-                          onClick={() => handleDelete(notification.id)}
+                          onClick={() => deleteNotification(notification.id)}
                         >
                           ✕
                         </button>
@@ -112,7 +101,7 @@ const Header = () => {
                 <div className="flex justify-end m-2">
                   <button
                     className="hover:font-bold text-xs"
-                    onClick={handleDeleteAll}
+                    onClick={() => deleteAllNotifications}
                   >
                     모두 지우기
                   </button>
