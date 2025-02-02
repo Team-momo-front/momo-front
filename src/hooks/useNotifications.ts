@@ -6,13 +6,13 @@ import { EventSourcePolyfill } from 'event-source-polyfill';
 
 const COMMON_URL = '/api/v1/notifications';
 
-function useNotifications(accessToken?: string | null) {
+function useNotifications(accessToken: string | null) {
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
   useEffect(() => {
     if (!accessToken) return;
 
-    const eventSource = new EventSourcePolyfill(COMMON_URL, {
+    const eventSource = new EventSourcePolyfill(`${COMMON_URL}/subscribe`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
 
