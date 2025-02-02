@@ -50,7 +50,7 @@ export interface getParticipatedMeetingsRequest {
 }
 
 export interface ParticipantsResponse {
-  id: number;
+  participationId: number;
   meetingId: number;
   authorId: number;
   participationStatus:

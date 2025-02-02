@@ -1,11 +1,8 @@
 import { useMutation } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import axiosInstance from '../api/axiosInstance';
 
 const useParticipateMeeting = (meetingId: number) => {
-  const navigate = useNavigate();
-
   return useMutation({
     mutationFn: async () => {
       const response = await axiosInstance.post(
@@ -15,7 +12,6 @@ const useParticipateMeeting = (meetingId: number) => {
     },
     onSuccess: () => {
       alert('신청이 완료되었습니다.');
-      navigate(`/post/${meetingId}`);
     },
     onError: error => {
       if (error instanceof AxiosError) {

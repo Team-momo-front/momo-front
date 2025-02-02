@@ -11,7 +11,10 @@ const useGetMyParticipatedMeetings = (
     retry: false,
     select: data => {
       const meetingIds = data.appliedMeetings.map(meeting => meeting.meetingId);
-      return { meetingIds, allData: data };
+      const participationIds = data.appliedMeetings.map(
+        meeting => meeting.participationId
+      );
+      return { meetingIds, participationIds, allData: data };
     },
   });
 };
