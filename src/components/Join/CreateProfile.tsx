@@ -5,6 +5,7 @@ import { useMBTIValidation } from '../../hooks/useMBTIValidation.ts';
 import ProfileImageUpload from '../ProfileImageUpload.tsx';
 import axiosInstance from '../../api/axiosInstance.ts';
 import { useNavigate } from 'react-router-dom';
+import { useMutation } from '@tanstack/react-query';
 
 type profileForm = {
   gender: string;
@@ -81,25 +82,28 @@ const CreateProfile = () => {
     setProfileImageURL(newImageUrl);
   }, []);
 
-  const handleProfileSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    try {
-      await axiosInstance.post('/api/v1/profiles', formData);
-
+  const { mutate: createProfile } = useMutation({
+    mutationFn: async () => {
+      const response = await axiosInstance.post('/api/v1/profiles', formData);
+      return response.data;
+    },
+    onSuccess: () => {
       localStorage.setItem('hasProfile', 'true');
       navigate('/mypage/my-profile');
-    } catch (err) {
-      if (err instanceof AxiosError) {
-        if (err.response && err.response.status === 409) {
-          setCreateProfileError(err.response.data.message);
+    },
+    onError: err => {
+      if (err && err instanceof AxiosError)
+        if (err.response?.status === 409 || err.response?.status === 400) {
+          setCreateProfileError(err.response?.data.message);
+        } else {
+          setCreateProfileError(err.message);
         }
-        if (err.response && err.response.status === 400) {
-          setCreateProfileError(err.response.data.message);
-        }
-        setCreateProfileError(err.message);
-      }
-    }
+    },
+  });
+
+  const handleProfileSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    createProfile();
   };
 
   return (
