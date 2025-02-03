@@ -13,7 +13,10 @@ const ChatInput = ({ roomId }: { roomId: number }) => {
   };
 
   return (
-    <form onSubmit={handleSendText} className="relative bottom-12 z-10">
+    <form
+      onSubmit={handleSendText}
+      className="absolute bottom-4 left-4 right-4 z-10"
+    >
       <input
         className="w-full h-12 rounded-full shadow-md px-6 py-[14px] pr-10 text-sm overflow-y-hidden resize-none flex items-center box-border focus:outline-none focus:border-shadow-md"
         placeholder="메세지를 입력하세요"
