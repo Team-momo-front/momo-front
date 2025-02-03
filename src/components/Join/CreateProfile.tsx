@@ -60,14 +60,13 @@ const CreateProfile = () => {
   );
 
   const formData = new FormData();
-  const requestData: Record<string, string> = {};
 
-  requestData.gender = profileForm.gender;
-  requestData.birth = profileForm.birth;
-
-  if (profileForm.introduction)
-    requestData.introduction = profileForm.introduction;
-  if (profileForm.mbti) requestData.mbti = profileForm.mbti;
+  const requestData: Record<string, string> = {
+    gender: profileForm.gender,
+    birth: profileForm.birth,
+    ...(profileForm.introduction && { introduction: profileForm.introduction }),
+    ...(profileForm.mbti && { mbti: profileForm.mbti }),
+  };
 
   formData.append(
     'request',
