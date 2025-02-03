@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { AxiosError } from 'axios';
 import JoinField from './JoinField.tsx';
 import { useMBTIValidation } from '../../hooks/useMBTIValidation.ts';
@@ -26,11 +26,11 @@ const CreateProfile = () => {
     mbti: '',
   });
 
+  // TODO: MBTI 선택할 수 있도록 셀렉터 제공 리팩토링 예정
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-
     setProfileForm(prev => ({
       ...prev,
       [name]: name === 'mbti' ? value.toUpperCase() : value,
@@ -38,17 +38,16 @@ const CreateProfile = () => {
   };
 
   const [selectedGender, setSelectedGender] = useState<Gender | null>(null);
-
   const toggleGenderButton = (gender: Gender) => {
     setSelectedGender(gender);
     setProfileForm(prev => ({ ...prev, gender }));
   };
-
   const today = new Date();
   const maxDay = today.toISOString().slice(0, 10);
-
   const [profileImage, setProfileImage] = useState<File | null>(null);
+  const [profileImageURL, setProfileImageURL] = useState<string | null>(null);
   const { mbtiError, validateMBTI } = useMBTIValidation();
+  const navigate = useNavigate();
 
   const isDisabled =
     !profileForm.gender ||
@@ -60,43 +59,27 @@ const CreateProfile = () => {
   );
 
   const formData = new FormData();
-
   const requestData: Record<string, string> = {};
 
   requestData.gender = profileForm.gender;
   requestData.birth = profileForm.birth;
 
-  if (profileForm.introduction) {
+  if (profileForm.introduction)
     requestData.introduction = profileForm.introduction;
-  }
-
-  if (profileForm.mbti) {
-    requestData.mbti = profileForm.mbti;
-  }
+  if (profileForm.mbti) requestData.mbti = profileForm.mbti;
 
   formData.append(
     'request',
     new Blob([JSON.stringify(requestData)], { type: 'application/json' })
   );
 
-  // 기존 코드
   if (profileImage) {
     formData.append('profileImage', profileImage);
   }
 
-  // 테스트용 코드
-  // if (profileImage) {
-  //   formData.append('profileImage', profileImage);
-  // } else {
-  //   const defaultImage = new File(
-  //     ['/images/default_profile_image.png'],
-  //     'default_profile_image.png',
-  //     { type: 'image/png' }
-  //   );
-  //   formData.append('profileImage', defaultImage);
-  // }
-
-  const navigate = useNavigate();
+  const handleProfileImageChange = useCallback((newImageUrl: string | null) => {
+    setProfileImageURL(newImageUrl);
+  }, []);
 
   const handleProfileSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -115,7 +98,6 @@ const CreateProfile = () => {
           setCreateProfileError(err.response.data.message);
         }
         setCreateProfileError(err.message);
-        console.log(err);
       }
     }
   };
@@ -133,10 +115,10 @@ const CreateProfile = () => {
           <ProfileImageUpload
             profileImage={profileImage}
             setProfileImage={setProfileImage}
-            defaultImage="image/default_profile_image.webp"
+            profileURL={profileImageURL}
+            onProfileImageChange={handleProfileImageChange}
           />
         </label>
-
         <div>
           <label className="block mb-2">
             <span className="font-bold text-sm">성별*</span>
@@ -162,7 +144,6 @@ const CreateProfile = () => {
             </button>
           </div>
         </div>
-
         <JoinField
           name="birth"
           label="생년 월일*"
@@ -175,7 +156,6 @@ const CreateProfile = () => {
           min="1900-01-01"
           placeholder="생년월일을 입력하세요."
         />
-
         <JoinField
           name="mbti"
           label="MBTI"
@@ -188,7 +168,6 @@ const CreateProfile = () => {
           required={false}
           length={4}
         />
-
         <div>
           <label htmlFor="introduction" className="block mb-2">
             <span className="font-bold text-sm">자기소개</span>
@@ -204,7 +183,6 @@ const CreateProfile = () => {
             maxLength={150}
           />
         </div>
-
         <button
           type="submit"
           disabled={isDisabled}

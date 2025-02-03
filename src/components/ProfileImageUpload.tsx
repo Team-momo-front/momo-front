@@ -4,14 +4,12 @@ import { MdClose } from 'react-icons/md';
 type ProfileImageUploadProps = {
   profileImage: File | null;
   setProfileImage: React.Dispatch<React.SetStateAction<File | null>>;
-  defaultImage: string;
   profileURL?: string | null;
   onProfileImageChange?: (newImageURL: string | null) => void;
 };
 const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
   profileImage,
   setProfileImage,
-  defaultImage,
   profileURL,
   onProfileImageChange,
 }) => {
@@ -19,6 +17,7 @@ const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
     profileURL ?? null
   );
   const uploadProfileImage = '/image/upload_profile_image.webp';
+  const defaultImage = '/image/default_profile_image.webp';
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
@@ -53,13 +52,13 @@ const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
     if (onProfileImageChange) {
       onProfileImageChange(defaultImage);
     }
+    setProfileImage(null);
     handleCloseModal();
   };
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
-
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
@@ -78,9 +77,6 @@ const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
           className={`w-[150px] h-[150px] object-cover rounded-full ${
             updatedProfileURL && 'bg-white p-[5px] border-gray-600 border-[1px]'
           }`}
-          onError={e => {
-            e.currentTarget.src = '/image/default_profile_image.webp';
-          }}
         />
         {(!profileImage || !profileURL) && (
           <input
