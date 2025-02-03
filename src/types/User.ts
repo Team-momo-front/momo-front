@@ -38,13 +38,3 @@ export interface Participants {
   profileImage: string;
   participationStatus: string;
 }
-
-export interface getUserProfileResponse {
-  userId: number;
-  nickname: string;
-  gender: string;
-  birth: string;
-  profileImage: string;
-  introduction: string;
-  mbti: string;
-}
