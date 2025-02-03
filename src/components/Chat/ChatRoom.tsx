@@ -6,7 +6,7 @@ import ChatInput from './ChatInput';
 
 interface ChatRoomProps {
   chat: ChatRoomResponse;
-  chatHistory: ChatHistoryResponse[] | null;
+  chatHistory: ChatHistoryResponse[];
   handleBackBtn: () => void;
   handleViewParticipantList: () => void;
 }
