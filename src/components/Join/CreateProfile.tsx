@@ -3,9 +3,9 @@ import { AxiosError } from 'axios';
 import JoinField from './JoinField.tsx';
 import { useMBTIValidation } from '../../hooks/useMBTIValidation.ts';
 import ProfileImageUpload from '../ProfileImageUpload.tsx';
-import axiosInstance from '../../api/axiosInstance.ts';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
+import { apiClient } from '../../api/apiClient.ts';
 
 type profileForm = {
   gender: string;
@@ -84,8 +84,12 @@ const CreateProfile = () => {
 
   const { mutate: createProfile } = useMutation({
     mutationFn: async () => {
-      const response = await axiosInstance.post('/api/v1/profiles', formData);
-      return response.data;
+      const response = await apiClient({
+        url: '/api/v1/profiles',
+        method: 'post',
+        data: formData,
+      });
+      return response;
     },
     onSuccess: () => {
       localStorage.setItem('hasProfile', 'true');
