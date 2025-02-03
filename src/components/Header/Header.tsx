@@ -3,28 +3,31 @@ import { FaBell } from 'react-icons/fa6';
 import { Link, useNavigate } from 'react-router-dom';
 import axiosInstance from '../../api/axiosInstance';
 import logo from '../../assets/svg/logo.svg';
-import { useFetchUSerProfileImage } from '../../hooks/useFetchUSerProfileImage';
 import useNotifications from '../../hooks/useNotifications';
+import useFetchUserProfile from '../../hooks/useFetchUserProfile';
+import { useEffect } from 'react';
 
 const Header = () => {
-  const { data: profileImageUrl } = useFetchUSerProfileImage({
-    select: data => data.profileImageUrl,
-  });
-
+  const { data: userProfileData, refetch } = useFetchUserProfile();
+  const profileImageUrl = userProfileData?.profileImage;
   const navigate = useNavigate();
   const accessToken = localStorage.getItem('accessToken');
+
+  useEffect(() => {
+    if (accessToken) {
+      refetch();
+    }
+  }, [accessToken, refetch]);
 
   const handleNavigateMypage = () => {
     navigate('/mypage/my-profile');
   };
 
-  const logout = async () => {
-    const response = await axiosInstance.delete('/api/v1/users/logout');
-    return response.data;
-  };
-
-  const { mutate, isPending } = useMutation({
-    mutationFn: logout,
+  const { mutate: logout, isPending: logoutIsPending } = useMutation({
+    mutationFn: async () => {
+      const response = await axiosInstance.delete('/api/v1/users/logout');
+      return response.data;
+    },
     onSuccess: data => {
       localStorage.removeItem('accessToken');
       localStorage.removeItem('hasProfile');
@@ -41,7 +44,7 @@ const Header = () => {
   });
 
   const handleLogout = async () => {
-    mutate();
+    logout();
   };
 
   const { notifications, deleteNotification, deleteAllNotifications } =
@@ -49,7 +52,7 @@ const Header = () => {
 
   const hasNotification = notifications.length > 0;
 
-  if (isPending) {
+  if (logoutIsPending) {
     return (
       <div className="w-full h-screen flex justify-center items-center">
         <span className="loading loading-spinner w-16 text-gray-600"></span>
