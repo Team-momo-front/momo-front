@@ -23,7 +23,7 @@ const Header = () => {
     navigate('/mypage/my-profile');
   };
 
-  const { mutate: logout, isPending: logoutIsPending } = useMutation({
+  const { mutate: logout, isPending: isLogoutPending } = useMutation({
     mutationFn: async () => {
       const response = await axiosInstance.delete('/api/v1/users/logout');
       return response.data;
@@ -48,7 +48,7 @@ const Header = () => {
 
   const hasNotification = notifications.length > 0;
 
-  if (logoutIsPending) {
+  if (isLogoutPending) {
     return (
       <div className="w-full h-screen flex justify-center items-center">
         <span className="loading loading-spinner w-16 text-gray-600"></span>
