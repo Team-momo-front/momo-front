@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { CreatedMeeting, ParticipantsResponse } from '../types/Meeting';
+import useDeleteMeeting from '../hooks/useDeleteMeeting';
 
 interface PostCardBtnProps {
   post: CreatedMeeting | ParticipantsResponse;
@@ -14,6 +15,7 @@ const PostCardBtn: React.FC<PostCardBtnProps> = ({
   status,
 }) => {
   const navigate = useNavigate();
+  const { mutate: deleteMeeting } = useDeleteMeeting();
 
   const handleGoToPostBtnClick = () => {
     navigate(`/post/${post.meetingId}`);
@@ -23,14 +25,19 @@ const PostCardBtn: React.FC<PostCardBtnProps> = ({
     navigate(`/view-applicant/${post.meetingId}?status=${status}`);
   };
 
+  const handleDeleteMeetingBtnClick = () => {
+    deleteMeeting(post.meetingId.toString());
+  };
+
   const handleDeleteBtnClick = () => {
-    // TODO: API 참가한 모임 목록에서 DELETE 요청
+    // TODO: API 참가한 모임 목록에서 DELETE 요청(신청자 입장)
   };
 
   const isAvailableDelete =
     status === '승인 거부' || status === '모집 취소' || status === '모집 완료';
 
   const isAvailableViewPost = status === 'RECRUITING';
+  const isAbailableDelete = status === 'CLOSED';
 
   return (
     <>
@@ -49,13 +56,23 @@ const PostCardBtn: React.FC<PostCardBtnProps> = ({
           ) : (
             <div className="flex-1" />
           )}
-          <button
-            type="button"
-            onClick={() => handleAdminBtnClick()}
-            className="btn btn-second btn-sm font-bold flex-1"
-          >
-            신청자 보기
-          </button>
+          {isAbailableDelete ? (
+            <button
+              type="button"
+              onClick={() => handleDeleteMeetingBtnClick()}
+              className="btn btn-second btn-sm font-bold flex-1"
+            >
+              모임 삭제
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => handleAdminBtnClick()}
+              className="btn btn-second btn-sm font-bold flex-1"
+            >
+              신청자 보기
+            </button>
+          )}
         </div>
       )}
       {isParticipated && (
