@@ -29,11 +29,11 @@ const UserProfilePage = () => {
         <div className="flex flex-col gap-4 items-center">
           <img
             src={
-              userProfile.profileImage || '/image/default_profile_image.webp'
+              userProfile.profileImageUrl || '/image/default_profile_image.webp'
             }
             alt="Profile"
             className={`w-[150px] h-[150px] object-cover rounded-full mb-[30px] border-gray-600 border-[1px] ${
-              userProfile.profileImage && 'bg-white p-[5px]'
+              userProfile.profileImageUrl && 'bg-white p-[5px]'
             }`}
           />
           <div className="flex justify-between gap-10">

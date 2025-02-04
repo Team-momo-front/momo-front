@@ -44,7 +44,7 @@ export interface getUserProfileResponse {
   nickname: string;
   gender: string;
   birth: string;
-  profileImage: string;
+  profileImageUrl: string;
   introduction: string;
   mbti: string;
 }
