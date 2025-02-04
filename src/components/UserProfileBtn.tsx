@@ -38,8 +38,7 @@ const UserProfileBtn = ({
   };
 
   const handleDenyUser = () => {
-    rejectParticipation(Number(participationId));
-    // navigate(-1);
+    rejectParticipation(participationId);
   };
 
   const handleGoToChatRoom = () => {
@@ -50,8 +49,6 @@ const UserProfileBtn = ({
 
   const handleWithdrawalUser = () => {
     // TODO: 회원 강퇴 API 호출
-    console.log(participationId);
-    console.log(roomId);
   };
 
   return (
