@@ -1,4 +1,4 @@
-import { ChatHistoryResponse, ChatRoomResponse } from '../../types/Chat';
+import { ChatRoomResponse } from '../../types/Chat';
 import ChatList from './ChatList';
 import ChatRoom from './ChatRoom';
 import ChatParticipantList from './ChatParticipantList';
@@ -13,12 +13,9 @@ import useGetChatRoomList from '../../hooks/useGetChatRoomList';
 import LoadingSpinner from '../LoadingSpinner';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useGetChatHistory } from '../../hooks/Chat/useGetChatHistory';
-import { useState } from 'react';
 
 const ChatModal = () => {
   const { data, isLoading, error } = useGetChatRoomList();
-  const { mutateAsync: getChatHistory } = useGetChatHistory();
 
   const [isChatRoomOpen, setIsChatRoomOpen] =
     useRecoilState(isChatRoomOpenState);
@@ -27,23 +24,10 @@ const ChatModal = () => {
   const [isViewParticipantListOpen, setIsViewParticipantListOpen] =
     useRecoilState(isViewParticipantListOpenState);
   const [selectedChat, setSelectedChat] = useRecoilState(selectedChatState);
-  const [chatHistory, setChatHistory] = useState<ChatHistoryResponse[] | null>(
-    null
-  );
   const navigate = useNavigate();
 
-  const openChatRoom = async (chat: ChatRoomResponse) => {
+  const openChatRoom = (chat: ChatRoomResponse) => {
     setSelectedChat(chat);
-
-    try {
-      const chatHistory = await getChatHistory(chat.roomId);
-      setChatHistory(chatHistory);
-    } catch (error) {
-      if (error && error instanceof AxiosError) {
-        console.log(error.message);
-      }
-    }
-
     setIsViewParticipantListOpen(false);
     setIsChatListOpen(false);
     setIsChatRoomOpen(true);
@@ -69,7 +53,7 @@ const ChatModal = () => {
   }
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 animate-fadeIn">
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 animate-fadeIn z-30">
       <div className="relative bg-white p-6 rounded-[40px] shadow-lg w-80 h-[75vh] animate-displayUp">
         {isChatListOpen && data && (
           <ChatList chats={data} onChatClick={openChatRoom} />
@@ -78,7 +62,6 @@ const ChatModal = () => {
         {selectedChat && isChatRoomOpen && (
           <ChatRoom
             chat={selectedChat}
-            chatHistory={chatHistory}
             handleBackBtn={openChatList}
             handleViewParticipantList={openViewParticipantList}
           />

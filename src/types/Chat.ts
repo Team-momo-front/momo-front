@@ -21,7 +21,7 @@ export interface ChatRoomResponse {
 }
 
 export interface ChatHistoryResponse {
-  userId: string;
+  userId: number;
   userNickname: string;
   userProfileImageUrl: string;
   message: string;
@@ -33,4 +33,17 @@ export interface ChatParticipant {
   userId: number;
   nickname: string;
   profileImageUrl: string;
+}
+
+export interface ChatMessageRequest {
+  userId: string;
+  roomId: number;
+  message: string;
+}
+export interface ChatMessageResponse {
+  roomId: number;
+  message: string;
+  senderId: string;
+  senderNickname: string;
+  userProfileImageUrl: string;
 }
