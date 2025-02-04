@@ -30,7 +30,7 @@ const UserProfileBtn = ({
 
   const handleApproveUser = () => {
     try {
-      approveParticipation(Number(participationId));
+      approveParticipation(participationId);
       navigate(-1);
     } catch (error) {
       console.log(error);
