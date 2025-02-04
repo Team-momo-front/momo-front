@@ -1,19 +1,26 @@
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import {
   isChatModalOpenState,
   isViewParticipantListOpenState,
 } from '../states/recoilState';
+import { useApproveParticipation } from '../hooks/useApproveParticipation';
+import { useRejectParticipation } from '../hooks/useRejectParticipation';
 
-const UserProfileBtn = ({ roomId }: { roomId: number }) => {
+const UserProfileBtn = ({
+  roomId,
+  participationId,
+}: {
+  roomId: number;
+  participationId: number;
+}) => {
+  const { mutate: approveParticipation } = useApproveParticipation();
+  const { mutate: rejectParticipation } = useRejectParticipation();
   const setIsViewParticipantListOpen = useSetRecoilState(
     isViewParticipantListOpenState
   );
   const setIsChatModalOpen = useSetRecoilState(isChatModalOpenState);
-
   const location = useLocation();
-  const { userId } = useParams();
-
   const queryParams = new URLSearchParams(location.search);
   const status = queryParams.get('status');
   const isApplicantView = location.pathname.startsWith('/view-applicant');
@@ -22,13 +29,17 @@ const UserProfileBtn = ({ roomId }: { roomId: number }) => {
   const navigate = useNavigate();
 
   const handleApproveUser = () => {
-    // TODO: 참여 승인 API 호출
-    // BE에 status 값 확인
+    try {
+      approveParticipation(Number(participationId));
+      navigate(-1);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleDenyUser = () => {
-    // TODO: 참여 거부 API 호출
-    // BE에 status 값 확인
+    rejectParticipation(Number(participationId));
+    // navigate(-1);
   };
 
   const handleGoToChatRoom = () => {
@@ -39,7 +50,7 @@ const UserProfileBtn = ({ roomId }: { roomId: number }) => {
 
   const handleWithdrawalUser = () => {
     // TODO: 회원 강퇴 API 호출
-    console.log(userId);
+    console.log(participationId);
     console.log(roomId);
   };
 

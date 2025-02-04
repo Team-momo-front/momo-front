@@ -36,6 +36,7 @@ export interface Participants {
   userId: number;
   nickname: string;
   profileImage: string;
+  participationId: number;
   participationStatus: string;
 }
 
