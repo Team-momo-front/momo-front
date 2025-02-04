@@ -66,14 +66,9 @@ const MyProfile = () => {
     useEditProfile();
 
   const formData = new FormData();
-  const requestData: Record<string, string> = {};
 
-  if (updatedUserData.nickname) requestData.nickname = updatedUserData.nickname;
-  if (updatedUserData.phone) requestData.phone = updatedUserData.phone;
-  if (updatedUserData.mbti) requestData.mbti = updatedUserData.mbti;
-  if (updatedUserData.introduction) {
-    requestData.introduction = updatedUserData.introduction;
-  }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { profileImageUrl, ...requestData } = updatedUserData;
 
   formData.append(
     'updateRequest',

@@ -129,10 +129,7 @@ const Header = () => {
               >
                 <a className="text-sm hover:font-bold">마이페이지</a>
               </li>
-              <li
-                className="w-full items-center"
-                onClick={async () => logout()}
-              >
+              <li className="w-full items-center" onClick={() => logout()}>
                 <a className="text-sm hover:font-bold flex justify-center w-full">
                   로그아웃
                 </a>
