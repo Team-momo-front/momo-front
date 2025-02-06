@@ -1,16 +1,18 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { approveParticipation } from '../api/paricipations';
 import { useNavigate } from 'react-router-dom';
 
-export const useApproveParticipation = () => {
+export const useApproveParticipation = (roomId: number) => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (participationId: number) =>
       approveParticipation(participationId),
     onSuccess: () => {
       alert('신청을 승인하였습니다.');
-      navigate(-1);
+      queryClient.invalidateQueries({ queryKey: ['get-participants'] });
+      navigate(`/view-applicant/${roomId}`, { replace: true });
     },
     onError: error => {
       if (axios.isAxiosError(error)) {
