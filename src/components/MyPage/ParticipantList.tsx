@@ -11,44 +11,22 @@ const ParticipantList = ({
   isFinished: boolean;
 }) => {
   const { data: users } = useGetParticipants(post.id);
+  const navigate = useNavigate();
 
   const pendingUsers =
     users?.filter(user => user.participationStatus === 'PENDING') || [];
-
   const approvedUsers =
     users?.filter(user => user.participationStatus === 'APPROVED') || [];
 
-  const navigate = useNavigate();
-
-  const handleGoToProfile = (participantId: number, status: string) => {
+  const handleGoToProfile = (
+    participantId: number,
+    userId: number,
+    status: string
+  ) => {
     navigate(
-      `/view-applicant/profile/${participantId}/${post.id}?status=${status}`
+      `/view-applicant/profile/${participantId}/${userId}?status=${status}`
     );
   };
-
-  // 목데이터용 코드
-  // const [participants, setParticipants] = useState(users);
-
-  // useEffect(() => {
-  //   if (post.participatedUserId) {
-  //     const filteredParticipants = users.filter(user =>
-  //       post.participatedUserId?.includes(user.userId)
-  //     );
-  //     setParticipants(filteredParticipants);
-  //   }
-  // }, [post.participatedUserId]);
-
-  // const { pendingUsers, approvedUsers } = participants.reduce(
-  //   (acc: { pendingUsers: User[]; approvedUsers: User[] }, participant) => {
-  //     if (participant.status === 'pending') {
-  //       acc.pendingUsers.push(participant);
-  //     } else if (participant.status === 'approved') {
-  //       acc.approvedUsers.push(participant);
-  //     }
-  //     return acc;
-  //   },
-  //   { pendingUsers: [], approvedUsers: [] }
-  // );
 
   const renderUserList = (users: Participants[], title: string) => (
     <div className="mb-4">
@@ -63,6 +41,7 @@ const ParticipantList = ({
               className="p-2 flex items-center gap-2 border-gray-300 border-[1px] rounded-xl cursor-pointer transform transition-all duration-300 ease-in-out hover:translate-y-[-4px]"
               onClick={() =>
                 handleGoToProfile(
+                  participant.participationId,
                   participant.userId,
                   participant.participationStatus
                 )

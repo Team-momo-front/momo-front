@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { MdClose } from 'react-icons/md';
+import { useLocation } from 'react-router-dom';
 
 type ProfileImageUploadProps = {
   profileImage: File | null;
@@ -19,6 +20,7 @@ const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
   const uploadProfileImage = '/image/upload_profile_image.webp';
   const defaultImage = '/image/default_profile_image.webp';
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const location = useLocation();
 
   useEffect(() => {
     if (profileImage) {
@@ -72,11 +74,13 @@ const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
         }
       >
         <img
-          src={updatedProfileURL || uploadProfileImage}
+          src={
+            location.pathname === '/mypage/my-profile'
+              ? updatedProfileURL || defaultImage
+              : updatedProfileURL || uploadProfileImage
+          }
           alt="Profile"
-          className={`w-[150px] h-[150px] object-cover rounded-full ${
-            updatedProfileURL && 'bg-white p-[5px] border-gray-600 border-[1px]'
-          }`}
+          className="w-[150px] h-[150px] object-cover rounded-full  border-gray-600 border-[1px] p-[5px]"
         />
         {(!profileImage || !profileURL) && (
           <input

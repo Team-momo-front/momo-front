@@ -36,7 +36,7 @@ export interface SearchMeetingsRequest {
 }
 
 export interface MeetingStatus {
-  status: 'RECRUITING' | 'CLOSED';
+  meetingStatus: 'RECRUITING' | 'CLOSED';
 }
 
 export interface getMyMeetingsRequest {
