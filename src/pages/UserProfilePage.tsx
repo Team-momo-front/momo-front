@@ -8,7 +8,7 @@ import { useGetUserProfile } from '../hooks/useGetUserProfile';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 const UserProfilePage = () => {
-  const { userId, roomId } = useParams();
+  const { participationId, userId, roomId } = useParams();
   const location = useLocation();
   const isChatUserProfilePage = location.pathname.includes('/chat/profile');
 
@@ -97,7 +97,10 @@ const UserProfilePage = () => {
                 value={userProfile.mbti === 'NONE' ? '' : userProfile.mbti}
               />
               <div className="flex gap-3 flex-1 items-end justify-end">
-                <UserProfileBtn roomId={Number(roomId)} />
+                <UserProfileBtn
+                  roomId={Number(roomId)}
+                  participationId={Number(participationId)}
+                />
               </div>
             </div>
           </div>
