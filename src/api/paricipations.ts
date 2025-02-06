@@ -20,7 +20,7 @@ export const getParticipatedMeetings = async (
 // 참여 승인
 export const approveParticipation = async (participationId: number) => {
   return apiClient({
-    url: `${COMMON_URL}/${{ participationId }}/approve`,
+    url: `${COMMON_URL}/${participationId}/approve`,
     method: 'patch',
   });
 };
@@ -28,7 +28,7 @@ export const approveParticipation = async (participationId: number) => {
 // 참여 거절
 export const rejectParticipation = async (participationId: number) => {
   return apiClient({
-    url: `${COMMON_URL}/${{ participationId }}/reject`,
+    url: `${COMMON_URL}/${participationId}/reject`,
     method: 'patch',
   });
 };

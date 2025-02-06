@@ -1,4 +1,3 @@
-// import { chats } from '../../mocks/chats';
 import { ChatRoomResponse } from '../../types/Chat';
 import ChatList from './ChatList';
 import ChatRoom from './ChatRoom';
@@ -10,13 +9,13 @@ import {
   isViewParticipantListOpenState,
   selectedChatState,
 } from '../../states/recoilState';
-import useSearchChatRooms from '../../hooks/useSearchChatRooms';
+import useGetChatRoomList from '../../hooks/useGetChatRoomList';
 import LoadingSpinner from '../LoadingSpinner';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const ChatModal = () => {
-  const { data, isLoading, error } = useSearchChatRooms();
+  const { data, isLoading, error } = useGetChatRoomList();
 
   const [isChatRoomOpen, setIsChatRoomOpen] =
     useRecoilState(isChatRoomOpenState);
@@ -46,7 +45,6 @@ const ChatModal = () => {
     setIsViewParticipantListOpen(true);
   };
 
-  console.log(error);
   if (error) {
     if (error instanceof AxiosError && error.response?.status === 403) {
       setIsChatRoomOpen(false);
@@ -55,13 +53,13 @@ const ChatModal = () => {
   }
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 animate-fadeIn">
-      <div className="bg-white p-6 rounded-[40px] shadow-lg w-80 h-[75vh] animate-displayUp">
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 animate-fadeIn z-30">
+      <div className="relative bg-white p-6 rounded-[40px] shadow-lg w-80 h-[75vh] animate-displayUp">
         {isChatListOpen && data && (
           <ChatList chats={data} onChatClick={openChatRoom} />
         )}
 
-        {isChatRoomOpen && (
+        {selectedChat && isChatRoomOpen && (
           <ChatRoom
             chat={selectedChat}
             handleBackBtn={openChatList}

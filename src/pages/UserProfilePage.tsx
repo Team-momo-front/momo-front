@@ -8,7 +8,7 @@ import { useGetUserProfile } from '../hooks/useGetUserProfile';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 const UserProfilePage = () => {
-  const { userId, roomId } = useParams();
+  const { participationId, userId, roomId } = useParams();
   const location = useLocation();
   const isChatUserProfilePage = location.pathname.includes('/chat/profile');
 
@@ -29,11 +29,11 @@ const UserProfilePage = () => {
         <div className="flex flex-col gap-4 items-center">
           <img
             src={
-              userProfile.profileImage || '/image/default_profile_image.webp'
+              userProfile.profileImageUrl || '/image/default_profile_image.webp'
             }
             alt="Profile"
             className={`w-[150px] h-[150px] object-cover rounded-full mb-[30px] border-gray-600 border-[1px] ${
-              userProfile.profileImage && 'bg-white p-[5px]'
+              userProfile.profileImageUrl && 'bg-white p-[5px]'
             }`}
           />
           <div className="flex justify-between gap-10">
@@ -97,7 +97,10 @@ const UserProfilePage = () => {
                 value={userProfile.mbti === 'NONE' ? '' : userProfile.mbti}
               />
               <div className="flex gap-3 flex-1 items-end justify-end">
-                <UserProfileBtn roomId={Number(roomId)} />
+                <UserProfileBtn
+                  roomId={Number(roomId)}
+                  participationId={Number(participationId)}
+                />
               </div>
             </div>
           </div>

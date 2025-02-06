@@ -1,12 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
-import { UserProfile } from '../types/User';
 import fetchUserProfile from '../api/fetchUserProfile';
 
 const useFetchUserProfile = () => {
-  return useQuery<UserProfile, AxiosError>({
+  return useQuery({
     queryKey: ['UserProfile'],
     queryFn: fetchUserProfile,
+    select: data => {
+      const profileImage = data.profileImageUrl;
+      return { profileImage, allData: data };
+    },
     retry: false,
   });
 };

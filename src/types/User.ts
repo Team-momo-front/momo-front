@@ -12,17 +12,17 @@ export interface User {
   status: string;
 }
 
-// export interface UserProfile {
-//   birth: string;
-//   email: string;
-//   gender: string;
-//   introduction?: string;
-//   mbti?: string;
-//   nickname: string;
-//   oauthProvider: string;
-//   phone?: string;
-//   profileImageUrl: string;
-// }
+export interface UserProfile {
+  birth: string;
+  email: string;
+  gender: string;
+  introduction?: string;
+  mbti?: string;
+  nickname: string;
+  oauthProvider: string;
+  phone?: string;
+  profileImageUrl: string;
+}
 
 export type UpdatedUserProfile = {
   introduction?: string;
@@ -36,15 +36,16 @@ export interface Participants {
   userId: number;
   nickname: string;
   profileImage: string;
+  participationId: number;
   participationStatus: string;
 }
 
-export interface UserProfile {
+export interface getUserProfileResponse {
   userId: number;
   nickname: string;
   gender: string;
   birth: string;
-  profileImage: string;
+  profileImageUrl: string;
   introduction: string;
   mbti: string;
 }

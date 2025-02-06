@@ -3,28 +3,31 @@ import { FaBell } from 'react-icons/fa6';
 import { Link, useNavigate } from 'react-router-dom';
 import axiosInstance from '../../api/axiosInstance';
 import logo from '../../assets/svg/logo.svg';
-import { useFetchUSerProfileImage } from '../../hooks/useFetchUSerProfileImage';
 import useNotifications from '../../hooks/useNotifications';
+import useFetchUserProfile from '../../hooks/useFetchUserProfile';
+import { useEffect } from 'react';
 
 const Header = () => {
-  const { data: profileImageUrl } = useFetchUSerProfileImage({
-    select: data => data.profileImageUrl,
-  });
-
+  const { data: userProfileData, refetch } = useFetchUserProfile();
+  const profileImageUrl = userProfileData?.profileImage;
   const navigate = useNavigate();
   const accessToken = localStorage.getItem('accessToken');
+
+  useEffect(() => {
+    if (accessToken) {
+      refetch();
+    }
+  }, [accessToken, refetch]);
 
   const handleNavigateMypage = () => {
     navigate('/mypage/my-profile');
   };
 
-  const logout = async () => {
-    const response = await axiosInstance.delete('/api/v1/users/logout');
-    return response.data;
-  };
-
-  const { mutate, isPending } = useMutation({
-    mutationFn: logout,
+  const { mutate: logout, isPending: isLogoutPending } = useMutation({
+    mutationFn: async () => {
+      const response = await axiosInstance.delete('/api/v1/users/logout');
+      return response.data;
+    },
     onSuccess: data => {
       localStorage.removeItem('accessToken');
       localStorage.removeItem('hasProfile');
@@ -40,16 +43,12 @@ const Header = () => {
     },
   });
 
-  const handleLogout = async () => {
-    mutate();
-  };
-
   const { notifications, deleteNotification, deleteAllNotifications } =
     useNotifications(accessToken);
 
   const hasNotification = notifications.length > 0;
 
-  if (isPending) {
+  if (isLogoutPending) {
     return (
       <div className="w-full h-screen flex justify-center items-center">
         <span className="loading loading-spinner w-16 text-gray-600"></span>
@@ -112,13 +111,9 @@ const Header = () => {
 
           <div className="dropdown dropdown-end dropdown-hover">
             <img
-              src={profileImageUrl || '/image/default_profile_image.png'}
+              src={profileImageUrl || '/image/default_profile_image.webp'}
               alt="profile image"
               className="w-[30px] h-[30px] object-cover p-[1px] border border-gray-600 rounded-full cursor-pointer"
-              // 에러 처리 추가
-              onError={e => {
-                e.currentTarget.src = '/image/default_profile_image.png';
-              }}
             />
             <ul
               tabIndex={0}
@@ -130,7 +125,7 @@ const Header = () => {
               >
                 <a className="text-sm hover:font-bold">마이페이지</a>
               </li>
-              <li className="w-full items-center" onClick={handleLogout}>
+              <li className="w-full items-center" onClick={() => logout()}>
                 <a className="text-sm hover:font-bold flex justify-center w-full">
                   로그아웃
                 </a>
