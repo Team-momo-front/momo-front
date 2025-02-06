@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import { useGetOutChatRoom } from '../../hooks/useGetOutChatRoom';
 
 const ChatModal = () => {
-  const { data, isLoading, error, refetch } = useGetChatRoomList();
+  const { data, isLoading, error, refetch, isSuccess } = useGetChatRoomList();
   const { mutate: getOutChatRoom } = useGetOutChatRoom();
 
   const [isChatRoomOpen, setIsChatRoomOpen] =
@@ -36,12 +36,14 @@ const ChatModal = () => {
   };
 
   const openChatList = (chat: ChatRoomResponse) => {
-    refetch();
     setSelectedChat(null);
     setIsChatRoomOpen(false);
     setIsChatListOpen(true);
     getOutChatRoom(chat.roomId);
+    refetch();
   };
+
+  if (isSuccess) console.log('채팅 목록 업데이트');
 
   const openViewParticipantList = () => {
     setIsChatRoomOpen(false);
