@@ -141,12 +141,10 @@ const MyProfile = () => {
           ) : (
             <img
               src={
-                profileData?.profileImage || '/image/default_profile_image.png'
+                profileData?.profileImage || '/image/default_profile_image.webp'
               }
               alt="user profile image"
-              className={`w-[150px] h-[150px] object-cover rounded-full mb-[30px] border-[1px] border-gray-600 ${
-                profileData?.profileImage && 'bg-white p-[5px]'
-              }`}
+              className="w-[150px] h-[150px] object-cover rounded-full mb-[30px] border-[1px] border-gray-600 bg-white p-[5px]"
             />
           )}
 

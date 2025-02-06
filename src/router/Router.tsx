@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import Layout from '../components/Layout/Layout';
 import AccountDeletion from '../components/MyPage/AccountDeletion';
 import MyMeetings from '../components/MyPage/MyMeetings';
@@ -22,6 +22,7 @@ import KakaoLogin from '../components/Login/KakaoLogin';
 import ProtectedRoute from '../components/ProtectedRoute/ProtectedRoute';
 
 const Router = () => {
+  const location = useLocation();
   return (
     <QueryClientProvider client={queryClient}>
       <Routes>
@@ -66,7 +67,10 @@ const Router = () => {
             }
           >
             <Route path="my-profile" element={<MyProfile />} />
-            <Route path="my-meetings" element={<MyMeetings />} />
+            <Route
+              path="my-meetings"
+              element={<MyMeetings key={location.state?.key} />}
+            />
             <Route path="account-deletion" element={<AccountDeletion />} />
           </Route>
           {/* 주최한 모임 -> 신청자 보기 페이지 */}
@@ -82,7 +86,7 @@ const Router = () => {
           {/* 주최한 모임 -> 신청자 보기 페이지 -> 신청자 프로필 보기 */}
 
           <Route
-            path="/view-applicant/profile/:userId/:roomId"
+            path="/view-applicant/profile/:participationId/:userId"
             element={
               <ProtectedRoute>
                 <UserProfilePage />

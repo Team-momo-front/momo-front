@@ -34,3 +34,16 @@ export interface ChatParticipant {
   nickname: string;
   profileImageUrl: string;
 }
+
+export interface ChatMessageRequest {
+  userId: string;
+  roomId: number;
+  message: string;
+}
+export interface ChatMessageResponse {
+  roomId: number;
+  message: string;
+  senderId: string;
+  senderNickname: string;
+  userProfileImageUrl: string;
+}

@@ -8,9 +8,10 @@ import { apiClient } from './apiClient';
 const COMMON_URL = '/api/v1/chatrooms';
 
 // 채팅방 목록 조회
-export const searchChatRooms = async (): Promise<ChatRoomResponse[]> =>
+export const getChatRoomList = async (): Promise<ChatRoomResponse[]> =>
   apiClient({ url: COMMON_URL, method: 'get' });
 
+// TODO: 불필요한 API로 의견 통합 -> 삭제 예정
 // 채팅방 생성
 export const createChatRoom = async (
   meetingId: number

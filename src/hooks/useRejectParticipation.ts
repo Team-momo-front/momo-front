@@ -1,17 +1,16 @@
 import { useMutation } from '@tanstack/react-query';
-import { setMeetingStatus } from '../api/meeting';
 import axios from 'axios';
+import { rejectParticipation } from '../api/paricipations';
 import { useNavigate } from 'react-router-dom';
 
-export function useCloseMeeting() {
+export const useRejectParticipation = () => {
   const navigate = useNavigate();
   return useMutation({
-    mutationFn: async (id: string) => {
-      await setMeetingStatus(id, { meetingStatus: 'CLOSED' });
-    },
+    mutationFn: (participationId: number) =>
+      rejectParticipation(participationId),
     onSuccess: () => {
-      alert('모집완료 되었습니다.');
-      navigate('/mypage/my-meetings', { replace: true });
+      alert('신청을 거절하였습니다.');
+      navigate(-1);
     },
     onError: error => {
       if (axios.isAxiosError(error)) {
@@ -23,4 +22,4 @@ export function useCloseMeeting() {
       }
     },
   });
-}
+};
