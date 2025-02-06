@@ -46,7 +46,9 @@ export const getChatHistory = async (
   });
 
 // 채팅방 나가기 = 뒤로가기
-export const outChatRoom = async (roomId: number): Promise<ChatRoomResponse> =>
+export const getOutChatRoom = async (
+  roomId: number
+): Promise<ChatRoomResponse> =>
   apiClient({ url: `${COMMON_URL}/${roomId}/out`, method: 'post' });
 
 // 채팅 참여자 조회
