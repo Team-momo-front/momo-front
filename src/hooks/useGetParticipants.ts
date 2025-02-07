@@ -4,7 +4,7 @@ import type { Participants } from '../types/User';
 
 export function useGetParticipants(id: number) {
   return useQuery<Participants[]>({
-    queryKey: ['participants', id],
+    queryKey: ['get-participants', id],
     queryFn: () => getParticipants(id),
     enabled: !!id,
     refetchOnWindowFocus: false,

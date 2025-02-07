@@ -24,7 +24,7 @@ const ParticipantList = ({
     status: string
   ) => {
     navigate(
-      `/view-applicant/profile/${participantId}/${userId}?status=${status}`
+      `/view-applicant/profile/${participantId}/${userId}/${post.id}?status=${status}`
     );
   };
 
