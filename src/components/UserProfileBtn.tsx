@@ -14,8 +14,8 @@ const UserProfileBtn = ({
   roomId: number;
   participationId: number;
 }) => {
-  const { mutate: approveParticipation } = useApproveParticipation();
-  const { mutate: rejectParticipation } = useRejectParticipation();
+  const { mutate: approveParticipation } = useApproveParticipation(roomId);
+  const { mutate: rejectParticipation } = useRejectParticipation(roomId);
   const setIsViewParticipantListOpen = useSetRecoilState(
     isViewParticipantListOpenState
   );
@@ -31,7 +31,6 @@ const UserProfileBtn = ({
   const handleApproveUser = () => {
     try {
       approveParticipation(participationId);
-      navigate(-1);
     } catch (error) {
       console.log(error);
     }
