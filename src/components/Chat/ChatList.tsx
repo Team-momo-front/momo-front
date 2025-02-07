@@ -34,7 +34,7 @@ const ChatList: React.FC<ChatListProps> = ({ chats, onChatClick }) => {
                 <img
                   src={
                     chat.meetingThumbnailUrl ||
-                    '/image/default_profile_image_test.webp'
+                    '/image/default_profile_image.webp'
                   }
                   alt="Chatting Room Thumbnail"
                   className="rounded-full border-[1px] border-gray-400 bg-white p-[1px] mr-2 w-full h-full object-cover"

@@ -13,9 +13,11 @@ import useGetChatRoomList from '../../hooks/useGetChatRoomList';
 import LoadingSpinner from '../LoadingSpinner';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useGetOutChatRoom } from '../../hooks/useGetOutChatRoom';
 
 const ChatModal = () => {
   const { data, isLoading, error } = useGetChatRoomList();
+  const { mutate: getOutChatRoom } = useGetOutChatRoom();
 
   const [isChatRoomOpen, setIsChatRoomOpen] =
     useRecoilState(isChatRoomOpenState);
@@ -33,10 +35,11 @@ const ChatModal = () => {
     setIsChatRoomOpen(true);
   };
 
-  const openChatList = () => {
+  const openChatList = (chat: ChatRoomResponse) => {
     setSelectedChat(null);
     setIsChatRoomOpen(false);
     setIsChatListOpen(true);
+    getOutChatRoom(chat.roomId);
   };
 
   const openViewParticipantList = () => {
@@ -62,7 +65,7 @@ const ChatModal = () => {
         {selectedChat && isChatRoomOpen && (
           <ChatRoom
             chat={selectedChat}
-            handleBackBtn={openChatList}
+            handleBackBtn={() => openChatList(selectedChat)}
             handleViewParticipantList={openViewParticipantList}
           />
         )}
