@@ -13,13 +13,19 @@ const HostedMeetings = () => {
 
   return (
     <div className="px-8 py-1">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 justify-items-start mt-[26px]">
-        {posts.map((post, index) => (
-          <div key={index} className="w-full">
-            <PostCard post={post} isHosted={isActive === 'isHosted'} />
-          </div>
-        ))}
-      </div>
+      {posts.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 justify-items-start mt-[26px]">
+          {posts.map((post, index) => (
+            <div key={index} className="w-full">
+              <PostCard post={post} isHosted={isActive === 'isHosted'} />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="flex justify-center items-center h-96">
+          주최한 모임이 없습니다.
+        </div>
+      )}
     </div>
   );
 };

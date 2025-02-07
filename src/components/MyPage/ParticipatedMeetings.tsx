@@ -13,16 +13,22 @@ const ParticipatedMeetings = () => {
 
   return (
     <div className="px-16 py-1">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 justify-items-start mt-[26px]">
-        {posts.map((post, index) => (
-          <div key={index} className="w-full">
-            <PostCard
-              post={post}
-              isParticipated={isActive === 'isParticipated'}
-            />
-          </div>
-        ))}
-      </div>
+      {posts.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 justify-items-start mt-[26px]">
+          {posts.map((post, index) => (
+            <div key={index} className="w-full">
+              <PostCard
+                post={post}
+                isParticipated={isActive === 'isParticipated'}
+              />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="flex justify-center items-center h-96">
+          참가한 모임이 없습니다.
+        </div>
+      )}
     </div>
   );
 };
