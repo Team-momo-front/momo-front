@@ -32,6 +32,7 @@ const CreatePostPage = () => {
       category => categoryValueToKey[category]
     );
     updateCategories(mappedCategories);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categories]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
