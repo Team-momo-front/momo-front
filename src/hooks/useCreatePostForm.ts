@@ -25,6 +25,11 @@ const useCreatePostForm = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (formData.category.length === 0) {
+      alert('카테고리를 선택해주세요');
+      return;
+    }
+
     const postFormData = new FormData();
     postFormData.append(
       'request',
