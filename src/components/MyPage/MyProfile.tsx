@@ -17,7 +17,6 @@ const MyProfile = () => {
     data: profileData,
     isLoading: fetchProfileDataIsLoading,
     isError: fetchProfileDataIsError,
-    refetch,
     error,
   } = useMyProfile();
 
@@ -83,15 +82,7 @@ const MyProfile = () => {
   const handleSubmit = (e: React.MouseEvent) => {
     e.preventDefault();
 
-    editProfile(formData, {
-      onSuccess: async () => {
-        await refetch();
-      },
-      onError: error => {
-        console.log(error);
-        alert('프로필 수정에 실패하였습니다.');
-      },
-    });
+    editProfile(formData);
 
     setIsModified(false);
     setIsCanceled(false);
