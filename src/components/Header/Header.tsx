@@ -3,21 +3,15 @@ import { FaBell } from 'react-icons/fa6';
 import { Link, useNavigate } from 'react-router-dom';
 import axiosInstance from '../../api/axiosInstance';
 import logo from '../../assets/svg/logo.svg';
-import useNotifications from '../../hooks/useNotifications';
 import useFetchUserProfile from '../../hooks/useFetchUserProfile';
-import { useEffect } from 'react';
+import useNotifications from '../../hooks/useNotifications';
+import LoadingSpinner from '../LoadingSpinner';
 
 const Header = () => {
-  const { data: userProfileData, refetch } = useFetchUserProfile();
+  const { data: userProfileData } = useFetchUserProfile();
   const profileImageUrl = userProfileData?.profileImage;
   const navigate = useNavigate();
   const accessToken = localStorage.getItem('accessToken');
-
-  useEffect(() => {
-    if (accessToken) {
-      refetch();
-    }
-  }, [accessToken, refetch]);
 
   const handleNavigateMypage = () => {
     navigate('/mypage/my-profile');
@@ -51,7 +45,7 @@ const Header = () => {
   if (isLogoutPending) {
     return (
       <div className="w-full h-screen flex justify-center items-center">
-        <span className="loading loading-spinner w-16 text-gray-600"></span>
+        <LoadingSpinner />
       </div>
     );
   }
