@@ -1,6 +1,8 @@
+import { AxiosError } from 'axios';
 import { useCallback, useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import useFetchUserProfile from '../../hooks/useFetchUserProfile';
+import useEditProfile from '../../hooks/useEditProfile';
+import useMyProfile from '../../hooks/useMyProfile';
 import {
   isFormInvalidFormState,
   updatedUserDataState,
@@ -9,8 +11,6 @@ import LoadingSpinner from '../LoadingSpinner';
 import ProfileImageUpload from '../ProfileImageUpload';
 import InfoForm from './InfoForm';
 import ProfileRedirect from './ProfileRedirect';
-import useEditProfile from '../../hooks/useEditProfile';
-import { AxiosError } from 'axios';
 
 const MyProfile = () => {
   const {
@@ -19,7 +19,7 @@ const MyProfile = () => {
     isError: fetchProfileDataIsError,
     refetch,
     error,
-  } = useFetchUserProfile();
+  } = useMyProfile();
 
   // 프로필 검증
   if (error && error instanceof AxiosError) {
@@ -51,16 +51,19 @@ const MyProfile = () => {
   }, [hasProfile, error]);
 
   // 프로필 이미지 변경 이벤트 핸들러
-  const handleProfileImageChange = useCallback((newImageUrl: string | null) => {
-    setProfileImageURL(newImageUrl);
+  const handleProfileImageChange = useCallback(
+    (newImageUrl: string | null) => {
+      setProfileImageURL(newImageUrl);
 
-    if (newImageUrl) {
-      setUpdatedUserData(prevData => ({
-        ...prevData,
-        profileImageUrl: newImageUrl,
-      }));
-    }
-  }, []);
+      if (newImageUrl) {
+        setUpdatedUserData(prevData => ({
+          ...prevData,
+          profileImageUrl: newImageUrl,
+        }));
+      }
+    },
+    [setUpdatedUserData]
+  );
 
   const { mutate: editProfile, isPending: editProfileIsPending } =
     useEditProfile();

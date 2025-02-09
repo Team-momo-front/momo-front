@@ -2,7 +2,7 @@ import { UserProfile } from '../types/User';
 import { formatPhoneNumber } from '../utils/formatPhoneNumber';
 import axiosInstance from './axiosInstance';
 
-const fetchUserProfile = async (): Promise<UserProfile> => {
+const getMyProfile = async (): Promise<UserProfile> => {
   const response = await axiosInstance.get('/api/v1/users/me');
 
   const userId = localStorage.getItem('userId');
@@ -19,4 +19,4 @@ const fetchUserProfile = async (): Promise<UserProfile> => {
   return processedData;
 };
 
-export default fetchUserProfile;
+export default getMyProfile;

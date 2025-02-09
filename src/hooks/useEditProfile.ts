@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { UpdatedUserProfile } from '../types/User';
 import axiosInstance from '../api/axiosInstance';
+import type { UpdatedUserProfile } from '../types/User';
 
 const useEditProfile = () => {
   const queryClient = useQueryClient();
@@ -18,10 +18,7 @@ const useEditProfile = () => {
   return useMutation({
     mutationFn: editProfile,
     onSuccess: updatedData =>
-      queryClient.setQueryData<UpdatedUserProfile>(
-        ['UserProfile'],
-        updatedData
-      ),
+      queryClient.setQueryData<UpdatedUserProfile>(['my-profile'], updatedData),
     retry: false,
   });
 };

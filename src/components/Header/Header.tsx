@@ -3,12 +3,12 @@ import { FaBell } from 'react-icons/fa6';
 import { Link, useNavigate } from 'react-router-dom';
 import axiosInstance from '../../api/axiosInstance';
 import logo from '../../assets/svg/logo.svg';
-import useFetchUserProfile from '../../hooks/useFetchUserProfile';
+import useMyProfile from '../../hooks/useMyProfile';
 import useNotifications from '../../hooks/useNotifications';
 import LoadingSpinner from '../LoadingSpinner';
 
 const Header = () => {
-  const { data: userProfileData } = useFetchUserProfile();
+  const { data: userProfileData } = useMyProfile();
   const profileImageUrl = userProfileData?.profileImage;
   const navigate = useNavigate();
   const accessToken = localStorage.getItem('accessToken');

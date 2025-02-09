@@ -1,12 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
-import fetchUserProfile from '../api/fetchUserProfile';
+import getMyProfile from '../api/getMyProfile';
 
-const useFetchUserProfile = () => {
+const useMyProfile = () => {
   const accessToken = localStorage.getItem('accessToken');
 
   return useQuery({
-    queryKey: ['UserProfile'],
-    queryFn: fetchUserProfile,
+    queryKey: ['my-profile'],
+    queryFn: getMyProfile,
     select: data => {
       const profileImage = data.profileImageUrl;
       return { profileImage, allData: data };
@@ -15,4 +15,4 @@ const useFetchUserProfile = () => {
   });
 };
 
-export default useFetchUserProfile;
+export default useMyProfile;
