@@ -15,7 +15,7 @@ export const useRejectParticipation = (roomId: number) => {
     onError: error => {
       if (axios.isAxiosError(error)) {
         console.log(error);
-        alert(error.message);
+        alert(error.response?.data.message);
       } else {
         console.log(error);
         alert('알 수 없는 오류가 발생했습니다.');
