@@ -20,6 +20,7 @@ const ChatParticipantList = ({
   const { data: chatParticipants } = useGetChatParticipants(chat.roomId);
   const setIsModalOpen = useSetRecoilState(isChatModalOpenState);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const hostId = chat.hostId;
 
   const handleCancelBtn = () => {
     setIsAlertOpen(false);
@@ -45,7 +46,7 @@ const ChatParticipantList = ({
           chatParticipants.map((participant, index) => (
             <Link
               key={index}
-              to={`/chat/profile/${chat.roomId}/${participant.id}`}
+              to={`/chat/profile/${chat.roomId}/${participant.id}?hostId=${hostId}`}
               onClick={() => setIsModalOpen(false)}
             >
               <li className="flex gap-2 items-center cursor-pointer hover:translate-x-1 duration-300 ease-in-out">
