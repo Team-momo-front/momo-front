@@ -30,7 +30,7 @@ export interface ChatHistoryResponse {
 }
 
 export interface ChatParticipant {
-  userId: number;
+  id: number;
   nickname: string;
   profileImageUrl: string;
 }
