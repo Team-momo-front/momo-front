@@ -6,6 +6,7 @@ import {
 } from '../states/recoilState';
 import { useApproveParticipation } from '../hooks/useApproveParticipation';
 import { useRejectParticipation } from '../hooks/useRejectParticipation';
+import { useWithdrawChatParticipant } from '../hooks/useWithdrawChatParticipant';
 
 const UserProfileBtn = () => {
   const { userId, roomId, participationId } = useParams();
@@ -17,6 +18,10 @@ const UserProfileBtn = () => {
   );
   const setIsViewParticipantListOpen = useSetRecoilState(
     isViewParticipantListOpenState
+  );
+  const { mutate: withdrawChatParticipation } = useWithdrawChatParticipant(
+    Number(roomId),
+    Number(userId)
   );
 
   const setIsChatModalOpen = useSetRecoilState(isChatModalOpenState);
@@ -51,7 +56,7 @@ const UserProfileBtn = () => {
   };
 
   const handleWithdrawalUser = () => {
-    // TODO: 회원 강퇴 API 호출
+    if (confirm('정말 내보내겠습니까?')) withdrawChatParticipation();
   };
 
   return (
