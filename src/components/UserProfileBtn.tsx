@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import {
   isChatModalOpenState,
@@ -6,38 +6,47 @@ import {
 } from '../states/recoilState';
 import { useApproveParticipation } from '../hooks/useApproveParticipation';
 import { useRejectParticipation } from '../hooks/useRejectParticipation';
+import { useWithdrawChatParticipant } from '../hooks/useWithdrawChatParticipant';
 
-const UserProfileBtn = ({
-  roomId,
-  participationId,
-}: {
-  roomId: number;
-  participationId: number;
-}) => {
-  const { mutate: approveParticipation } = useApproveParticipation(roomId);
-  const { mutate: rejectParticipation } = useRejectParticipation(roomId);
+const UserProfileBtn = () => {
+  const { userId, roomId, participationId } = useParams();
+  const { mutate: approveParticipation } = useApproveParticipation(
+    Number(roomId)
+  );
+  const { mutate: rejectParticipation } = useRejectParticipation(
+    Number(roomId)
+  );
   const setIsViewParticipantListOpen = useSetRecoilState(
     isViewParticipantListOpenState
   );
+  const { mutate: withdrawChatParticipation } = useWithdrawChatParticipant(
+    Number(roomId),
+    Number(userId)
+  );
+
   const setIsChatModalOpen = useSetRecoilState(isChatModalOpenState);
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const status = queryParams.get('status');
+  const hostId = queryParams.get('hostId');
   const isApplicantView = location.pathname.startsWith('/view-applicant');
   const isChatView = location.pathname.startsWith('/chat');
+  const loginUserId = localStorage.getItem('userId');
+  const isHostUserView = hostId === loginUserId;
+  const isHostProfile = hostId === userId;
 
   const navigate = useNavigate();
 
   const handleApproveUser = () => {
     try {
-      approveParticipation(participationId);
+      approveParticipation(Number(participationId));
     } catch (error) {
       console.log(error);
     }
   };
 
   const handleDenyUser = () => {
-    rejectParticipation(participationId);
+    rejectParticipation(Number(participationId));
   };
 
   const handleGoToChatRoom = () => {
@@ -47,7 +56,7 @@ const UserProfileBtn = ({
   };
 
   const handleWithdrawalUser = () => {
-    // TODO: 회원 강퇴 API 호출
+    if (confirm('정말 내보내겠습니까?')) withdrawChatParticipation();
   };
 
   return (
@@ -79,13 +88,15 @@ const UserProfileBtn = ({
           >
             뒤로가기
           </button>
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={handleWithdrawalUser}
-          >
-            내보내기
-          </button>
+          {isHostUserView && !isHostProfile && (
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={handleWithdrawalUser}
+            >
+              내보내기
+            </button>
+          )}
         </>
       )}
     </>
