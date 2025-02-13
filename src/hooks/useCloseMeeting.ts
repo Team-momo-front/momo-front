@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { setMeetingStatus } from '../api/meeting';
+import { completeMeeting } from '../api/meeting';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -7,7 +7,7 @@ export function useCloseMeeting() {
   const navigate = useNavigate();
   return useMutation({
     mutationFn: async (id: string) => {
-      await setMeetingStatus(id, { meetingStatus: 'CLOSED' });
+      await completeMeeting(id);
     },
     onSuccess: () => {
       alert('모집완료 되었습니다.');

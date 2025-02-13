@@ -35,10 +35,6 @@ export interface SearchMeetingsRequest {
   pageSize?: number;
 }
 
-export interface MeetingStatus {
-  meetingStatus: 'RECRUITING' | 'CLOSED';
-}
-
 export interface getMyMeetingsRequest {
   lastId?: number;
   pageSize?: number;

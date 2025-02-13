@@ -1,7 +1,6 @@
 import type {
   CreateMeetingResponse,
   getMyMeetingsRequest,
-  MeetingStatus,
   SearchMeetingsRequest,
 } from '../types/Meeting';
 import { apiClient } from './apiClient';
@@ -29,8 +28,8 @@ export const deleteMeeting = async (id: string) =>
 export const searchMeetings = async (params: SearchMeetingsRequest) =>
   apiClient({ url: COMMON_URL, method: 'get', params });
 
-export const setMeetingStatus = async (id: string, data: MeetingStatus) =>
-  apiClient({ url: `${COMMON_URL}/${id}`, method: 'patch', data });
+export const completeMeeting = async (id: string) =>
+  apiClient({ url: `${COMMON_URL}/${id}/complete`, method: 'patch' });
 
 export const getParticipants = async (id: number) =>
   apiClient({ url: `${COMMON_URL}/${id}/participants`, method: 'get' });

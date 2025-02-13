@@ -33,11 +33,8 @@ const PostCardBtn: React.FC<PostCardBtnProps> = ({
     // TODO: API 참가한 모임 목록에서 DELETE 요청(신청자 입장)
   };
 
-  const isAvailableDelete =
-    status === '승인 거부' || status === '모집 취소' || status === '모집 완료';
-
   const isAvailableViewPost = status === 'RECRUITING';
-  const isAbailableDelete = status === 'CLOSED';
+  const isAvailableDelete = status === 'CLOSED';
 
   return (
     <>
@@ -56,7 +53,7 @@ const PostCardBtn: React.FC<PostCardBtnProps> = ({
           ) : (
             <div className="flex-1" />
           )}
-          {isAbailableDelete ? (
+          {isAvailableDelete ? (
             <button
               type="button"
               onClick={() => handleDeleteMeetingBtnClick()}
