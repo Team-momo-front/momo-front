@@ -1,8 +1,8 @@
 import { useMutation } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
-import { Notification } from '../types/Notification';
-import { apiClient } from '../api/apiClient';
 import { EventSourcePolyfill } from 'event-source-polyfill';
+import { useEffect, useState } from 'react';
+import { apiClient } from '../api/apiClient';
+import { Notification } from '../types/Notification';
 
 const COMMON_URL = '/api/v1/notifications';
 
@@ -14,6 +14,7 @@ function useNotifications(accessToken: string | null) {
 
     const eventSource = new EventSourcePolyfill(`${COMMON_URL}/subscribe`, {
       headers: { Authorization: `Bearer ${accessToken}` },
+      heartbeatTimeout: 1000 * 60 * 24,
     });
 
     eventSource.onmessage = event => {
