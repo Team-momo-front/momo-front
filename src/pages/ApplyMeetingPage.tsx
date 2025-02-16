@@ -13,7 +13,7 @@ const ApplyMeetingPage = ({ meeting }: { meeting: Post }) => {
     !!appliedMeetingIds?.includes(meeting.id)
   );
 
-  let participatingId;
+  let participatingId = 0;
   if (participatingIds && appliedMeetingIds) {
     participatingId = participatingIds[appliedMeetingIds.indexOf(meeting.id)];
   }
@@ -23,10 +23,10 @@ const ApplyMeetingPage = ({ meeting }: { meeting: Post }) => {
   const {
     mutate: cancelParticipation,
     isSuccess: cancelParticipationIsSuccess,
-  } = useDeleteParticipation(Number(participatingId));
+  } = useDeleteParticipation();
 
   const handleCancelParticipation = () => {
-    cancelParticipation();
+    cancelParticipation(participatingId);
   };
 
   const handleParticipate = () => {

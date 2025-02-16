@@ -11,7 +11,7 @@ const useDeleteMeeting = () => {
     mutationFn: (id: string) => deleteMeeting(id),
     onSuccess: () => {
       alert('모임이 취소되었습니다.');
-      if (location.pathname === '/view-applicant')
+      if (location.pathname.startsWith('/view-applicant'))
         navigate('/mypage/my-meetings', { replace: true });
       else queryClient.invalidateQueries({ queryKey: ['get-my-meetings'] });
     },
