@@ -38,7 +38,7 @@ const PostCardBtn: React.FC<PostCardBtnProps> = ({
   };
 
   const isAvailableViewPost = status === 'RECRUITING';
-  const isAvailableDelete = status === 'CLOSED' || 'REJECTED';
+  const isAvailableDelete = status === 'CLOSED' || status === 'REJECTED';
 
   return (
     <>
