@@ -72,35 +72,33 @@ const Header = () => {
             {hasNotification && (
               <div className="w-1.5 h-1.5 bg-red-500 rounded-full absolute top-0 right-0" />
             )}
-            <div className="relative menu dropdown-content">
-              <ul className="absolute -right-10 bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-                {hasNotification ? (
-                  notifications.map(notification => (
-                    <li key={notification.id} className="group">
-                      <a className="text-xs group-hover:font-bold">
-                        {notification.content}
-                        <button
-                          className="ml-auto hover:font-bold hover:text-primary"
-                          onClick={() => deleteNotification(notification.id)}
-                        >
-                          ✕
-                        </button>
-                      </a>
-                    </li>
-                  ))
-                ) : (
-                  <div className="text-xs m-2">알림이 없습니다</div>
-                )}
-                <div className="flex justify-end m-2">
-                  <button
-                    className="hover:font-bold text-xs"
-                    onClick={() => deleteAllNotifications}
-                  >
-                    모두 지우기
-                  </button>
-                </div>
-              </ul>
-            </div>
+            <ul className="menu dropdown-content absolute -right-10 bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+              {hasNotification ? (
+                notifications.map(notification => (
+                  <li key={notification.id} className="group">
+                    <a className="text-xs group-hover:font-bold">
+                      {notification.content}
+                      <button
+                        className="ml-auto hover:font-bold hover:text-primary"
+                        onClick={() => deleteNotification(notification.id)}
+                      >
+                        ✕
+                      </button>
+                    </a>
+                  </li>
+                ))
+              ) : (
+                <div className="text-xs m-2">알림이 없습니다</div>
+              )}
+              <div className="flex justify-end m-2">
+                <button
+                  className="hover:font-bold text-xs"
+                  onClick={() => deleteAllNotifications}
+                >
+                  모두 지우기
+                </button>
+              </div>
+            </ul>
           </div>
 
           <div className="dropdown dropdown-end dropdown-hover">
