@@ -13,7 +13,7 @@ const ApplyMeetingPage = ({ meeting }: { meeting: Post }) => {
     !!appliedMeetingIds?.includes(meeting.id)
   );
 
-  let participatingId = 0;
+  let participatingId: number;
   if (participatingIds && appliedMeetingIds) {
     participatingId = participatingIds[appliedMeetingIds.indexOf(meeting.id)];
   }
