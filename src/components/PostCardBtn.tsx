@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { CreatedMeeting, ParticipantsResponse } from '../types/Meeting';
 import useDeleteMeeting from '../hooks/useDeleteMeeting';
+import useDeleteParticipation from '../hooks/useDeleteParticipation';
 
 interface PostCardBtnProps {
   post: CreatedMeeting | ParticipantsResponse;
@@ -16,6 +17,7 @@ const PostCardBtn: React.FC<PostCardBtnProps> = ({
 }) => {
   const navigate = useNavigate();
   const { mutate: deleteMeeting } = useDeleteMeeting();
+  const { mutate: deleteParticipation } = useDeleteParticipation();
 
   const handleGoToPostBtnClick = () => {
     navigate(`/post/${post.meetingId}`);
@@ -30,14 +32,13 @@ const PostCardBtn: React.FC<PostCardBtnProps> = ({
   };
 
   const handleDeleteBtnClick = () => {
-    // TODO: API 참가한 모임 목록에서 DELETE 요청(신청자 입장)
+    if ('participationId' in post) {
+      deleteParticipation(post.participationId);
+    }
   };
 
-  const isAvailableDelete =
-    status === '승인 거부' || status === '모집 취소' || status === '모집 완료';
-
   const isAvailableViewPost = status === 'RECRUITING';
-  const isAbailableDelete = status === 'CLOSED';
+  const isAvailableDelete = status === 'CLOSED' || status === 'REJECTED';
 
   return (
     <>
@@ -56,7 +57,7 @@ const PostCardBtn: React.FC<PostCardBtnProps> = ({
           ) : (
             <div className="flex-1" />
           )}
-          {isAbailableDelete ? (
+          {isAvailableDelete ? (
             <button
               type="button"
               onClick={() => handleDeleteMeetingBtnClick()}

@@ -1,12 +1,16 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { deleteParticipation } from '../api/paricipations';
 
-const useDeleteParticipation = (id: number) => {
+const useDeleteParticipation = () => {
+  const queryclient = useQueryClient();
   return useMutation({
-    mutationFn: () => deleteParticipation(id),
+    mutationFn: (id: number) => deleteParticipation(id),
     onSuccess: () => {
       alert('신청이 취소되었습니다.');
+      queryclient.invalidateQueries({
+        queryKey: ['get-participated-meetings'],
+      });
     },
     onError: error => {
       if (axios.isAxiosError(error)) {
