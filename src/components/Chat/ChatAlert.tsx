@@ -9,9 +9,14 @@ import {
 interface ChatAlertProps {
   handleCancelBtn: () => void;
   roomId: number;
+  isHostUser: boolean;
 }
 
-const ChatAlert: React.FC<ChatAlertProps> = ({ handleCancelBtn, roomId }) => {
+const ChatAlert: React.FC<ChatAlertProps> = ({
+  handleCancelBtn,
+  roomId,
+  isHostUser,
+}) => {
   const setIsChatModalOpen = useSetRecoilState(isChatModalOpenState);
   const setIsChatListOpen = useSetRecoilState(isChatListOpenState);
   const setIsChatRoomOpen = useSetRecoilState(isChatRoomOpenState);
@@ -34,10 +39,21 @@ const ChatAlert: React.FC<ChatAlertProps> = ({ handleCancelBtn, roomId }) => {
     <dialog id="my_modal_5" className="modal modal-open">
       <div className="modal-box flex flex-col items-center gap-4 w-[280px]">
         <div className="flex flex-col items-center">
-          <span className="font-bold text-sm">
-            채팅을 나가면 모임도 나가집니다.
-          </span>
-          <span className="font-bold text-sm">정말 나가시겠습니까?</span>
+          {isHostUser ? (
+            <span className="font-bold text-sm text-center">
+              채팅을 삭제하면 모임도 삭제됩니다.
+              <br />
+              정말 삭제하시겠습니까?
+            </span>
+          ) : (
+            <>
+              <span className="font-bold text-sm text-center">
+                채팅을 나가면 모임도 나가집니다.
+                <br />
+                정말 나가시겠습니까?
+              </span>
+            </>
+          )}
         </div>
 
         <div className="flex gap-4">

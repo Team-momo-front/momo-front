@@ -1,5 +1,6 @@
 import { RxHamburgerMenu } from 'react-icons/rx';
-import { MdLogout } from 'react-icons/md';
+import { MdLogout, MdDelete } from 'react-icons/md';
+
 import { ChatRoomResponse } from '../../types/Chat';
 import { Link } from 'react-router-dom';
 import ChatAlert from './ChatAlert';
@@ -21,6 +22,7 @@ const ChatParticipantList = ({
   const setIsModalOpen = useSetRecoilState(isChatModalOpenState);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const hostId = chat.hostId;
+  const isHostUser = Number(localStorage.getItem('userId')) === hostId;
 
   const handleCancelBtn = () => {
     setIsAlertOpen(false);
@@ -66,16 +68,32 @@ const ChatParticipantList = ({
           ))}
       </ul>
 
-      <button
-        type="button"
-        onClick={() => setIsAlertOpen(true)}
-        className="absolute bottom-0"
-      >
-        <MdLogout className="text-2xl cursor-pointer" />
-      </button>
+      <div>
+        {isHostUser ? (
+          <button
+            type="button"
+            onClick={() => setIsAlertOpen(true)}
+            className="absolute bottom-0 right-0"
+          >
+            <MdDelete className="text-2xl cursor-pointer" />
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={() => setIsAlertOpen(true)}
+            className="absolute bottom-0 left-0"
+          >
+            <MdLogout className="text-2xl cursor-pointer" />
+          </button>
+        )}
+      </div>
 
       {isAlertOpen && (
-        <ChatAlert handleCancelBtn={handleCancelBtn} roomId={chat.roomId} />
+        <ChatAlert
+          handleCancelBtn={handleCancelBtn}
+          roomId={chat.roomId}
+          isHostUser={isHostUser}
+        />
       )}
     </div>
   );
