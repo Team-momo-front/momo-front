@@ -7,9 +7,10 @@ const useDeleteChatRoom = () => {
   return useMutation({
     mutationFn: (roomId: number) => deleteChatRoom(roomId),
     onSuccess: () => {
+      console.log('채팅이 삭제되었습니다.');
       alert('채팅이 삭제되었습니다.');
       queryclient.invalidateQueries({
-        queryKey: ['get-chatroom-list'],
+        queryKey: ['get-chatroom-list', 'search-meetings'],
       });
     },
     onError: error => {

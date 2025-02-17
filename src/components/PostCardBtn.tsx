@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { CreatedMeeting, ParticipantsResponse } from '../types/Meeting';
 import useDeleteMeeting from '../hooks/useDeleteMeeting';
 import useDeleteParticipation from '../hooks/useDeleteParticipation';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface PostCardBtnProps {
   post: CreatedMeeting | ParticipantsResponse;
@@ -15,8 +16,13 @@ const PostCardBtn: React.FC<PostCardBtnProps> = ({
   isParticipated,
   status,
 }) => {
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const { mutate: deleteMeeting } = useDeleteMeeting();
+  const { mutate: deleteMeeting } = useDeleteMeeting({
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['get-my-meetings'] });
+    },
+  });
   const { mutate: deleteParticipation } = useDeleteParticipation();
 
   const handleGoToPostBtnClick = () => {

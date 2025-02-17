@@ -5,6 +5,8 @@ import {
   isChatListOpenState,
   isViewParticipantListOpenState,
 } from '../../states/recoilState';
+import useDeleteMeeting from '../../hooks/useDeleteMeeting';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface ChatAlertProps {
   handleCancelBtn: () => void;
@@ -17,6 +19,20 @@ const ChatAlert: React.FC<ChatAlertProps> = ({
   roomId,
   isHostUser,
 }) => {
+  const queryClient = useQueryClient();
+  const { mutate: deleteMeeting } = useDeleteMeeting({
+    onSuccess: () => {
+      alert('채팅이 삭제되었습니다.');
+      queryClient.invalidateQueries({
+        queryKey: ['get-chatroom-list'],
+      });
+
+      setIsChatModalOpen(true);
+      setIsChatListOpen(true);
+      setIsChatRoomOpen(false);
+      setIsViewParticipantListOpen(false);
+    },
+  });
   const setIsChatModalOpen = useSetRecoilState(isChatModalOpenState);
   const setIsChatListOpen = useSetRecoilState(isChatListOpenState);
   const setIsChatRoomOpen = useSetRecoilState(isChatRoomOpenState);
@@ -28,7 +44,7 @@ const ChatAlert: React.FC<ChatAlertProps> = ({
     // TODO: API 참가한 모임에서 DELETE 요청
     // /api/v1/chatrooms/{roomId}/leave
     console.log('exit', roomId);
-    // 모달 상태 초기화 코드
+
     setIsChatModalOpen(false);
     setIsChatListOpen(true);
     setIsChatRoomOpen(false);
@@ -60,7 +76,11 @@ const ChatAlert: React.FC<ChatAlertProps> = ({
           <button
             type="button"
             className="btn btn-sm btn-second"
-            onClick={handleLeaveChatRoom}
+            onClick={
+              isHostUser
+                ? () => deleteMeeting(roomId.toString())
+                : handleLeaveChatRoom
+            }
           >
             확인
           </button>
