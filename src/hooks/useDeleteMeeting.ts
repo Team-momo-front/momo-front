@@ -8,7 +8,7 @@ interface UseDeleteMeetingProps {
 const useDeleteMeeting = ({ onSuccess }: UseDeleteMeetingProps) => {
   return useMutation({
     mutationFn: (id: string) => deleteMeeting(id),
-    onSuccess: () => {
+    onSuccess,
       onSuccess();
     },
     onError: error => {
