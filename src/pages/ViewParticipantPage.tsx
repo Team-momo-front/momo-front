@@ -10,7 +10,11 @@ const ViewParticipantPage = () => {
   const { data } = useSearchMeetings({});
   const { id } = useParams<{ id: string }>();
   const meetingId = Number(id);
-  const { mutate: deleteMeeting } = useDeleteMeeting();
+  const { mutate: deleteMeeting } = useDeleteMeeting({
+    onSuccess: () => {
+      navigate('/mypage/my-meetings', { replace: true });
+    },
+  });
   const { mutate: closeMeeting } = useCloseMeeting();
   const posts: Post[] = data?.meetings || [];
   const meeting = posts.find(meeting => meeting.id === Number(id));

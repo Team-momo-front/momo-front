@@ -1,19 +1,15 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { deleteMeeting } from '../api/meeting';
-import { useLocation, useNavigate } from 'react-router-dom';
 
-const useDeleteMeeting = () => {
-  const queryClient = useQueryClient();
-  const navigate = useNavigate();
-  const location = useLocation();
+interface UseDeleteMeetingProps {
+  onSuccess: () => void;
+}
+const useDeleteMeeting = ({ onSuccess }: UseDeleteMeetingProps) => {
   return useMutation({
     mutationFn: (id: string) => deleteMeeting(id),
     onSuccess: () => {
-      alert('모임이 취소되었습니다.');
-      if (location.pathname.startsWith('/view-applicant'))
-        navigate('/mypage/my-meetings', { replace: true });
-      else queryClient.invalidateQueries({ queryKey: ['get-my-meetings'] });
+      onSuccess();
     },
     onError: error => {
       if (axios.isAxiosError(error)) {
