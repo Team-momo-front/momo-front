@@ -7,6 +7,7 @@ import {
 } from '../../states/recoilState';
 import useDeleteMeeting from '../../hooks/useDeleteMeeting';
 import { useQueryClient } from '@tanstack/react-query';
+import { useLeaveChatRoom } from '../../hooks/useLeaveChatroom';
 
 interface ChatAlertProps {
   handleCancelBtn: () => void;
@@ -33,23 +34,13 @@ const ChatAlert: React.FC<ChatAlertProps> = ({
       setIsViewParticipantListOpen(false);
     },
   });
+  const { mutate: leaveChatRoom } = useLeaveChatRoom();
   const setIsChatModalOpen = useSetRecoilState(isChatModalOpenState);
   const setIsChatListOpen = useSetRecoilState(isChatListOpenState);
   const setIsChatRoomOpen = useSetRecoilState(isChatRoomOpenState);
   const setIsViewParticipantListOpen = useSetRecoilState(
     isViewParticipantListOpenState
   );
-
-  const handleLeaveChatRoom = () => {
-    // TODO: API 참가한 모임에서 DELETE 요청
-    // /api/v1/chatrooms/{roomId}/leave
-    console.log('exit', roomId);
-
-    setIsChatModalOpen(false);
-    setIsChatListOpen(true);
-    setIsChatRoomOpen(false);
-    setIsViewParticipantListOpen(false);
-  };
 
   return (
     <dialog id="my_modal_5" className="modal modal-open">
@@ -79,7 +70,7 @@ const ChatAlert: React.FC<ChatAlertProps> = ({
             onClick={
               isHostUser
                 ? () => deleteMeeting(roomId.toString())
-                : handleLeaveChatRoom
+                : () => leaveChatRoom(roomId)
             }
           >
             확인
