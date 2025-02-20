@@ -7,7 +7,7 @@ import useMyProfile from '../../hooks/useMyProfile';
 import useNotifications from '../../hooks/useNotifications';
 import LoadingSpinner from '../LoadingSpinner';
 import { AxiosError } from 'axios';
-import ProfileRedirectModal from '../MyPage/ProfileRedirect';
+import ProfileRedirectModal from '../MyPage/ProfileRedirectModal';
 
 const Header = () => {
   const { data: userProfileData, error } = useMyProfile();
