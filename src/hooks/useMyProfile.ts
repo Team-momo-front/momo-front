@@ -12,6 +12,7 @@ const useMyProfile = () => {
       return { profileImage, allData: data };
     },
     enabled: accessToken !== null,
+    retry: false,
   });
 };
 
