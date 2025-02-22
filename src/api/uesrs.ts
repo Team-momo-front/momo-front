@@ -42,6 +42,13 @@ export const emailLogin = async (
   });
 };
 
+// 로그아웃
+export const logout = async () =>
+  apiClient({
+    url: `${COMMON_URL}/logout`,
+    method: 'delete',
+  });
+
 // 프로필 조회
 export const getMyProfile = async (): Promise<UserProfile> => {
   const data = await apiClient<UserProfile>({

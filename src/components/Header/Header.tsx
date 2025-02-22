@@ -8,6 +8,7 @@ import useNotifications from '../../hooks/useNotifications';
 import LoadingSpinner from '../LoadingSpinner';
 import { AxiosError } from 'axios';
 import ProfileRedirectModal from '../MyPage/ProfileRedirectModal';
+import { logout } from '../../api/uesrs';
 
 const Header = () => {
   const { data: userProfileData, error } = useMyProfile();
@@ -19,11 +20,8 @@ const Header = () => {
     navigate('/mypage/my-profile');
   };
 
-  const { mutate: logout, isPending: isLogoutPending } = useMutation({
-    mutationFn: async () => {
-      const response = await axiosInstance.delete('/api/v1/users/logout');
-      return response.data;
-    },
+  const { mutate: handleLogout, isPending: isLogoutPending } = useMutation({
+    mutationFn: logout,
     onSuccess: data => {
       localStorage.removeItem('accessToken');
       localStorage.removeItem('loginType');
@@ -124,7 +122,10 @@ const Header = () => {
               >
                 <a className="text-sm hover:font-bold">마이페이지</a>
               </li>
-              <li className="w-full items-center" onClick={() => logout()}>
+              <li
+                className="w-full items-center"
+                onClick={() => handleLogout()}
+              >
                 <a className="text-sm hover:font-bold flex justify-center w-full">
                   로그아웃
                 </a>
