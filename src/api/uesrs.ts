@@ -104,3 +104,14 @@ export const getUserProfile = async (
     method: 'get',
   });
 };
+
+// 프로필 수정
+export const editProfile = async (profileData: FormData) =>
+  apiClient({
+    url: `${COMMON_URL}/me`,
+    method: 'put',
+    data: profileData,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
