@@ -1,4 +1,8 @@
-import { JoinUserRequest } from './../types/User';
+import {
+  EmailLoginRequest,
+  EmailLoginResponse,
+  JoinUserRequest,
+} from './../types/User';
 import { UserProfile } from '../types/User';
 import { formatPhoneNumber } from '../utils/formatPhoneNumber';
 import { apiClient } from './apiClient';
@@ -18,12 +22,23 @@ export const joinUser = async (form: JoinUserRequest) =>
 
 // 이메일 인증
 export const confirmEmailCode = async (code: string) => {
-  apiClient({
+  return apiClient({
     url: `${COMMON_URL}/signup/verify`,
     method: 'post',
     params: {
       code: code,
     },
+  });
+};
+
+// 로그인
+export const emailLogin = async (
+  form: EmailLoginRequest
+): Promise<EmailLoginResponse> => {
+  return apiClient<EmailLoginResponse>({
+    url: `${COMMON_URL}/login`,
+    method: 'post',
+    data: form,
   });
 };
 

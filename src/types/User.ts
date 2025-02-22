@@ -56,3 +56,13 @@ export interface JoinUserRequest {
   nickname: string;
   phoneNumber: string;
 }
+
+export interface EmailLoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface EmailLoginResponse {
+  accessToken: string;
+  userId: number;
+}
