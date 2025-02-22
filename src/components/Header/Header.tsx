@@ -1,7 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { FaBell } from 'react-icons/fa6';
 import { Link, useNavigate } from 'react-router-dom';
-import axiosInstance from '../../api/axiosInstance';
 import logo from '../../assets/svg/logo.svg';
 import useMyProfile from '../../hooks/useMyProfile';
 import useNotifications from '../../hooks/useNotifications';
