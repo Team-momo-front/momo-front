@@ -49,6 +49,13 @@ export const logout = async () =>
     method: 'delete',
   });
 
+// 회원탈퇴
+export const deleteAccount = async () =>
+  apiClient({
+    url: `${COMMON_URL}`,
+    method: 'delete',
+  });
+
 // 프로필 조회
 export const getMyProfile = async (): Promise<UserProfile> => {
   const data = await apiClient<UserProfile>({

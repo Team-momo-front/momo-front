@@ -2,13 +2,9 @@ import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axiosInstance from '../../api/axiosInstance';
 import LoadingSpinner from '../LoadingSpinner';
+import { deleteAccount } from '../../api/uesrs';
 
-const deleteAccount = async () => {
-  const response = await axiosInstance.delete('/api/v1/users');
-  return response.data;
-};
 const AccountDeletion = () => {
   const [confirmDelete, setConfirmDelete] = useState(false);
   const navigate = useNavigate();
