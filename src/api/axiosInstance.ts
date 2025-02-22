@@ -36,7 +36,6 @@ axiosInstance.interceptors.response.use(
       console.log('엑세스 토큰 갱신 실패, 로그아웃 됩니다.');
       localStorage.removeItem('accessToken');
       localStorage.removeItem('loginType');
-      localStorage.removeItem('hasProfile');
       localStorage.removeItem('userId');
       window.location.href = '/';
     }
