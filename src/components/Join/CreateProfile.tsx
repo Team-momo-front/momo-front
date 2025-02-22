@@ -91,7 +91,6 @@ const CreateProfile = () => {
       return response;
     },
     onSuccess: () => {
-      localStorage.setItem('hasProfile', 'true');
       navigate('/mypage/my-profile');
     },
     onError: err => {

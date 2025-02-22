@@ -1,4 +1,3 @@
-import { AxiosError } from 'axios';
 import { useCallback, useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import useEditProfile from '../../hooks/useEditProfile';
@@ -10,22 +9,13 @@ import {
 import LoadingSpinner from '../LoadingSpinner';
 import ProfileImageUpload from '../ProfileImageUpload';
 import InfoForm from './InfoForm';
-import ProfileRedirect from './ProfileRedirect';
 
 const MyProfile = () => {
   const {
     data: profileData,
     isLoading: fetchProfileDataIsLoading,
     isError: fetchProfileDataIsError,
-    error,
   } = useMyProfile();
-
-  // 프로필 검증
-  if (error && error instanceof AxiosError) {
-    if (error.response && error.response.status === 403) {
-      localStorage.setItem('hasProfile', 'false');
-    }
-  }
 
   const [isModified, setIsModified] = useState(false);
   const [isCanceled, setIsCanceled] = useState(false);
@@ -36,18 +26,12 @@ const MyProfile = () => {
   );
   const [updatedUserData, setUpdatedUserData] =
     useRecoilState(updatedUserDataState);
-  const [hasProfile, setHasProfile] = useState<string | null>(null);
 
   useEffect(() => {
     if (profileData) {
       setProfileImageURL(profileData.profileImage);
-      localStorage.setItem('hasProfile', 'true');
     }
   }, [profileData]);
-
-  useEffect(() => {
-    setHasProfile(localStorage.getItem('hasProfile'));
-  }, [hasProfile, error]);
 
   // 프로필 이미지 변경 이벤트 핸들러
   const handleProfileImageChange = useCallback(
@@ -98,10 +82,6 @@ const MyProfile = () => {
     setUpdatedUserData({});
   };
 
-  if (hasProfile === 'false') {
-    return <ProfileRedirect />;
-  }
-
   if (fetchProfileDataIsLoading || editProfileIsPending) {
     return (
       <div className="w-full h-[450px] flex justify-center items-center font-bold text-3xl">
@@ -119,7 +99,6 @@ const MyProfile = () => {
   }
 
   return (
-    hasProfile === 'true' &&
     profileData && (
       <div className="w-full">
         <div className="w-[680px] m-auto flex flex-col items-center mt-[30px]">

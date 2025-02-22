@@ -6,9 +6,11 @@ import logo from '../../assets/svg/logo.svg';
 import useMyProfile from '../../hooks/useMyProfile';
 import useNotifications from '../../hooks/useNotifications';
 import LoadingSpinner from '../LoadingSpinner';
+import { AxiosError } from 'axios';
+import ProfileRedirectModal from '../MyPage/ProfileRedirectModal';
 
 const Header = () => {
-  const { data: userProfileData } = useMyProfile();
+  const { data: userProfileData, error } = useMyProfile();
   const profileImageUrl = userProfileData?.profileImage;
   const navigate = useNavigate();
   const accessToken = localStorage.getItem('accessToken');
@@ -24,7 +26,6 @@ const Header = () => {
     },
     onSuccess: data => {
       localStorage.removeItem('accessToken');
-      localStorage.removeItem('hasProfile');
       localStorage.removeItem('loginType');
       localStorage.removeItem('userId');
 
@@ -48,6 +49,12 @@ const Header = () => {
         <LoadingSpinner />
       </div>
     );
+  }
+
+  if (error && error instanceof AxiosError) {
+    if (error.status === 403) {
+      return <ProfileRedirectModal />;
+    }
   }
 
   return (
