@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { AxiosError } from 'axios';
 import { Link } from 'react-router-dom';
 import JoinField from './JoinField';
-import axiosInstance from '../../api/axiosInstance';
 import { useMutation } from '@tanstack/react-query';
+import { confirmEmailCode } from '../../api/uesrs';
 
 const VerifyEmailCode = () => {
   const [emailConfirmCode, setEmailConfirmCode] = useState<string>('');
@@ -11,19 +11,6 @@ const VerifyEmailCode = () => {
     string | null
   >(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
-  const confirmEmailCode = async (code: string) => {
-    const response = await axiosInstance.post(
-      '/api/v1/users/signup/verify',
-      null,
-      {
-        params: {
-          code: code,
-        },
-      }
-    );
-    return response.data;
-  };
 
   const { mutate, isPending } = useMutation({
     mutationFn: confirmEmailCode,

@@ -49,3 +49,10 @@ export interface getUserProfileResponse {
   introduction: string;
   mbti: string;
 }
+
+export interface JoinUserRequest {
+  email: string;
+  password: string;
+  nickname: string;
+  phoneNumber: string;
+}
