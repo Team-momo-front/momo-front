@@ -43,11 +43,7 @@ const UserProfilePage = () => {
                 type="text"
                 disabled
                 required
-                placeholder={
-                  userProfile.nickname === ''
-                    ? `anony${userId}`
-                    : userProfile.nickname
-                }
+                placeholder={userProfile.nickname}
               />
               <InfoFormField
                 name="age"

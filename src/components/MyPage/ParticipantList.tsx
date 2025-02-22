@@ -55,9 +55,7 @@ const ParticipantList = ({
                 alt={participant.nickname}
                 className="w-10 h-10 rounded-full p-[1px] bg-white border-gray-600 border-[1px]"
               />
-              <span className="font-bold text-sm">
-                {participant.nickname || `anony${participant.userId}`}
-              </span>
+              <span className="font-bold text-sm">{participant.nickname}</span>
             </li>
           ))
         ) : (
