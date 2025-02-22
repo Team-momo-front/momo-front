@@ -1,4 +1,5 @@
 import {
+  changePasswordRequest,
   EmailLoginRequest,
   EmailLoginResponse,
   JoinUserRequest,
@@ -55,6 +56,28 @@ export const deleteAccount = async () =>
     url: `${COMMON_URL}`,
     method: 'delete',
   });
+
+// 이메일로 재설정 링크 발송
+export const sendLinkToEmail = async (email: string) => {
+  return apiClient({
+    url: `${COMMON_URL}/password/change/link-send`,
+    method: 'post',
+    data: {
+      email: email,
+    },
+  });
+};
+
+// 비밀번호 변경
+export const changePassword = async (
+  form: changePasswordRequest
+): Promise<changePasswordRequest> => {
+  return apiClient<changePasswordRequest>({
+    url: `${COMMON_URL}/password/change`,
+    method: 'post',
+    data: form,
+  });
+};
 
 // 프로필 조회
 export const getMyProfile = async (): Promise<UserProfile> => {

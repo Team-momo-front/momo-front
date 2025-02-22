@@ -66,3 +66,8 @@ export interface EmailLoginResponse {
   accessToken: string;
   userId: number;
 }
+
+export interface changePasswordRequest {
+  token: string;
+  newPassword: string;
+}

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
-import axiosInstance from '../../api/axiosInstance';
 import JoinField from './JoinField';
 import {
   handleValidation,
@@ -9,6 +8,8 @@ import {
   validatePasswordConfirm,
 } from './validation';
 import { passwordErrorMessages } from '../../types/Errors';
+import { useMutation } from '@tanstack/react-query';
+import { changePassword } from '../../api/uesrs';
 
 const RedirectResetPassword = () => {
   const navigate = useNavigate();
@@ -28,22 +29,19 @@ const RedirectResetPassword = () => {
 
   const token = new URL(window.location.href).searchParams.get('token');
 
-  const fetchAccessToken = async () => {
-    try {
-      await axiosInstance.post('/api/v1/users/password/change', {
-        token: token,
-        newPassword: password,
-      });
-
+  const { mutate } = useMutation({
+    mutationFn: changePassword,
+    onSuccess: () => {
       alert('비밀번호가 변경되었습니다. 다시 로그인해주세요.');
       setValidationErrors();
       navigate('/login');
-    } catch (err) {
+    },
+    onError: err => {
       if (err instanceof AxiosError) {
         console.log(err.message);
       }
-    }
-  };
+    },
+  });
 
   return (
     <div className="w-full h-screen flex justify-center items-center">
@@ -91,7 +89,12 @@ const RedirectResetPassword = () => {
           />
           <button
             type="button"
-            onClick={fetchAccessToken}
+            onClick={() =>
+              mutate({
+                token: token || '',
+                newPassword: password,
+              })
+            }
             disabled={!password || !passwordConfirm}
             className="btn btn-block font-bold text-[16px] btn-primary border-none"
           >
