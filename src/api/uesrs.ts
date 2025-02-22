@@ -2,9 +2,10 @@ import {
   changePasswordRequest,
   EmailLoginRequest,
   EmailLoginResponse,
+  GetUserProfileResponse,
   JoinUserRequest,
 } from './../types/User';
-import { UserProfile } from '../types/User';
+import { MyProfile } from '../types/User';
 import { formatPhoneNumber } from '../utils/formatPhoneNumber';
 import { apiClient } from './apiClient';
 
@@ -79,9 +80,9 @@ export const changePassword = async (
   });
 };
 
-// 프로필 조회
-export const getMyProfile = async (): Promise<UserProfile> => {
-  const data = await apiClient<UserProfile>({
+// 본인 프로필 조회
+export const getMyProfile = async (): Promise<MyProfile> => {
+  const data = await apiClient<MyProfile>({
     url: `${COMMON_URL}/me`,
     method: 'get',
   });
@@ -92,4 +93,14 @@ export const getMyProfile = async (): Promise<UserProfile> => {
     profileImageUrl: data.profileImageUrl,
     phone: formatPhoneNumber(data.phone ?? ''),
   };
+};
+
+// 타인 프로필 조회
+export const getUserProfile = async (
+  userId: number
+): Promise<GetUserProfileResponse> => {
+  return await apiClient<GetUserProfileResponse>({
+    url: `${COMMON_URL}/${userId}`,
+    method: 'get',
+  });
 };

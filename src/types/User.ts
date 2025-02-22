@@ -12,7 +12,7 @@ export interface User {
   status: string;
 }
 
-export interface UserProfile {
+export interface MyProfile {
   birth: string;
   email: string;
   gender: string;
@@ -40,7 +40,7 @@ export interface Participants {
   participationStatus: string;
 }
 
-export interface getUserProfileResponse {
+export interface GetUserProfileResponse {
   userId: number;
   nickname: string;
   gender: string;
