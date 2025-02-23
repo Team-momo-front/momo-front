@@ -100,7 +100,7 @@ const Header = () => {
               <div className="flex justify-end m-2">
                 <button
                   className="hover:font-bold text-xs"
-                  onClick={() => deleteAllNotifications}
+                  onClick={() => deleteAllNotifications()}
                 >
                   모두 지우기
                 </button>
