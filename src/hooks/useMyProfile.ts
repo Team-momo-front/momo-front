@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import getMyProfile from '../api/getMyProfile';
+import { getMyProfile } from '../api/uesrs';
 
 const useMyProfile = () => {
   const accessToken = localStorage.getItem('accessToken');

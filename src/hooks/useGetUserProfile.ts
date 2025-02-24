@@ -1,14 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
-import axiosInstance from '../api/axiosInstance';
-import { getUserProfileResponse } from '../types/User';
-
-const getUserProfile = async (userId: number) => {
-  const response = await axiosInstance.get(`/api/v1/users/${userId}`);
-  return response.data;
-};
+import { GetUserProfileResponse } from '../types/User';
+import { getUserProfile } from '../api/uesrs';
 
 export function useGetUserProfile(userId: number) {
-  return useQuery<getUserProfileResponse>({
+  return useQuery<GetUserProfileResponse>({
     queryKey: ['userProfile', userId],
     queryFn: () => getUserProfile(userId),
   });

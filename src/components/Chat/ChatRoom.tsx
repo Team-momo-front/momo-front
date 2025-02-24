@@ -48,7 +48,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({
               roomId: chat.roomId,
               message,
               senderId: userId.toString(),
-              senderNickname: senderNickname || `anony${userId}`,
+              senderNickname: senderNickname,
               userProfileImageUrl,
             })
           )
@@ -79,8 +79,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({
               {
                 ...msg,
                 senderId: msg.senderId.toString(),
-                senderNickname: msg.senderNickname || `anony${msg.senderId}`,
-                // userProfileImageUrl: msg.userProfileImageUrl,
+                senderNickname: msg.senderNickname,
               },
             ]);
             console.log(msg);

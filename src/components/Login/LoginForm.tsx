@@ -3,29 +3,22 @@ import { RiKakaoTalkFill } from 'react-icons/ri';
 import Input from '../Input';
 import { AxiosError } from 'axios';
 import { useState } from 'react';
-import axiosInstance from '../../api/axiosInstance';
 import { useMutation } from '@tanstack/react-query';
 import LoadingSpinner from '../LoadingSpinner';
+import { emailLogin } from '../../api/uesrs';
 
 const LoginForm = () => {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [formData, setFormData] = useState({ email: '', password: '' });
   const [loginError, setLoginError] = useState<string | null>(null);
 
   const navigate = useNavigate();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: async () => {
-      const response = await axiosInstance.post('/api/v1/users/login', {
-        email: email,
-        password: password,
-      });
-      return response.data;
-    },
+    mutationFn: () => emailLogin(formData),
     onSuccess: data => {
       if (data && data.accessToken) {
         localStorage.setItem('accessToken', data.accessToken);
-        localStorage.setItem('userId', data.userId);
+        localStorage.setItem('userId', data.userId.toString());
       }
 
       localStorage.setItem('loginType', 'email');
@@ -58,6 +51,14 @@ const LoginForm = () => {
     window.location.href = kakaoLoginUrl;
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
   if (isPending) {
     return (
       <div className="w-full h-screen flex justify-center items-center">
@@ -76,16 +77,16 @@ const LoginForm = () => {
         <Input
           type="email"
           name="email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
+          value={formData.email}
+          onChange={handleChange}
           placeholder="이메일을 입력해주세요."
           required
         />
         <Input
           type="password"
           name="password"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
+          value={formData.password}
+          onChange={handleChange}
           placeholder="비밀번호를 입력해주세요."
           required
         />

@@ -60,9 +60,7 @@ const ChatParticipantList = ({
                   alt="participant profile image"
                   className="w-10 h-10 rounded-full border-[1px] border-black bg-white p-[1px] mr-2"
                 />
-                <span className="font-bold">
-                  {participant.nickname || `anony${participant.id}`}
-                </span>
+                <span className="font-bold">{participant.nickname}</span>
               </li>
             </Link>
           ))}
