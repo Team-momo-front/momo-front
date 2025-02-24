@@ -1,7 +1,7 @@
 import { useRecoilValue } from 'recoil';
-import useGetMyMeetings from '../../hooks/useGetmyMeetings';
 import { isActiveState } from '../../states/recoilState';
 import PostCard from '../PostCard';
+import useGetMyMeetings from '../../hooks/useGetmyMeetings';
 
 const HostedMeetings = () => {
   const { data } = useGetMyMeetings({});

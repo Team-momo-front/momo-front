@@ -12,8 +12,8 @@ import {
 } from './validation';
 import { JoinErrorMessages } from '../../types/Errors.ts';
 import { formatPhoneNumber } from '../../utils/formatPhoneNumber.ts';
-import axiosInstance from '../../api/axiosInstance.ts';
 import { useMutation } from '@tanstack/react-query';
+import { joinUser } from '../../api/uesrs.ts';
 
 type Form = {
   email: string;
@@ -44,7 +44,6 @@ const JoinForm = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-
     setForm(prev => ({
       ...prev,
       [name]: name === 'phoneNumber' ? formatPhoneNumber(value) : value,
@@ -74,16 +73,6 @@ const JoinForm = () => {
     });
   };
 
-  const joinUser = async () => {
-    const response = await axiosInstance.post('/api/v1/users/signup', {
-      email: form.email,
-      password: form.password,
-      nickname: form.nickname,
-      phone: form.phoneNumber.replace(/[^0-9]/g, ''),
-    });
-    return response.data;
-  };
-
   const navigate = useNavigate();
 
   const { mutate, isPending } = useMutation({
@@ -111,7 +100,9 @@ const JoinForm = () => {
     e.preventDefault();
     clearErrors();
     setValidationErrors();
-    mutate();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { passwordConfirm, ...submitForm } = form;
+    mutate(submitForm);
   };
 
   const isFormValid =

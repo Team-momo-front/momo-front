@@ -7,7 +7,7 @@ interface GetMyMeetingsResponse {
 }
 const useGetMyMeetings = (params: getMyMeetingsRequest) => {
   return useQuery<GetMyMeetingsResponse>({
-    queryKey: ['get-my-meetings', params],
+    queryKey: ['my-meetings', params],
     queryFn: () => getMyMeetings(params),
     refetchOnWindowFocus: false,
     retry: false,

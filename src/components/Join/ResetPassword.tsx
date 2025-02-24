@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import Input from '../Input';
-import axiosInstance from '../../api/axiosInstance';
 import { AxiosError } from 'axios';
 import { useMutation } from '@tanstack/react-query';
+import { sendLinkToEmail } from '../../api/uesrs';
 
 const ResetPassword = () => {
   const [email, setEmail] = useState<string>('');
@@ -10,15 +10,7 @@ const ResetPassword = () => {
   const [success, setSuccess] = useState<string | null>(null);
 
   const { mutate, isPending } = useMutation({
-    mutationFn: async () => {
-      const response = await axiosInstance.post(
-        '/api/v1/users/password/change/link-send',
-        {
-          email: email,
-        }
-      );
-      return response.data;
-    },
+    mutationFn: sendLinkToEmail,
     onSuccess: () => {
       setError(null);
       setSuccess(
@@ -38,7 +30,7 @@ const ResetPassword = () => {
 
   const handleResetPassword = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    mutate();
+    mutate(email);
   };
 
   const handleConfirmBtn = () => {
