@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { formatPhoneNumber } from '../../utils/formatPhoneNumber';
-import { UserProfile } from '../../types/User';
+import { MyProfile } from '../../types/User';
 import { useMBTIValidation } from '../../hooks/useMBTIValidation';
 import { validateNickname, validatePhoneNumber } from '../Join/validation';
 import InfoFormField from './InfoFormField';
@@ -14,7 +14,7 @@ import {
 interface UserInfoProps {
   isModified: boolean;
   isCanceled: boolean;
-  profileData: UserProfile;
+  profileData: MyProfile;
 }
 
 const InfoForm: React.FC<UserInfoProps> = ({
@@ -25,7 +25,7 @@ const InfoForm: React.FC<UserInfoProps> = ({
   const [updatedUserData, setUpdatedUserData] =
     useRecoilState(updatedUserDataState);
 
-  const handleChange = (field: keyof UserProfile, value: string) => {
+  const handleChange = (field: keyof MyProfile, value: string) => {
     setUpdatedUserData(prev => ({
       ...prev,
       [field]: value,

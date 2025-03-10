@@ -16,7 +16,6 @@ export interface Post {
   title: string;
   // mockData 테스트용
   participatedUserId?: string[];
-  // status: HostStatus;
   participationStatus?: ParticipantStatus;
   hostedUserId?: string; // authorId와 동일
 }

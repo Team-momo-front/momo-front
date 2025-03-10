@@ -7,7 +7,7 @@ import {
 } from '../../states/recoilState';
 import useDeleteMeeting from '../../hooks/useDeleteMeeting';
 import { useQueryClient } from '@tanstack/react-query';
-import { useLeaveChatRoom } from '../../hooks/useLeaveChatroom';
+import { useLeaveChatRoom } from '../../hooks/useLeaveChatRoom';
 
 interface ChatAlertProps {
   handleCancelBtn: () => void;
