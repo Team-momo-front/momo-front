@@ -1,67 +1,61 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-
-interface FormData {
-  title: string;
-  locatinoId: number | null;
-  latitude: number | null;
-  longitude: number | null;
-  address: string;
-  meetingDateTime: string;
-  maxCount: number;
-  category: string[];
-  content: string;
-  thumbnail: File | null;
-}
+import { useState } from 'react';
+import type { CreateMeetingRequest } from '../types/Meeting';
+import { useCreateMeeting } from './useCreateMeeting';
 
 const useCreatePostForm = () => {
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<CreateMeetingRequest>({
     title: '',
-    locatinoId: null,
-    latitude: null,
-    longitude: null,
+    locationId: 0,
+    latitude: 0,
+    longitude: 0,
     address: '',
     meetingDateTime: '',
     maxCount: 0,
     category: [],
     content: '',
-    thumbnail: null,
   });
 
-  const [thumbnailURL, setThumbnailURL] = useState<string | null>(null);
+  const [thumbnail, setThumbnail] = useState<File | null>(null);
+  const [thumbnailUrl, setThumbnailUrl] = useState<string>(
+    'image/upload_image.webp'
+  );
 
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (formData.thumbnail) {
-      const objectURL = URL.createObjectURL(formData.thumbnail);
-      setThumbnailURL(objectURL);
-      return () => {
-        if (objectURL) {
-          URL.revokeObjectURL(objectURL);
-        }
-      };
-    } else {
-      setThumbnailURL(null);
-    }
-  }, [formData.thumbnail]);
+  const { mutate: createMeeting, isPending } = useCreateMeeting();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const postData = {
-      ...formData,
-      thumbnail: formData.thumbnail
-        ? URL.createObjectURL(formData.thumbnail)
-        : undefined,
-    };
-    console.log(postData); // TODO: 서버에 POST
-    navigate('/');
+
+    if (formData.category.length === 0) {
+      alert('카테고리를 선택해주세요');
+      return;
+    }
+
+    const postFormData = new FormData();
+    postFormData.append(
+      'request',
+      new Blob([JSON.stringify(formData)], { type: 'application/json' })
+    );
+
+    if (thumbnail) {
+      postFormData.append('thumbnail', thumbnail);
+    } else {
+      const defaultThumbnailImage = new File(
+        ['/images/default_profile_image.png'],
+        'default_profile_image.png',
+        { type: 'image/png' }
+      );
+      postFormData.append('profileImage', defaultThumbnailImage);
+    }
+
+    createMeeting(postFormData);
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
     if (file) {
-      setFormData(prev => ({ ...prev, thumbnail: file }));
+      setThumbnail(file);
+      const fileUrl = URL.createObjectURL(file);
+      setThumbnailUrl(fileUrl);
     }
   };
 
@@ -73,14 +67,14 @@ const useCreatePostForm = () => {
   };
 
   const updateLocation = (
-    locatinoId: string,
+    locationId: string,
     latitude: string,
     longitude: string,
     address: string
   ) => {
     setFormData(prev => ({
       ...prev,
-      locatinoId: Number(locatinoId),
+      locationId: Number(locationId),
       latitude: Number(latitude),
       longitude: Number(longitude),
       address,
@@ -92,14 +86,15 @@ const useCreatePostForm = () => {
   };
 
   return {
+    thumbnailUrl,
     formData,
     setFormData,
-    thumbnailURL,
     handleSubmit,
     handleFileChange,
     handleInputChange,
     updateLocation,
     updateCategories,
+    isPending,
   };
 };
 

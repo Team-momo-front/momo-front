@@ -12,3 +12,7 @@ export interface Notification {
   content: string;
   notificationType: NotificationType;
 }
+
+export type NotificationUpdate = {
+  hasNotifications: boolean;
+};

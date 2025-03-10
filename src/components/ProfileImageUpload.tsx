@@ -1,27 +1,26 @@
 import { useState, useEffect } from 'react';
 import { MdClose } from 'react-icons/md';
+import { useLocation } from 'react-router-dom';
 
 type ProfileImageUploadProps = {
   profileImage: File | null;
   setProfileImage: React.Dispatch<React.SetStateAction<File | null>>;
-  defaultImage: string;
   profileURL?: string | null;
   onProfileImageChange?: (newImageURL: string | null) => void;
 };
 const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
   profileImage,
   setProfileImage,
-  defaultImage,
   profileURL,
   onProfileImageChange,
 }) => {
   const [updatedProfileURL, setUpdatedProfileURL] = useState<string | null>(
     profileURL ?? null
   );
-
-  const uploadProfileImage = '../../public/image/upload_profile_image.webp';
-
+  const uploadProfileImage = '/image/upload_profile_image.webp';
+  const defaultImage = '/image/default_profile_image.webp';
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const location = useLocation();
 
   useEffect(() => {
     if (profileImage) {
@@ -55,13 +54,13 @@ const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
     if (onProfileImageChange) {
       onProfileImageChange(defaultImage);
     }
+    setProfileImage(null);
     handleCloseModal();
   };
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
-
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
@@ -75,18 +74,20 @@ const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
         }
       >
         <img
-          src={updatedProfileURL || uploadProfileImage}
+          src={
+            location.pathname === '/mypage/my-profile'
+              ? updatedProfileURL || defaultImage
+              : updatedProfileURL || uploadProfileImage
+          }
           alt="Profile"
-          className={`w-[150px] h-[150px] object-cover rounded-full ${
-            updatedProfileURL && 'bg-white p-[5px] border-gray-600 border-[1px]'
-          }`}
+          className="w-[150px] h-[150px] object-cover rounded-full  border-gray-600 border-[1px] p-[5px]"
         />
         {(!profileImage || !profileURL) && (
           <input
             id="file-upload"
             type="file"
             className="hidden "
-            accept="image/*"
+            accept=".jpg,.jpeg,.png"
             disabled={!!profileURL || !!profileImage}
             onChange={handleFileChange}
           />
@@ -113,7 +114,7 @@ const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
                 id="file-update"
                 type="file"
                 className="hidden "
-                accept="image/*"
+                accept=".jpg,.jpeg,.png"
                 onChange={handleFileChange}
               />
             </label>

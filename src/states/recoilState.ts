@@ -1,45 +1,23 @@
 import { atom } from 'recoil';
-import { User } from '../types/User';
+import { UpdatedUserProfile } from '../types/User';
 import { ActiveState } from '../types/Post';
-import { Chat } from '../types/Chat';
+import { ChatRoomResponse } from '../types/Chat';
 
+// 로그인 유저인지
+export const isLoginUserState = atom<boolean>({
+  key: 'isLoginUserState',
+  default: false,
+});
+
+// 마이페이지 & 유저
 export const isFormInvalidFormState = atom<boolean>({
   key: 'isValidUserFormState',
   default: false,
 });
 
-export const initialUserDataState = atom<User>({
-  key: 'initialUserDataState',
-  default: {
-    id: 0,
-    email: '',
-    gender: '',
-    birth: '',
-    nickname: '',
-    phoneNumber: '',
-    mbti: '',
-    introduction: '',
-    profileImage: '',
-    userId: '',
-    status: '',
-  },
-});
-
-export const updatedUserDataState = atom<User>({
+export const updatedUserDataState = atom<UpdatedUserProfile>({
   key: 'updatedUserDataState',
-  default: {
-    id: 0,
-    email: '',
-    gender: '',
-    birth: '',
-    nickname: '',
-    phoneNumber: '',
-    mbti: '',
-    introduction: '',
-    profileImage: '',
-    userId: '',
-    status: '',
-  },
+  default: {},
 });
 
 export const isActiveState = atom<ActiveState>({
@@ -47,6 +25,7 @@ export const isActiveState = atom<ActiveState>({
   default: 'isHosted',
 });
 
+// 채팅
 export const isChatModalOpenState = atom<boolean>({
   key: 'isChatModalOpenState',
   default: false,
@@ -67,7 +46,7 @@ export const isViewParticipantListOpenState = atom<boolean>({
   default: false,
 });
 
-export const selectedChatState = atom<Chat | null>({
+export const selectedChatState = atom<ChatRoomResponse | null>({
   key: 'selectedChatState',
   default: null,
 });

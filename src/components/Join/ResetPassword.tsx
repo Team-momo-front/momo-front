@@ -1,23 +1,40 @@
 import { useState } from 'react';
 import Input from '../Input';
-import { Link } from 'react-router-dom';
+import { AxiosError } from 'axios';
+import { useMutation } from '@tanstack/react-query';
+import { sendLinkToEmail } from '../../api/uesrs';
 
 const ResetPassword = () => {
   const [email, setEmail] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  const handleResetPassword = (e: React.FormEvent<HTMLFormElement>) => {
+  const { mutate, isPending } = useMutation({
+    mutationFn: sendLinkToEmail,
+    onSuccess: () => {
+      setError(null);
+      setSuccess(
+        '입력하신 이메일로 비밀번호 재설정 링크가 발송되었습니다. 메일을 확인해주세요.'
+      );
+    },
+    onError: err => {
+      if (err instanceof AxiosError) {
+        if (err.response && err.response.status === 404) {
+          setError(err.response.data.message);
+        } else setError('서버 오류가 발생했습니다.');
+      } else {
+        setError('오류가 발생했습니다.');
+      }
+    },
+  });
+
+  const handleResetPassword = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('제출완료', email);
-    setError(null);
+    mutate(email);
+  };
 
-    setSuccess(
-      '입력하신 이메일로 비밀번호 재설정 링크가 발송되었습니다. 메일을 확인해주세요.'
-    );
-
-    // error test
-    // setError('입력하신 이메일로 가입된 계정이 없습니다.');
+  const handleConfirmBtn = () => {
+    setSuccess(null);
   };
 
   return (
@@ -61,9 +78,12 @@ const ResetPassword = () => {
             </svg>
             <p className="w-full font-bold text-sm text-center">{success}</p>
             <div>
-              <Link to="/login" className="w-full">
-                <button className="btn btn-sm btn-primary">확인</button>
-              </Link>
+              <button
+                className="btn btn-sm btn-primary"
+                onClick={handleConfirmBtn}
+              >
+                확인
+              </button>
             </div>
           </div>
         )}
@@ -74,10 +94,14 @@ const ResetPassword = () => {
         )}
         <button
           type="submit"
-          disabled={!!success}
+          disabled={!!success || isPending}
           className="btn btn-block font-bold text-[16px] btn-primary border-none"
         >
-          비밀번호 재설정 링크 받기
+          {isPending ? (
+            <span className="loading loading-ring loading-md text-gray-600"></span>
+          ) : (
+            '비밀번호 재설정 링크 받기'
+          )}
         </button>
       </form>
     </div>

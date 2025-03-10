@@ -1,9 +1,8 @@
 import { NavLink } from 'react-router-dom';
 
 const navItems = [
-  { path: 'my-info', label: '내 정보' },
+  { path: 'my-profile', label: '내 정보' },
   { path: 'my-meetings', label: '내 모임 관리' },
-  { path: 'change-password', label: '비밀번호 변경' },
   { path: 'account-deletion', label: '회원 탈퇴' },
 ];
 
@@ -16,7 +15,10 @@ const Nav = () => {
         </span>
         <ul className="flex gap-6 mb-4">
           {navItems.map(({ path, label }, index) => (
-            <li key={index} className="font-bold text-[16px]">
+            <li
+              key={index}
+              className="font-bold text-[16px] hover:-translate-y-[2px] duration-150 ease-linear"
+            >
               <NavLink
                 to={path}
                 className={({ isActive }) =>

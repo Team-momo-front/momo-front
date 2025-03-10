@@ -1,9 +1,11 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useCallback, useState } from 'react';
+import { AxiosError } from 'axios';
 import JoinField from './JoinField.tsx';
 import { useMBTIValidation } from '../../hooks/useMBTIValidation.ts';
-import { GiPartyPopper } from 'react-icons/gi';
 import ProfileImageUpload from '../ProfileImageUpload.tsx';
+import { useNavigate } from 'react-router-dom';
+import { useMutation } from '@tanstack/react-query';
+import { apiClient } from '../../api/apiClient.ts';
 
 type profileForm = {
   gender: string;
@@ -11,6 +13,11 @@ type profileForm = {
   introduction: string;
   mbti: string;
 };
+
+enum Gender {
+  MALE = 'MALE',
+  FEMALE = 'FEMALE',
+}
 
 const CreateProfile = () => {
   const [profileForm, setProfileForm] = useState<profileForm>({
@@ -20,43 +27,85 @@ const CreateProfile = () => {
     mbti: '',
   });
 
+  // TODO: MBTI 선택할 수 있도록 셀렉터 제공 리팩토링 예정
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-
     setProfileForm(prev => ({
       ...prev,
       [name]: name === 'mbti' ? value.toUpperCase() : value,
     }));
   };
 
-  const [selectedGender, setSelectedGender] = useState<
-    'male' | 'female' | null
-  >(null);
-
-  const toggleGenderButton = (gender: 'male' | 'female') => {
+  const [selectedGender, setSelectedGender] = useState<Gender | null>(null);
+  const toggleGenderButton = (gender: Gender) => {
     setSelectedGender(gender);
     setProfileForm(prev => ({ ...prev, gender }));
   };
-
   const today = new Date();
   const maxDay = today.toISOString().slice(0, 10);
-
   const [profileImage, setProfileImage] = useState<File | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [profileImageURL, setProfileImageURL] = useState<string | null>(null);
   const { mbtiError, validateMBTI } = useMBTIValidation();
+  const navigate = useNavigate();
 
   const isDisabled =
     !profileForm.gender ||
     !profileForm.birth ||
     (!!profileForm.mbti && !!mbtiError);
 
-  const handleProfileSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsModalOpen(true);
+  const [createProfileError, setCreateProfileError] = useState<string | null>(
+    null
+  );
 
-    // TODO: API 요청
+  const formData = new FormData();
+
+  const requestData: Record<string, string> = {
+    gender: profileForm.gender,
+    birth: profileForm.birth,
+    ...(profileForm.introduction && { introduction: profileForm.introduction }),
+    ...(profileForm.mbti && { mbti: profileForm.mbti }),
+  };
+
+  formData.append(
+    'request',
+    new Blob([JSON.stringify(requestData)], { type: 'application/json' })
+  );
+
+  if (profileImage) {
+    formData.append('profileImage', profileImage);
+  }
+
+  const handleProfileImageChange = useCallback((newImageUrl: string | null) => {
+    setProfileImageURL(newImageUrl);
+  }, []);
+
+  const { mutate: createProfile } = useMutation({
+    mutationFn: async () => {
+      const response = await apiClient({
+        url: '/api/v1/profiles',
+        method: 'post',
+        data: formData,
+      });
+      return response;
+    },
+    onSuccess: () => {
+      navigate('/mypage/my-profile');
+    },
+    onError: err => {
+      if (err && err instanceof AxiosError)
+        if (err.response?.status === 409 || err.response?.status === 400) {
+          setCreateProfileError(err.response?.data.message);
+        } else {
+          setCreateProfileError(err.message);
+        }
+    },
+  });
+
+  const handleProfileSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    createProfile();
   };
 
   return (
@@ -72,10 +121,10 @@ const CreateProfile = () => {
           <ProfileImageUpload
             profileImage={profileImage}
             setProfileImage={setProfileImage}
-            defaultImage="image/default_profile_image.webp"
+            profileURL={profileImageURL}
+            onProfileImageChange={handleProfileImageChange}
           />
         </label>
-
         <div>
           <label className="block mb-2">
             <span className="font-bold text-sm">성별*</span>
@@ -84,24 +133,23 @@ const CreateProfile = () => {
             <button
               type="button"
               className={`btn w-32 ${
-                selectedGender === 'male' ? 'btn-primary' : 'btn-second'
+                selectedGender === Gender.MALE ? 'btn-primary' : 'btn-second'
               }`}
-              onClick={() => toggleGenderButton('male')}
+              onClick={() => toggleGenderButton(Gender.MALE)}
             >
               남성
             </button>
             <button
               type="button"
               className={`btn w-32 ${
-                selectedGender === 'female' ? 'btn-primary' : 'btn-second'
+                selectedGender === Gender.FEMALE ? 'btn-primary' : 'btn-second'
               }`}
-              onClick={() => toggleGenderButton('female')}
+              onClick={() => toggleGenderButton(Gender.FEMALE)}
             >
               여성
             </button>
           </div>
         </div>
-
         <JoinField
           name="birth"
           label="생년 월일*"
@@ -114,7 +162,6 @@ const CreateProfile = () => {
           min="1900-01-01"
           placeholder="생년월일을 입력하세요."
         />
-
         <JoinField
           name="mbti"
           label="MBTI"
@@ -127,7 +174,6 @@ const CreateProfile = () => {
           required={false}
           length={4}
         />
-
         <div>
           <label htmlFor="introduction" className="block mb-2">
             <span className="font-bold text-sm">자기소개</span>
@@ -143,34 +189,23 @@ const CreateProfile = () => {
             maxLength={150}
           />
         </div>
-
         <button
           type="submit"
           disabled={isDisabled}
           className={`btn ${isDisabled ? 'btn-disabled' : 'btn-primary'}`}
         >
-          회원가입 완료하기
+          프로필 생성하기
         </button>
         <p className="font-bold text-sm text-gray-500">
           *표시된 항목은 필수 입력 항목입니다.
         </p>
-      </form>
 
-      {isModalOpen && (
-        <dialog id="my_modal_5" className="modal modal-open sm:modal-middle ">
-          <div className="modal-box flex flex-col items-center gap-4">
-            <GiPartyPopper className="py-3 w-[100px] h-[100px] fill-primary" />
-            <p className="py-3 font-bold">
-              축하합니다! 회원가입이 완료되었습니다!
-            </p>
-            <Link to="/login">
-              <button type="button" className="btn btn-primary">
-                로그인 하러 가기
-              </button>
-            </Link>
-          </div>
-        </dialog>
-      )}
+        {createProfileError && (
+          <p className="w-[538px] mb-2 font-bold text-[12px] text-error">
+            {createProfileError}
+          </p>
+        )}
+      </form>
     </div>
   );
 };

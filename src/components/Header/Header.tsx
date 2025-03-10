@@ -1,38 +1,58 @@
-import { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
 import { FaBell } from 'react-icons/fa6';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../assets/svg/logo.svg';
-import { notifications } from '../../mocks/notifications';
-import { Notification } from '../../types/Notification';
+import useMyProfile from '../../hooks/useMyProfile';
+import useNotifications from '../../hooks/useNotifications';
+import LoadingSpinner from '../LoadingSpinner';
+import { AxiosError } from 'axios';
+import ProfileRedirectModal from '../MyPage/ProfileRedirectModal';
+import { logout } from '../../api/uesrs';
 
 const Header = () => {
-  // TODO: API 연결 후 전역 상태관리
-  const [isLogined, setIsLogined] = useState(true);
-
+  const { data: userProfileData, error } = useMyProfile();
+  const profileImageUrl = userProfileData?.profileImage;
   const navigate = useNavigate();
+  const accessToken = localStorage.getItem('accessToken');
 
   const handleNavigateMypage = () => {
-    navigate('/mypage/my-info');
+    navigate('/mypage/my-profile');
   };
 
-  const handleLogout = () => {
-    setIsLogined(false);
-    navigate('/');
-  };
+  const { mutate: handleLogout, isPending: isLogoutPending } = useMutation({
+    mutationFn: logout,
+    onSuccess: data => {
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('loginType');
+      localStorage.removeItem('userId');
 
-  // TODO : 서버데이터 사용
-  const [data, setData] = useState<Notification[] | []>(notifications);
+      navigate('/');
+      alert(data.message);
+    },
+    onError: err => {
+      alert(err.message);
+      console.error('로그아웃 실패:', err);
+    },
+  });
 
-  const handleDelete = (id: number) => {
-    // TODO : 서버호출
-    setData(prev => prev.filter(notification => notification.id !== id));
-  };
-  const handleDeleteAll = () => {
-    // TODO : 서버호출
-    setData([]);
-  };
+  const { notifications, deleteNotification, deleteAllNotifications } =
+    useNotifications(accessToken);
 
-  const hasNotification = data.length > 0;
+  const hasNotification = notifications.length > 0;
+
+  if (isLogoutPending) {
+    return (
+      <div className="w-full h-screen flex justify-center items-center">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
+  if (error && error instanceof AxiosError) {
+    if (error.status === 403) {
+      return <ProfileRedirectModal />;
+    }
+  }
 
   return (
     <div className="w-full h-[62px] border-b-[1px] border-gray-100 grid grid-cols-3 items-center">
@@ -46,7 +66,7 @@ const Header = () => {
         </Link>
       </div>
 
-      {isLogined ? (
+      {accessToken ? (
         <div className="flex justify-end items-center gap-5 mr-6">
           <div
             tabIndex={0}
@@ -56,39 +76,38 @@ const Header = () => {
             {hasNotification && (
               <div className="w-1.5 h-1.5 bg-red-500 rounded-full absolute top-0 right-0" />
             )}
-            <div className="relative menu dropdown-content">
-              <ul className="absolute -right-10 bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-                {hasNotification ? (
-                  data.map(notification => (
-                    <li className="group">
-                      <a className="text-xs group-hover:font-bold">
-                        {notification.content}
-                        <button
-                          className="ml-auto hover:font-bold hover:text-primary"
-                          onClick={() => handleDelete(notification.id)}
-                        >
-                          ✕
-                        </button>
-                      </a>
-                    </li>
-                  ))
-                ) : (
-                  <div className="text-xs m-2">알림이 없습니다</div>
-                )}
-                <div className="flex justify-end m-2">
-                  <button
-                    className="hover:font-bold text-xs"
-                    onClick={handleDeleteAll}
-                  >
-                    모두 지우기
-                  </button>
-                </div>
-              </ul>
-            </div>
+            <ul className="menu dropdown-content absolute -right-10 bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+              {hasNotification ? (
+                notifications.map(notification => (
+                  <li key={notification.id} className="group">
+                    <a className="text-xs group-hover:font-bold">
+                      {notification.content}
+                      <button
+                        className="ml-auto hover:font-bold hover:text-primary"
+                        onClick={() => deleteNotification(notification.id)}
+                      >
+                        ✕
+                      </button>
+                    </a>
+                  </li>
+                ))
+              ) : (
+                <div className="text-xs m-2">알림이 없습니다</div>
+              )}
+              <div className="flex justify-end m-2">
+                <button
+                  className="hover:font-bold text-xs"
+                  onClick={() => deleteAllNotifications()}
+                >
+                  모두 지우기
+                </button>
+              </div>
+            </ul>
           </div>
+
           <div className="dropdown dropdown-end dropdown-hover">
             <img
-              src="/image/default_profile_image.webp"
+              src={profileImageUrl || '/image/default_profile_image.webp'}
               alt="profile image"
               className="w-[30px] h-[30px] object-cover p-[1px] border border-gray-600 rounded-full cursor-pointer"
             />
@@ -102,7 +121,10 @@ const Header = () => {
               >
                 <a className="text-sm hover:font-bold">마이페이지</a>
               </li>
-              <li className="w-full items-center" onClick={handleLogout}>
+              <li
+                className="w-full items-center"
+                onClick={() => handleLogout()}
+              >
                 <a className="text-sm hover:font-bold flex justify-center w-full">
                   로그아웃
                 </a>

@@ -1,12 +1,14 @@
 import { useNavigate } from 'react-router-dom';
-import { Post } from '../types/Post';
-import { HostStatus, ParticipantStatus } from '../types/Post';
+import { CreatedMeeting, ParticipantsResponse } from '../types/Meeting';
+import useDeleteMeeting from '../hooks/useDeleteMeeting';
+import useDeleteParticipation from '../hooks/useDeleteParticipation';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface PostCardBtnProps {
-  post: Post;
+  post: CreatedMeeting | ParticipantsResponse;
   isHosted?: boolean;
   isParticipated?: boolean;
-  status?: HostStatus | ParticipantStatus;
+  status?: string;
 }
 const PostCardBtn: React.FC<PostCardBtnProps> = ({
   post,
@@ -14,24 +16,35 @@ const PostCardBtn: React.FC<PostCardBtnProps> = ({
   isParticipated,
   status,
 }) => {
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const { mutate: deleteMeeting } = useDeleteMeeting({
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['get-my-meetings'] });
+    },
+  });
+  const { mutate: deleteParticipation } = useDeleteParticipation();
 
   const handleGoToPostBtnClick = () => {
-    navigate(`/post/${post.id}`);
+    navigate(`/post/${post.meetingId}`);
   };
 
   const handleAdminBtnClick = () => {
-    navigate(`/view-applicant/${post.id}`);
+    navigate(`/view-applicant/${post.meetingId}?status=${status}`);
+  };
+
+  const handleDeleteMeetingBtnClick = () => {
+    deleteMeeting(post.meetingId.toString());
   };
 
   const handleDeleteBtnClick = () => {
-    // TODO: API 참가한 모임 목록에서 DELETE 요청
+    if ('participationId' in post) {
+      deleteParticipation(post.participationId);
+    }
   };
 
-  const isAvailableDelete =
-    status === '승인 거부' || status === '모집 취소' || status === '모집 완료';
-
-  const isAvailableViewPost = status === '모집 중..';
+  const isAvailableViewPost = status === 'RECRUITING';
+  const isAvailableDelete = status === 'CLOSED' || status === 'REJECTED';
 
   return (
     <>
@@ -50,13 +63,23 @@ const PostCardBtn: React.FC<PostCardBtnProps> = ({
           ) : (
             <div className="flex-1" />
           )}
-          <button
-            type="button"
-            onClick={() => handleAdminBtnClick()}
-            className="btn btn-second btn-sm font-bold flex-1"
-          >
-            신청자 보기
-          </button>
+          {isAvailableDelete ? (
+            <button
+              type="button"
+              onClick={() => handleDeleteMeetingBtnClick()}
+              className="btn btn-second btn-sm font-bold flex-1"
+            >
+              모임 삭제
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => handleAdminBtnClick()}
+              className="btn btn-second btn-sm font-bold flex-1"
+            >
+              신청자 보기
+            </button>
+          )}
         </div>
       )}
       {isParticipated && (

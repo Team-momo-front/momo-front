@@ -11,3 +11,63 @@ export interface User {
   userId: string;
   status: string;
 }
+
+export interface MyProfile {
+  birth: string;
+  email: string;
+  gender: string;
+  introduction?: string;
+  mbti?: string;
+  nickname: string;
+  oauthProvider: string;
+  phone?: string;
+  profileImageUrl: string;
+}
+
+export type UpdatedUserProfile = {
+  introduction?: string;
+  mbti?: string;
+  nickname?: string;
+  phone?: string;
+  profileImageUrl?: string;
+};
+
+export interface Participants {
+  userId: number;
+  nickname: string;
+  profileImage: string;
+  participationId: number;
+  participationStatus: string;
+}
+
+export interface GetUserProfileResponse {
+  userId: number;
+  nickname: string;
+  gender: string;
+  birth: string;
+  profileImageUrl: string;
+  introduction: string;
+  mbti: string;
+}
+
+export interface JoinUserRequest {
+  email: string;
+  password: string;
+  nickname: string;
+  phoneNumber: string;
+}
+
+export interface EmailLoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface EmailLoginResponse {
+  accessToken: string;
+  userId: number;
+}
+
+export interface changePasswordRequest {
+  token: string;
+  newPassword: string;
+}

@@ -1,48 +1,70 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Categories from "../components/Categories";
-import PostCard from "../components/PostCard";
-import SearchBar from "../components/SearchBar/SearchBar";
-import { useToggleCategory } from "../hooks/useToggleCategory";
-import { posts } from "../mocks/posts";
-import { Post } from "../types/Post";
-
-const sortedPosts = [...posts].sort((a, b) => {
-  const dateA = new Date(a.meetingDate).getTime();
-  const dateB = new Date(b.meetingDate).getTime();
-  return dateA - dateB;
-});
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Categories from '../components/Categories';
+import LoadingSpinner from '../components/LoadingSpinner';
+import PostCard from '../components/PostCard';
+import SearchBar from '../components/SearchBar/SearchBar';
+import { useDebounce } from '../hooks/useDebounce';
+import useSearchMeetings from '../hooks/useSearchMeetings';
+import { useToggleCategory } from '../hooks/useToggleCategory';
+import { Post } from '../types/Post';
 
 const ListPage = () => {
-  const [searchFilter, setSearchFilter] = useState<string>("location");
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const [filteredPosts, setFilteredPosts] = useState<Post[]>(sortedPosts);
-
-  const { categories: selectedCategories, toggleCategory } = useToggleCategory();
-
+  const { data, isLoading, isError } = useSearchMeetings({});
+  const posts: Post[] = data?.meetings || [];
+  const [searchFilter, setSearchFilter] = useState<string>('location');
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [filteredPosts, setFilteredPosts] = useState<Post[]>(posts);
+  const { categories: selectedCategories, toggleCategory } =
+    useToggleCategory();
+  const debouncedSelectedCategories = useDebounce(selectedCategories, 300);
   const navigate = useNavigate();
 
-  const handleCreatePost = () => {
-    navigate("/create");
-  };
-
-  const handleNavigateToDetail = (id: string) => {
-    navigate(`/post/${id}`);
-  };
-
-  // TODO: 타입스크립트로 하라고 하셔요
-  const handleSearch = () => {
-    const filtered = filteredPosts.filter((post) => {
+  const filterPosts = (
+    targetCategories: string[],
+    query: string,
+    filter: string
+  ) => {
+    return posts.filter(post => {
       const matchesCategory =
-        selectedCategories.length === 0 || selectedCategories.some((category) => post.categories.includes(category));
+        targetCategories.length === 0 ||
+        targetCategories.some(category => post.category.includes(category));
       const matchesSearch =
-        !searchQuery ||
-        (searchFilter === "location" && post.location.includes(searchQuery)) ||
-        (searchFilter === "title" && post.title.includes(searchQuery)) ||
-        (searchFilter === "content" && post.content.includes(searchQuery));
+        !query ||
+        (filter === 'location' && post.address.includes(query)) ||
+        (filter === 'title' && post.title.includes(query)) ||
+        (filter === 'content' && post.content.includes(query));
+
       return matchesCategory && matchesSearch;
     });
-    setFilteredPosts(filtered);
+  };
+
+  useEffect(() => {
+    setFilteredPosts(
+      filterPosts(debouncedSelectedCategories, searchQuery, searchFilter)
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, debouncedSelectedCategories]);
+
+  const handleSearch = () => {
+    setFilteredPosts(
+      filterPosts(debouncedSelectedCategories, searchQuery, searchFilter)
+    );
+  };
+
+  const handleCreatePost = () => {
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+      if (confirm('로그인 하시겠습니까?')) {
+        navigate('/login');
+      }
+      return;
+    }
+    navigate('/create');
+  };
+
+  const handleNavigateToDetail = (id: number) => {
+    navigate(`/post/${id}`);
   };
 
   return (
@@ -59,19 +81,40 @@ const ListPage = () => {
       <div className="mt-[30px] flex justify-between">
         <div className="w-[123px]" />
         <div className="flex justify-center">
-          <Categories selectedCategories={selectedCategories} toggleCategory={toggleCategory} />
+          <Categories
+            selectedCategories={selectedCategories}
+            toggleCategory={toggleCategory}
+          />
         </div>
-        <button className="btn btn-primary w-[123px]" onClick={handleCreatePost}>
+        <button
+          className="btn btn-primary w-[123px]"
+          onClick={handleCreatePost}
+        >
           밥친구 구하기
         </button>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-start mt-[26px]">
-        {filteredPosts.map((post, index) => (
-          <div key={index} className="w-full">
-            <PostCard post={post} onClick={() => handleNavigateToDetail(post.id)} />
-          </div>
-        ))}
-      </div>
+      {posts.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-start mt-[26px]">
+          {filteredPosts.map((post, index) => (
+            <div key={index} className="w-full">
+              <PostCard
+                post={post}
+                onClick={() => handleNavigateToDetail(post.id)}
+              />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="w-full text-center items-center flex flex-col justify-center mt-40">
+          {isError ? (
+            '에러가 발생했습니다.'
+          ) : isLoading ? (
+            <LoadingSpinner />
+          ) : (
+            '게시물이 없습니다.'
+          )}
+        </div>
+      )}
     </div>
   );
 };

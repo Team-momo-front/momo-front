@@ -1,5 +1,4 @@
-import { chats } from '../../mocks/chats';
-import { Chat } from '../../types/Chat';
+import { ChatRoomResponse } from '../../types/Chat';
 import ChatList from './ChatList';
 import ChatRoom from './ChatRoom';
 import ChatParticipantList from './ChatParticipantList';
@@ -10,8 +9,16 @@ import {
   isViewParticipantListOpenState,
   selectedChatState,
 } from '../../states/recoilState';
+import useGetChatRoomList from '../../hooks/useGetChatRoomList';
+import LoadingSpinner from '../LoadingSpinner';
+import { AxiosError } from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useGetOutChatRoom } from '../../hooks/useGetOutChatRoom';
 
 const ChatModal = () => {
+  const { data, isLoading, error } = useGetChatRoomList();
+  const { mutate: getOutChatRoom } = useGetOutChatRoom();
+
   const [isChatRoomOpen, setIsChatRoomOpen] =
     useRecoilState(isChatRoomOpenState);
   const [isChatListOpen, setIsChatListOpen] =
@@ -19,18 +26,20 @@ const ChatModal = () => {
   const [isViewParticipantListOpen, setIsViewParticipantListOpen] =
     useRecoilState(isViewParticipantListOpenState);
   const [selectedChat, setSelectedChat] = useRecoilState(selectedChatState);
+  const navigate = useNavigate();
 
-  const openChatRoom = (chat: Chat) => {
+  const openChatRoom = (chat: ChatRoomResponse) => {
     setSelectedChat(chat);
     setIsViewParticipantListOpen(false);
     setIsChatListOpen(false);
     setIsChatRoomOpen(true);
   };
 
-  const openChatList = () => {
+  const openChatList = (chat: ChatRoomResponse) => {
     setSelectedChat(null);
     setIsChatRoomOpen(false);
     setIsChatListOpen(true);
+    getOutChatRoom(chat.roomId);
   };
 
   const openViewParticipantList = () => {
@@ -39,17 +48,24 @@ const ChatModal = () => {
     setIsViewParticipantListOpen(true);
   };
 
+  if (error) {
+    if (error instanceof AxiosError && error.response?.status === 403) {
+      setIsChatRoomOpen(false);
+      navigate('/login');
+    }
+  }
+
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 animate-fadeIn">
-      <div className="bg-white p-6 rounded-[40px] shadow-lg w-80 h-[75vh] animate-displayUp">
-        {isChatListOpen && (
-          <ChatList chats={chats} onChatClick={openChatRoom} />
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 animate-fadeIn z-30">
+      <div className="relative bg-white p-6 rounded-[40px] shadow-lg w-80 h-[75vh] animate-displayUp">
+        {isChatListOpen && data && (
+          <ChatList chats={data} onChatClick={openChatRoom} />
         )}
 
-        {isChatRoomOpen && (
+        {selectedChat && isChatRoomOpen && (
           <ChatRoom
             chat={selectedChat}
-            handleBackBtn={openChatList}
+            handleBackBtn={() => openChatList(selectedChat)}
             handleViewParticipantList={openViewParticipantList}
           />
         )}
@@ -59,6 +75,12 @@ const ChatModal = () => {
             chat={selectedChat}
             handleBackBtn={openChatRoom}
           />
+        )}
+
+        {isLoading && (
+          <div className="w-full h-full flex items-center justify-center">
+            <LoadingSpinner />
+          </div>
         )}
       </div>
     </div>
