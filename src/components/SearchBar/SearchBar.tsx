@@ -1,7 +1,7 @@
-import { FaSearch } from "react-icons/fa";
-import Select from "./Select";
-import { Post } from "../../types/Post";
-import { calculateDistance } from "../../utils/calculateDistance";
+import { FaSearch } from 'react-icons/fa';
+import Select from './Select';
+import { Post } from '../../types/Post';
+import { calculateDistance } from '../../utils/calculateDistance';
 
 interface SearchBarProps {
   searchFilter: string;
@@ -28,8 +28,8 @@ const SearchBar = ({
         (position) => {
           const { latitude, longitude } = position.coords;
           const sortedPosts = [...posts].sort((a, b) => {
-            const distanceA = calculateDistance(latitude, longitude, a.lat, a.lng);
-            const distanceB = calculateDistance(latitude, longitude, b.lat, b.lng);
+            const distanceA = calculateDistance(latitude, longitude, a.latitude, a.longitude);
+            const distanceB = calculateDistance(latitude, longitude, b.latitude, b.longitude);
 
             return distanceA - distanceB;
           });
@@ -37,12 +37,12 @@ const SearchBar = ({
           setFilteredPosts(sortedPosts);
         },
         (error) => {
-          alert("위치 정보를 가져올 수 없습니다.");
+          alert('위치 정보를 가져올 수 없습니다.');
           console.error(error);
         }
       );
     } else {
-      alert("이 브라우저에서는 위치 정보 제공이 지원되지 않습니다.");
+      alert('이 브라우저에서는 위치 정보 제공이 지원되지 않습니다.');
     }
   };
 
@@ -59,7 +59,7 @@ const SearchBar = ({
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           onKeyDown={(e) => {
-            if (e.key === "Enter") {
+            if (e.key === 'Enter') {
               onSearch();
             }
           }}
